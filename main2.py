@@ -19,12 +19,13 @@ def desce_empilhadeira():
     return
 
 def abre_ultrassom():
-    MotorUltrassom.on_for_seconds(SpeedPercent(20), tempo_ultrassom)
+    MotorUltrassom.on_for_seconds(SpeedPercent(15), tempo_ultrassom)
     return
 
 def fecha_ultrassom():
-    MotorUltrassom.on_for_seconds(SpeedPercent(-20), tempo_ultrassom)
+    MotorUltrassom.on_for_seconds(SpeedPercent(-15), tempo_ultrassom*1.1)
     return
+
 
 def pega_tubo():
         abre_ultrassom()
@@ -35,6 +36,28 @@ def pega_tubo():
         tank_drive.on_for_seconds(SpeedPercent(-10),SpeedPercent(-10), 2.3)
         fecha_ultrassom()
         return
+
+
+def verifica_tubo():
+    tempo = 0.4
+    dist_esq = 0
+    dist_dir = 0
+ 
+    tank_drive.on_for_seconds(SpeedPercent(10),SpeedPercent(-10), tempo)
+    time.sleep(0.3)
+    dist_dir = Ultrassom.value()
+    print('A distancia na direita é',dist_dir, file=sys.stderr)
+    time.sleep(0.3)
+    tank_drive.on_for_seconds(SpeedPercent(-10),SpeedPercent(10), tempo*2)
+    time.sleep(0.3)
+    dist_esq = Ultrassom.value()       
+    print('A distancia na esquerda é',dist_esq, file=sys.stderr)
+    time.sleep(0.3)
+    tank_drive.on_for_seconds(SpeedPercent(10),SpeedPercent(-10), tempo)
+    if dist_esq < 67 and dist_dir < 67:
+        pega_tubo()
+    
+    return
 
 # Módulos e suas portas -------------------------------------------------
 MotorEmpilhadeira = Motor(OUTPUT_A)
@@ -49,7 +72,7 @@ colordireito = ColorSensor(INPUT_4)
 # Valores e Parâmetros ---------------------------------------------------
 
 tempo_empilhadeira = 2.5                    # Tempo necessário para subir/descer a empilhadeira
-tempo_ultrassom = 0.35                    # Tempo necessários para abrir/fechar o ultrassom
+tempo_ultrassom = 0.44                    # Tempo necessários para abrir/fechar o ultrassom
 
 
 
@@ -60,6 +83,8 @@ tempo_ultrassom = 0.35                    # Tempo necessários para abrir/fechar
 
 while True:
     dist = Ultrassom.value()
+    time.sleep(0.3)
     print(dist, file=sys.stderr)
     if dist < 67:
-        pega_tubo()
+        verifica_tubo()
+        #pega_tubo()
