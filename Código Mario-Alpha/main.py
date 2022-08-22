@@ -1,4 +1,6 @@
 #!/usr/bin/env pybricks-micropython
+#file -- use_declarações.py --
+import declarações
 from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
                                  InfraredSensor, UltrasonicSensor, GyroSensor)
@@ -53,3 +55,4 @@ while True:
     if (mbox.read() == 'Oi sdds'):
         ev3.speaker.beep()
         #robot.turn(360)
+
