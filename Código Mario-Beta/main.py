@@ -60,6 +60,6 @@ while True:
     time.sleep(2)
     mbox.send('Oi sdds')
     sobe_empilhadeira()
-    time.sleep(2)
+    time.sleep(2.1)
     desce_empilhadeira()
     print("Sai")
