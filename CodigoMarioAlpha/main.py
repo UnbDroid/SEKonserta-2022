@@ -50,7 +50,11 @@ mbox.send('hello to you!')
 
 while True:
     print(mbox.read())
-    time.sleep(2.1)
+    time.sleep(0.5)
     #if (mbox.read() == 'Oi sdds'):
         #ev3.speaker.beep()
         #robot.turn(360)
+    distancia = UltrassomFrente.distance()
+    print(distancia)
+    if distancia < 150:
+        mbox.send('É menor')

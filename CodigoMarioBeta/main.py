@@ -57,6 +57,11 @@ print(mbox.read())
 mbox.send('Oie')
 
 while True:
+    if mbox.read() == 'É menor':
+        desce_empilhadeira()
+
+    continue
+while True:
     time.sleep(2)
     mbox.send('Oi sdds')
     sobe_empilhadeira()
