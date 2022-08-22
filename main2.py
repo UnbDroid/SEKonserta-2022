@@ -89,4 +89,3 @@ while True:
         verifica_tubo()
         #pega_tubo()
 
-#teste

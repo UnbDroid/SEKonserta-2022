@@ -58,4 +58,4 @@ while True:
         time.sleep(1)
         tank_drive.on_for_seconds(SpeedPercent(5), SpeedPercent(5), 2)
         desce_empilhadeira()
-        tank_drive.on_for_seconds(SpeedPercent(-10), SpeedPercent(-10), 3)
+        tank_drive.on_for_seconds(SpeedPercent(-10), SpeedPercent(-10), 3) 
