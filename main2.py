@@ -88,3 +88,5 @@ while True:
     if dist < 67:
         verifica_tubo()
         #pega_tubo()
+
+#teste
