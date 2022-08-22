@@ -12,11 +12,11 @@ import time
 
 
 def sobe_empilhadeira():
-    MotorEmpilhadeira.run_time(200, tempo_empilhadeira)
+    MotorEmpilhadeira.run_time(100, tempo_empilhadeira)
     return
 
 def desce_empilhadeira():
-    MotorEmpilhadeira.run_time(-200, tempo_empilhadeira)
+    MotorEmpilhadeira.run_time(-100, tempo_empilhadeira)
     return
 
 
@@ -31,7 +31,7 @@ LuzDireita = LightSensor(Port.S3)
 LuzEsquerda = LightSensor(Port.S4)
 
 # Variáveis
-tempo_empilhadeira = 850
+tempo_empilhadeira = 1600
 
 
 # Write your program here.

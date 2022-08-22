@@ -51,6 +51,6 @@ mbox.send('hello to you!')
 while True:
     print(mbox.read())
     time.sleep(2.1)
-    if (mbox.read() == 'Oi sdds'):
-        ev3.speaker.beep()
+    #if (mbox.read() == 'Oi sdds'):
+        #ev3.speaker.beep()
         #robot.turn(360)
