@@ -19,6 +19,32 @@ from pybricks.nxtdevices import *
 
 
 
+def sobe_empilhadeira():
+    MotorEmpilhadeira.run_time(100, tempo_empilhadeira)
+    return
+
+def desce_empilhadeira():
+    MotorEmpilhadeira.run_time(-100, tempo_empilhadeira)
+    return
+
+def pegar_tubo():
+    desce_empilhadeira()
+    robot.straight(120)
+    sobe_empilhadeira()
+    robot.straight(-50)
+    #desce_empilhadeira()
+    #robot.straight(-100)
+    #sobe_empilhadeira()
+
+def devolver_tubo():
+    #desce_empilhadeira()
+    MotorEmpilhadeira.run_time(-100, 200)
+    robot.straight(-200)
+    MotorEmpilhadeira.run_time(100, 200)
+    #sobe_empilhadeira()
+
+
+
 
 # Create your objects here.
 ev3 = EV3Brick()
@@ -29,32 +55,39 @@ Giroscopio = GyroSensor(Port.S3)
 UltrassomFrente = UltrasonicSensor(Port.S4)
 RodaEsquerda = Motor(Port.D)
 RodaDireita = Motor(Port.A)
+MotorEmpilhadeira = Motor(Port.C)
 robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=55.5, axle_track=104)
 
-# Write your program here.
-ev3.speaker.beep()
+tempo_empilhadeira = 1100
 
-server = BluetoothMailboxServer()
-mbox = TextMailbox('greeting', server)
+# # Write your program here.
+# ev3.speaker.beep()
 
-# The server must be started before the client!
-print('waiting for connection...')
-server.wait_for_connection()
-print('connected!')
+# server = BluetoothMailboxServer()
+# mbox = TextMailbox('greeting', server)
 
-# In this program, the server waits for the client to send the first message
-# and then sends a reply.
-mbox.wait()
-print(mbox.read())
-mbox.send('hello to you!')
+# # The server must be started before the client!
+# print('waiting for connection...')
+# server.wait_for_connection()
+# print('connected!')
+
+# # In this program, the server waits for the client to send the first message
+# # and then sends a reply.
+# mbox.wait()
+# print(mbox.read())
+# mbox.send('hello to you!')
+
+sobe_empilhadeira()
 
 while True:
-    print(mbox.read())
+    #print(mbox.read())
     time.sleep(0.5)
     #if (mbox.read() == 'Oi sdds'):
         #ev3.speaker.beep()
         #robot.turn(360)
     distancia = UltrassomFrente.distance()
     print(distancia)
-    if distancia < 150:
-        mbox.send('É menor')
+    if distancia < 180:
+        pegar_tubo()
+        time.sleep(5)
+        devolver_tubo()
