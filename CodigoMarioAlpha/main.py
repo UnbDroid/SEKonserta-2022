@@ -10,5 +10,6 @@ sobe_empilhadeira()
 abre_garra()
 
 
+
 while True:
     pega()

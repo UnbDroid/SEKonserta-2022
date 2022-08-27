@@ -26,3 +26,10 @@ tempo_garra = 500
 
 
 robot.settings(95,372,50,361)           # O padrão é (93,372,90,361) - (VELOCIDADE RETO, ACELERAÇÃO RETO, VELOCIDADE GIRANDO, ACELERAÇÃO GIRANDO)
+ev3.speaker.set_speech_options('pt-br', 'f4')
+#ev3.speaker.say('Oi saudades, eu sou o Mário e eu falooo')
+robot.stop()
+RodaEsquerda.stop()
+RodaDireita.stop()
+print(RodaEsquerda.control.limits(800,1600,300))          # O padrão é (800, 1600, 100)
+print(RodaDireita.control.limits(800,1600,300))
