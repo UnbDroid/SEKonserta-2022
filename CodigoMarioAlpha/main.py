@@ -2,14 +2,15 @@
 
 from declaracoes import *
 from pegatubo import *
+from servidor import*
+from percorregasoduto import *
 
 
-#import servidor
-
+conecta_alpha_beta()
 sobe_empilhadeira()
 abre_garra()
 
-
+percorre_gasoduto_esquerda()
 
 while True:
     pega()
