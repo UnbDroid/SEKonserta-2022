@@ -9,11 +9,14 @@ from pybricks.nxtdevices import LightSensor
 
 # Motores e Sensores
 ev3 = EV3Brick()
-UltrassomDireita = UltrasonicSensor(Port.S1)
+#UltrassomDireita = UltrasonicSensor(Port.S1)
 UltrassomEsquerda = UltrasonicSensor(Port.S2)
-LuzDireita = LightSensor(Port.S3)
+#LuzDireita = LightSensor(Port.S3)
 LuzEsquerda = LightSensor(Port.S4)
+watch = StopWatch()
 
 # Variáveis
 tempo_empilhadeira = 1600
+
+ev3.speaker.set_speech_options('pt-br', 'f4')
 

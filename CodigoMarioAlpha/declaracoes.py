@@ -7,7 +7,7 @@ from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
 from pybricks.messaging import *
 import time
-from pybricks.nxtdevices import *
+#from pybricks.nxtdevices import *
 
 ev3 = EV3Brick()
 
@@ -20,9 +20,8 @@ RodaDireita = Motor(Port.A)
 MotorEmpilhadeira = Motor(Port.C)
 MotorGarra = Motor(Port.B)
 robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=40, axle_track=118)
-
-tempo_empilhadeira = 1200
-tempo_garra = 500
+watch = StopWatch()
+watch2 = StopWatch()
 
 
 
@@ -34,5 +33,5 @@ ev3.speaker.set_speech_options('pt-br', 'f4')
 robot.stop()
 RodaEsquerda.stop()
 RodaDireita.stop()
-print(RodaEsquerda.control.limits(800,1600,300))          # O padrão é (800, 1600, 100)
-print(RodaDireita.control.limits(800,1600,300))
+#print(RodaEsquerda.control.limits(800,1600,300))          # O padrão é (800, 1600, 100)
+#print(RodaDireita.control.limits(800,1600,300))

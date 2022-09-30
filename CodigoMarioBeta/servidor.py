@@ -1,8 +1,9 @@
 from declaracoes import *
 
 client = BluetoothMailboxClient()
-MboxAlphaBeta = TextMailbox('greeting', client)
-MboxAlphaBeta2 = TextMailbox('greeting2', client)
+MboxAlphaBeta = TextMailbox('alphabeta', client)
+MboxAlphaBetaLuz = NumericMailbox('alphabetaluz', client)
+MboxAlphaBetaUltrassom =  NumericMailbox('alphabetaultrassom', client)
 
 def conecta_alpha_beta():
         

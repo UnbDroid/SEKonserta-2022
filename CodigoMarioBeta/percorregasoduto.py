@@ -1,13 +1,50 @@
 from declaracoes import *
 from servidor import *
 
+
+def calibra_sensor_luz():
+    contador = 0
+    tempo = 20
+    #ev3.speaker.say('Calibrando fora do gasoduto')
+    ev3.speaker.beep()
+    watch.reset()
+    somador = 0
+    while watch.time() < tempo:
+        contador += 1
+        ValorLuzEsquerda = LuzEsquerda.ambient()
+        somador = ((somador*(contador - 1)) + ValorLuzEsquerda)/contador
+
+    print(somador)
+    valor_minimo = somador
+    MboxAlphaBetaLuz.send(valor_minimo)
+    ev3.speaker.beep()
+    wait(2000)
+    ev3.speaker.beep()
+    #ev3.speaker.say('Calibrando na parede do gasoduto')
+    watch.reset()
+    somador = 0
+    contador = 0
+    while watch.time() < tempo:
+        contador += 1
+        ValorLuzEsquerda = LuzEsquerda.ambient()
+        somador = ((somador*(contador - 1)) + ValorLuzEsquerda)/contador
+
+    print(somador)
+    ev3.speaker.beep()
+    valor_maximo = somador
+    MboxAlphaBetaLuz.send(valor_maximo)
+    wait(1000)
+
+
+
 def percorre_gasoduto_esquerda():
+    calibra_sensor_luz()
     while True:
-        ValorLuzEsquerda = LuzEsquerda.reflection()
+        wait(100)
+        ValorLuzEsquerda = LuzEsquerda.ambient()
         print(ValorLuzEsquerda)
-        MboxAlphaBeta.send(str(ValorLuzEsquerda))
-        #MboxAlphaBeta.wait_new()
+        MboxAlphaBetaLuz.send(ValorLuzEsquerda)
         ValorUltrassomEsquerda = UltrassomEsquerda.distance()
-        MboxAlphaBeta2.send(str(ValorUltrassomEsquerda))
-        #MboxAlphaBeta2.wait_new()
+        MboxAlphaBetaUltrassom.send(ValorUltrassomEsquerda)
         print(ValorUltrassomEsquerda)
+        print('Luz Esq',ValorLuzEsquerda, 'Ult Esq', ValorUltrassomEsquerda)
