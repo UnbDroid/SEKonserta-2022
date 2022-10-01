@@ -99,7 +99,7 @@ def posiciona_gasoduto(): #Função que posiciona o robô de forma correta para 
         distancia = UltrassomFrente.distance()
         robot.drive(70,0)
     robot.stop()
-    robot.straight(15)
+    robot.straight(30)
 
 def pega(): # Função feita apenas para testar a captura de um tubo na frente do robô, e a sua devolução no gasoduto a sua frente também
     robot.drive(70,0)

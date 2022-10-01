@@ -29,6 +29,7 @@ watch2 = StopWatch()
 
 robot.settings(95,372,50,361)           # O padrão é (93,372,90,361) - (VELOCIDADE RETO, ACELERAÇÃO RETO, VELOCIDADE GIRANDO, ACELERAÇÃO GIRANDO)
 ev3.speaker.set_speech_options('pt-br', 'f4')
+ev3.speaker.set_volume(15)
 #ev3.speaker.say('Oi saudades, eu sou o Mário e eu falooo')
 robot.stop()
 RodaEsquerda.stop()

@@ -4,7 +4,38 @@ from declaracoes import *
 from pegatubo import *
 from servidor import*
 from percorregasoduto import *
+from cores import *
+from comeco import *
 
+#Azul Esquerda = 2 - 3  -- Direita 3
+# Precipicio Esquerda 0 - 1 Direita 0 - 1
+#Verde Esquerda 2 - Direita 1   #5 esquerda e 4 sensor colando na rampa
+#Branco Esquerda 43 - Direita 31
+#Preto Esquerda 5 e direita 4
+#Saindo do branco pro verde, ele lê 2 e 1
+
+# def teste():
+#     global ValorCorEsquerda
+#     global ValorCorDireita
+#     while True:
+#         le_sensor_cor()
+#         #ValorCorEsquerda = SensorCorEsquerda.reflection()
+#         #ValorCorDireita = SensorCorDireita.reflection()
+#         print("Valor na Esquerda é:", ValorCorEsquerda, "E na direita é", ValorCorDireita)
+
+
+
+#teste2()
+inicio()
+#sobe_empilhadeira(0.15)
+#desce_empilhadeira(0.5)
+# while True:
+#     ValorCorEsquerda = SensorCorEsquerda.reflection()
+#     ValorCorDireita = SensorCorDireita.reflection()
+#     print("Valor na Esquerda é:", ValorCorEsquerda, "E na direita é", ValorCorDireita)
+
+# robot.drive(-100,0)
+#abre_garra()
 #sobe_empilhadeira(0.3)
 #desce_empilhadeira(0.1)
 #wait(3000)
@@ -23,7 +54,7 @@ from percorregasoduto import *
 #     if (ValorCorEsquerda < 15 or ValorCorDireita < 10):
 #         robot.stop()
 #sobe_empilhadeira(0.2)
-conecta_alpha_beta()
+#conecta_alpha_beta()
 #conecta_alpha_luigi()
 
 # while True:
@@ -54,8 +85,10 @@ conecta_alpha_beta()
 
 #ev3.speaker.say('CRISTIANOOOOOOOO')
 
-#sobe_empilhadeira(0.5)
-percorre_gasoduto_esquerda()
+# sobe_empilhadeira(0.5)
+#percorre_gasoduto_esquerda()
+
+
 
 # Giroscopio.reset_angle(0)
 # while True:
