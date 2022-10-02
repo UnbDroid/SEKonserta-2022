@@ -26,7 +26,9 @@ from comeco import *
 
 
 #teste2()
+conecta_alpha_beta()
 inicio()
+#percorre_gasoduto_esquerda()
 #sobe_empilhadeira(0.15)
 #desce_empilhadeira(0.5)
 # while True:

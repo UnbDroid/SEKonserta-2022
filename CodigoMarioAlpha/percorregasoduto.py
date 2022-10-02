@@ -1,6 +1,7 @@
 from declaracoes import *
 from servidor import *
 from pegatubo import *
+from cores import *
 
 tamanho_media = 1  #Quantos valores são considerados para fazer a média das últimas n medições do ultrassom
 ListaDistanciaUltrassomEsquerda = tamanho_media * [0]
@@ -19,8 +20,7 @@ def le_valores_percorrimento_esquerda():
     ValorLuzEsquerda = MboxAlphaBetaLuz.read()                                                                            
     DistanciaUltrassomEsquerda = MboxAlphaBetaUltrassom.read()
     DistanciaUltrassomFrente = UltrassomFrente.distance()
-    ValorCorEsquerda = SensorCorEsquerda.reflection()
-    ValorCorDireita = SensorCorDireita.reflection()
+    le_sensor_cor()
 
 def adiciona_lista_ultrassom_esquerda():
     global DistanciaUltrassomEsquerda
@@ -201,14 +201,14 @@ def percorre_gasoduto_esquerda():
     global condition
     MboxAlphaBeta.send("PercorrimentoGasodutoEsquerda")
     le_valores_max_min()
-    valor_minimo = 60  #De manhã deu 58, 12h deu 75 --- 48
-    valor_maximo = 73  #De manhã deu 72, 12h deu 88 -- 58
+    valor_minimo = 61  #De manhã deu 58, 12h deu 75 --- 48
+    valor_maximo = 75  #De manhã deu 72, 12h deu 88 -- 58
     MboxAlphaBetaUltrassom.wait()
     while True:
         le_valores_percorrimento_esquerda()
         adiciona_lista_ultrassom_esquerda()
         #print('Luz Esq',ValorLuzEsquerda, 'Ult Esq', DistanciaUltrassomEsquerda, 'ult frente', DistanciaUltrassomFrente)
-        if ValorCorEsquerda == 0 or ValorCorDireita == 0:
+        if viu_beirada():
             robot.stop()
             wait(40000)
         elif checa_luz_esquerda('max'):

@@ -63,7 +63,7 @@ def viu_preto():          #Viu verde saindo do branco
     eq_min = [3,3,1]
     eq_max = [4,4,2]
     dr_min = [3,2,1]
-    dr_max = [4,4,2]
+    dr_max = [4,7,2]
     eq = False
     dr = False
     if eq_min[0] <= ValorCorEsquerda[0] <= eq_max[0] and eq_min[1] <= ValorCorEsquerda[1] <= eq_max[1] and eq_min[2] <= ValorCorEsquerda[2] <= eq_max[2]:
@@ -94,9 +94,9 @@ def viu_azul():          #Viu azul
     global ValorCorDireita
     global eq
     global dr
-    eq_min = [2,3,7]
+    eq_min = [2,3,4]
     eq_max = [3,5,9]
-    dr_min = [0,2,7]
+    dr_min = [0,2,4]
     dr_max = [1,3,8]
     eq = False
     dr = False
@@ -123,15 +123,56 @@ def viu_verde_azul():          #Viu verde saindo do azul
         dr = True
     return eq or dr
 
+def viu_amarelo():          #Viu amarelo
+    global ValorCorEsquerda
+    global ValorCorDireita
+    global eq
+    global dr
+    eq_min = [35,25,3]
+    eq_max = [40,30,6]
+    dr_min = [20,16,2]
+    dr_max = [23,21,5]
+    eq = False
+    dr = False
+    if eq_min[0] <= ValorCorEsquerda[0] <= eq_max[0] and eq_min[1] <= ValorCorEsquerda[1] <= eq_max[1] and eq_min[2] <= ValorCorEsquerda[2] <= eq_max[2]:
+        eq = True
+    if dr_min[0] <= ValorCorDireita[0] <= dr_max[0] and dr_min[1] <= ValorCorDireita[1] <= dr_max[1] and dr_min[2] <= ValorCorDireita[2] <= dr_max[2]:
+        dr = True
+    return eq or dr
+
+def viu_vermelho():          #Viu vermelho
+    global ValorCorEsquerda
+    global ValorCorDireita
+    global eq
+    global dr
+    eq_min = [27,3,0]
+    eq_max = [30,5,2]
+    dr_min = [14,1,0]
+    dr_max = [18,4,2]
+    eq = False
+    dr = False
+    if eq_min[0] <= ValorCorEsquerda[0] <= eq_max[0] and eq_min[1] <= ValorCorEsquerda[1] <= eq_max[1] and eq_min[2] <= ValorCorEsquerda[2] <= eq_max[2]:
+        eq = True
+    if dr_min[0] <= ValorCorDireita[0] <= dr_max[0] and dr_min[1] <= ValorCorDireita[1] <= dr_max[1] and dr_min[2] <= ValorCorDireita[2] <= dr_max[2]:
+        dr = True
+    return eq or dr
+    
 def alinha_verde_branco():
     global eq
     global dr
     if eq and dr:
         print("Os dois")
+        return
     elif eq:
         print("Só na esquerda")
+        while not (viu_verde_branco() and eq and dr):
+            le_sensor_cor()
+            robot.drive(26.75, -15)
     elif dr:
         print("Só na direita")
+        while not (viu_verde_branco() and eq and dr):
+            le_sensor_cor()
+            robot.drive(26.75, 15)
     else:
         print("Wtf, isso tá muito errado")
 
@@ -153,31 +194,38 @@ def alinha_beirada():
     global dr
     if eq and dr:
         print("Os dois")
+        return
     elif eq:
         print("Só na esquerda")
-        while viu_beirada():
+        while not (viu_beirada() and eq and dr):
             le_sensor_cor()
-            robot.drive(-10,0)
-        robot.stop()
-        wait(2000)
-        robot.straight(10)
+            robot.drive(26.75, -15)
     elif dr:
         print("Só na direita")
+        while not (viu_beirada() and eq and dr):
+            le_sensor_cor()
+            robot.drive(26.75, 15)
     else:
         print("Wtf, isso tá muito errado")
+
 
 def teste2():
     global ValorCorEsquerda
     global ValorCorDireita
     while True:   
         le_sensor_cor()
-        if viu_beirada():
-            robot.stop()
-        elif viu_verde_azul():
-            ev3.speaker.beep(900)
-            robot.stop()
-        else:
-            robot.drive(70,0)
+        robot.drive(10,0)
+        # if viu_beirada():
+        #     robot.stop()
+        # elif viu_verde_branco():
+        #     ev3.speaker.beep(900)
+        # elif viu_preto():
+        #     ev3.speaker.beep(200)
+        # elif not viu_branco():
+        #     ev3.speaker.beep()
+        #     robot.drive(100,0)
+        # else:
+        #     robot.drive(100,0)
 
     return 
 
