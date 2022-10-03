@@ -28,9 +28,11 @@ leitura_ultrassom = ultrassom.distance()
 
 cor_da_area = "vermelho"
 estado_empilhadeira = "baixo"
-estado_ultrassom = "baixo"
+estado_ultrassom = "esquerda"
 pegou_tubo = False
 alinhado_ao_tubo = False #identifica seo robô esta alinhado
-leitura_tubo_porcentagem = 0
-tubo_esta_perto = 24
+tubo_esta_perto = 15
+alinhado_ao_preto = False
+lado_pista = "direito"
+viu_borda = False
 
