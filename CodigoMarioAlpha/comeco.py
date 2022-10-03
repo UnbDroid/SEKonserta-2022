@@ -10,7 +10,7 @@ def inicio():
             ev3.speaker.beep(900)
             robot.stop()
             alinha_verde_branco()
-            desce_rampa_comeco()
+            desce_rampa_comeco_costas()
             chega_no_gasoduto()
             break
         elif viu_preto() or viu_azul() or viu_amarelo() or viu_vermelho():
@@ -41,9 +41,27 @@ def desce_rampa_comeco():
             robot.stop()
         else:
             robot.drive(50,0)
+    alinha_azul()
     robot.straight(100)
     robot.turn(-90)
     return
+
+def desce_rampa_comeco_costas():
+    global eq
+    global dr
+    robot.straight(-100)
+    robot.turn(180)
+    while not (viu_azul()):
+        le_sensor_cor()
+        robot.drive(-80,0)
+    while not (viu_verde_azul()):
+        le_sensor_cor()
+        robot.drive(80,0)
+    alinha_verde_azul()
+    robot.straight(-100)
+    robot.turn(90)
+    return
+
 
 def chega_no_gasoduto():
     while not (viu_beirada()):   #Após descer a rampa e virar para a esquerda, andar reto até encontrar a beirada
@@ -68,5 +86,4 @@ def chega_no_gasoduto():
     while watch.time()<2650:
         robot.drive(8, 29)
     robot.stop()
-    percorre_gasoduto_esquerda()
     return

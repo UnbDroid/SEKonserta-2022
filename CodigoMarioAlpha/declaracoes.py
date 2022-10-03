@@ -22,6 +22,7 @@ MotorGarra = Motor(Port.B)
 robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=40, axle_track=118)
 watch = StopWatch()
 watch2 = StopWatch()
+watch_virada = StopWatch()
 
 
 

@@ -6,6 +6,7 @@ from servidor import*
 from percorregasoduto import *
 from cores import *
 from comeco import *
+from movimentacao import *
 
 #Azul Esquerda = 2 - 3  -- Direita 3
 # Precipicio Esquerda 0 - 1 Direita 0 - 1
@@ -23,11 +24,21 @@ from comeco import *
 #         #ValorCorDireita = SensorCorDireita.reflection()
 #         print("Valor na Esquerda é:", ValorCorEsquerda, "E na direita é", ValorCorDireita)
 
+#sobe_empilhadeira(0.2)
 
 
+
+
+#desce_empilhadeira(0.15)
+fecha_garra()
+#sobe_empilhadeira(1.0)
+
+busca_tubo(20)
 #teste2()
-conecta_alpha_beta()
-inicio()
+#robot.stop()
+#sobe_empilhadeira(0.3)
+#conecta_alpha_beta()
+#inicio()
 #percorre_gasoduto_esquerda()
 #sobe_empilhadeira(0.15)
 #desce_empilhadeira(0.5)

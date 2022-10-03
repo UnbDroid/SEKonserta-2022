@@ -122,3 +122,14 @@ def pega2(tam):
     posiciona_gasoduto()
     devolve_tubo(tam)
 
+def pega_tubo(tamanho):
+    DistanciaUltrassomFrente = UltrassomFrente.distance()
+    while DistanciaUltrassomFrente > 180:
+        robot.drive(70,0)
+        DistanciaUltrassomFrente = UltrassomFrente.distance()
+    robot.stop()
+    desce_empilhadeira(0.7)
+    robot.straight(150)
+    abre_garra(tamanho)
+    sobe_empilhadeira()
+

@@ -2,6 +2,7 @@ from declaracoes import *
 from servidor import *
 from pegatubo import *
 from cores import *
+from movimentacao import *
 
 tamanho_media = 1  #Quantos valores são considerados para fazer a média das últimas n medições do ultrassom
 ListaDistanciaUltrassomEsquerda = tamanho_media * [0]
@@ -201,8 +202,8 @@ def percorre_gasoduto_esquerda():
     global condition
     MboxAlphaBeta.send("PercorrimentoGasodutoEsquerda")
     le_valores_max_min()
-    valor_minimo = 61  #De manhã deu 58, 12h deu 75 --- 48
-    valor_maximo = 75  #De manhã deu 72, 12h deu 88 -- 58
+    valor_minimo = 66  #De manhã deu 58, 12h deu 75 --- 48
+    valor_maximo = 59  #De manhã deu 72, 12h deu 88 -- 58
     MboxAlphaBetaUltrassom.wait()
     while True:
         le_valores_percorrimento_esquerda()
@@ -217,9 +218,41 @@ def percorre_gasoduto_esquerda():
             virada_ultrassom_frente()
         elif checa_distancia_ultrassom_esquerda():
             mede_tamanho_gap()
-            if define_tamanho_gap():
-                pass
-                # coloca_tubo(define_tamanho_gap())
+            tamanho_gap = define_tamanho_gap()
+            if tamanho_gap: #Se foi realmente visto um gap, ou era só uma aberturazinha
+                #MANDAR MENSAGEM PRO LUIGI
+                busca_tubo(define_tamanho_gap())
+        elif checa_luz_esquerda('min'):
+            virada_gasoduto_direita()
+        else:
+            segue_reto_gasoduto()
+
+def percorre_gasoduto_esquerda_com_tubo(tamanho): #Percorre gasoduto para colocar o tubo que já está em sua garra 
+    return
+
+
+def percorre_gasoduto_esquerda_ate_final(): # Percoore até o fim, medindo todos os gaps
+    global valor_minimo
+    global valor_maximo
+    MboxAlphaBeta.send("PercorrimentoGasodutoEsquerda")
+    le_valores_max_min()
+    valor_minimo = 40  #De manhã deu 58, 12h deu 75 --- 48
+    valor_maximo = 48  #De manhã deu 72, 12h deu 88 -- 58
+    MboxAlphaBetaUltrassom.wait()
+    while True:
+        le_valores_percorrimento_esquerda()
+        adiciona_lista_ultrassom_esquerda()
+        #print('Luz Esq',ValorLuzEsquerda, 'Ult Esq', DistanciaUltrassomEsquerda, 'ult frente', DistanciaUltrassomFrente)
+        if viu_beirada():
+            robot.stop()
+            break
+        elif checa_luz_esquerda('max'):
+            virada_gasoduto_esquerda()
+        elif checa_distancia_ultrassom_frente():
+            virada_ultrassom_frente()
+        elif checa_distancia_ultrassom_esquerda():
+            mede_tamanho_gap()
+            define_tamanho_gap()
         elif checa_luz_esquerda('min'):
             virada_gasoduto_direita()
         else:

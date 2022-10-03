@@ -36,7 +36,7 @@ def viu_branco():    # Se está vendo branco com os dois sensores retorna True, 
     if dr_min[0] <= ValorCorDireita[0] <= dr_max[0] and dr_min[1] <= ValorCorDireita[1] <= dr_max[1] and dr_min[2] <= ValorCorDireita[2] <= dr_max[2]:
         dr = True
     
-    return eq and dr
+    return eq or dr
 
 def viu_verde_branco():          #Retorna True se Viu verde saindo do branco, em qualquer um dos sensores
     global ValorCorEsquerda
@@ -168,11 +168,13 @@ def alinha_verde_branco():
         while not (viu_verde_branco() and eq and dr):
             le_sensor_cor()
             robot.drive(26.75, -15)
+        robot.stop()
     elif dr:
         print("Só na direita")
         while not (viu_verde_branco() and eq and dr):
             le_sensor_cor()
             robot.drive(26.75, 15)
+        robot.stop()
     else:
         print("Wtf, isso tá muito errado")
 
@@ -181,10 +183,80 @@ def alinha_preto():
     global dr
     if eq and dr:
         print("Os dois")
+        return
     elif eq:
         print("Só na esquerda")
+        while not (viu_preto() and eq and dr):
+            le_sensor_cor()
+            robot.drive(26.75, -15)
     elif dr:
         print("Só na direita")
+        while not (viu_preto() and eq and dr):
+            le_sensor_cor()
+            robot.drive(26.75, 15)
+    else:
+        print("Wtf, isso tá muito errado")
+
+def alinha_azul():
+    global eq
+    global dr
+    if eq and dr:
+        print("Os dois")
+        return
+    elif eq:
+        print("Só na esquerda")
+        while not (viu_azul() and eq and dr):
+            le_sensor_cor()
+            robot.drive(26.75, -15)
+    elif dr:
+        print("Só na direita")
+        while not (viu_azul() and eq and dr):
+            le_sensor_cor()
+            robot.drive(26.75, 15)
+    else:
+        print("Wtf, isso tá muito errado")
+
+
+def alinha_branco():
+    global eq
+    global dr
+    if eq and dr:
+        print("Os dois")
+        return
+    elif eq:
+        print("Só na esquerda")
+        while not (viu_branco() and eq and dr):
+            le_sensor_cor()
+            robot.drive(36.75, -15)
+    elif dr:
+        print("Só na direita")
+        while not (viu_branco() and eq and dr):
+            le_sensor_cor()
+            robot.drive(36.75, 15)
+    else:
+        print("Wtf, isso tá muito errado")
+
+
+
+
+def alinha_verde_azul():
+    global eq
+    global dr
+    if eq and dr:
+        print("Os dois")
+        return
+    elif eq:
+        print("Só na esquerda")
+        while not (viu_verde_azul() and eq and dr):
+            le_sensor_cor()
+            robot.drive(26.75, -15)
+        robot.stop()
+    elif dr:
+        print("Só na direita")
+        while not (viu_verde_azul() and eq and dr):
+            le_sensor_cor()
+            robot.drive(26.75, 15)
+        robot.stop()
     else:
         print("Wtf, isso tá muito errado")
 
@@ -212,22 +284,14 @@ def alinha_beirada():
 def teste2():
     global ValorCorEsquerda
     global ValorCorDireita
-    while True:   
+    le_sensor_cor()
+    while not viu_verde_azul():
         le_sensor_cor()
-        robot.drive(10,0)
-        # if viu_beirada():
-        #     robot.stop()
-        # elif viu_verde_branco():
-        #     ev3.speaker.beep(900)
-        # elif viu_preto():
-        #     ev3.speaker.beep(200)
-        # elif not viu_branco():
-        #     ev3.speaker.beep()
-        #     robot.drive(100,0)
-        # else:
-        #     robot.drive(100,0)
+        robot.drive(70,0)
+    alinha_verde_azul()
+    while True:
+        robot.drive(120,0)
 
-    return 
 
 def teste():
     global ValorCorEsquerda
