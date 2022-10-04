@@ -94,10 +94,10 @@ def viu_azul():          #Viu azul
     global ValorCorDireita
     global eq
     global dr
-    eq_min = [2,3,4]
+    eq_min = [1,3,4]
     eq_max = [3,5,9]
     dr_min = [0,2,4]
-    dr_max = [1,3,8]
+    dr_max = [1,3,10]
     eq = False
     dr = False
     if eq_min[0] <= ValorCorEsquerda[0] <= eq_max[0] and eq_min[1] <= ValorCorEsquerda[1] <= eq_max[1] and eq_min[2] <= ValorCorEsquerda[2] <= eq_max[2]:
@@ -285,9 +285,9 @@ def teste2():
     global ValorCorEsquerda
     global ValorCorDireita
     le_sensor_cor()
-    while not viu_verde_azul():
+    while True:
         le_sensor_cor()
-        robot.drive(70,0)
+        robot.drive(15,0)
     alinha_verde_azul()
     while True:
         robot.drive(120,0)

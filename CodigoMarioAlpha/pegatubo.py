@@ -1,19 +1,25 @@
 from declaracoes import *
 
-tempo_empilhadeira = 4900
+tempo_empilhadeira = 4600
 tempo_garra = 8000
 
 
 def sobe_empilhadeira(i = 1): #Função utilizada para subir a empilhadeira
-    MotorEmpilhadeira.run_time(-200, 1.02*tempo_empilhadeira *i)
+    MotorEmpilhadeira.run_time(-200, tempo_empilhadeira *i)
     #MotorEmpilhadeira.run_until_stalled(-100, Stop.HOLD)
     return
 
 def desce_empilhadeira(i =1): #Função utilizada para fescer a empilhadeira
-    MotorEmpilhadeira.run_time(200, tempo_empilhadeira* i)
+    MotorEmpilhadeira.run_time(200, 1.01*tempo_empilhadeira* i)
     #MotorEmpilhadeira.run_until_stalled(200, Stop.HOLD)
     #MotorEmpilhadeira.run_time(100, 500)
     return
+
+def desce_empilhadeira_centro():
+    desce_empilhadeira(0.8)
+
+def sobe_empilhadeira_centro():
+    sobe_empilhadeira(0.8)
 
 def fecha_garra(i = 1):  #Função utilizada para fechar a garra da empilhadeira - Retorna TRUE quando um tubo foi pego e False quando não foi pego
     if i == 10:
@@ -27,7 +33,7 @@ def fecha_garra(i = 1):  #Função utilizada para fechar a garra da empilhadeira
         tempo = tempo_garra
     else:
         tempo = tempo_garra
-    MotorGarra.run_time(-400,i* tempo)
+    MotorGarra.run_time(-400,1.5*i* tempo)
     #MotorGarra.run_until_stalled(-300, Stop.HOLD)
     # MotorGarra.reset_angle(0)
     # angulo = MotorGarra.run_until_stalled(-300, Stop.HOLD)  #angulo = angulo que o motor rodou até parar
@@ -54,11 +60,11 @@ def abre_garra(i =1): #Função utilizada para abrir a garra da empilhadeira
     return
 
 
-def pegar_tubo(tam = 20):      # Função utilizada para pegar um tubo, considerando o robô já alinhado ao tubo
-    desce_empilhadeira()
-    robot.straight(100)
-    abre_garra(tam)
-    sobe_empilhadeira()
+# def pegar_tubo(tam = 20):      # Função utilizada para pegar um tubo, considerando o robô já alinhado ao tubo
+#     desce_empilhadeira()
+#     robot.straight(100)
+#     abre_garra(tam)
+#     sobe_empilhadeira()
 
 
 
@@ -112,7 +118,7 @@ def pega(): # Função feita apenas para testar a captura de um tubo na frente d
         fecha_garra(15)
         wait(4000)
 
-def pega2(tam):
+def pega2(tam):  #Outra função apenas de teste para pegar e devolver o tubo
     distancia = UltrassomFrente.distance()
     while distancia > 180:
         robot.drive(70,0)
@@ -122,14 +128,15 @@ def pega2(tam):
     posiciona_gasoduto()
     devolve_tubo(tam)
 
-def pega_tubo(tamanho):
+def pega_tubo(tamanho): #Função que pega o tubo já alinhado com ele previamente, com o tubo na sua frente a uma distância indefinida
     DistanciaUltrassomFrente = UltrassomFrente.distance()
-    while DistanciaUltrassomFrente > 180:
+    while DistanciaUltrassomFrente > 170:
         robot.drive(70,0)
         DistanciaUltrassomFrente = UltrassomFrente.distance()
     robot.stop()
-    desce_empilhadeira(0.7)
-    robot.straight(150)
+    desce_empilhadeira_centro()
+    robot.straight(100)
     abre_garra(tamanho)
     sobe_empilhadeira()
+    wait(3000)
 

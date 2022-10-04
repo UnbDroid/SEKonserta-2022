@@ -124,22 +124,22 @@ def virada_ultrassom_frente():
     while watch.time()<3000:
         robot.drive(5, 29)
 
-def virada_ultrassom_frente_medindo_gap(): #Faz a virada mas continua medindo o tamanho do GAP
+def virada_ultrassom_frente_medindo_gap(): #Faz a virada mas continua medindo o tamanho do GAP 
     global condition
     global distancia_percorrida
     global distancia_na_curva
     robot.stop()
     print("Distância (parou na curva):", robot.distance(), "Distancia na curva:", distancia_na_curva)
-    wait(2000)
-    sobe_empilhadeira(0.1)
-    wait(3000)
-    distancia = UltrassomFrente.distance()
-    while distancia >= 30:
-        distancia = UltrassomFrente.distance()
-        print(distancia)
-        robot.drive(70,0)
-    robot.stop()
-    wait(5000)
+    # wait(2000)
+    # sobe_empilhadeira(0.1)  #Levanta a garra pra conseguir chegar mais perto do gasoduto
+    # wait(3000)
+    # distancia = UltrassomFrente.distance()
+    # while distancia >= 30:
+    #     distancia = UltrassomFrente.distance()
+    #     print(distancia)
+    #     robot.drive(70,0)
+    # robot.stop()
+    # wait(5000)
     watch.reset()
     condition = False
     while watch.time()<3000:
@@ -184,12 +184,10 @@ def mede_tamanho_gap():
         #coloca_tubo(define_tamanho_gap())
 
 
-
-
-
-
-
-def percorre_gasoduto_esquerda():
+def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto
+    #IF modo ==  'ignorar' -> Percorrer o gasoduto até o final medindo os GAPs mas "ignorando" eles
+    #IF modo ==  'medir' -> Percorrer o gasoduto até o primeiro GAP, e após achá-lo, ir buscar o tubo
+    #IF modo == 'entregar' -> Percorrer o gasoduto até o primeiro GAP, e após achá-lo, colocar ele no local e após isso continuar o percorrimento do modo 'medir'
     global ValorLuzEsquerda                                                                           
     global DistanciaUltrassomEsquerda
     global DistanciaUltrassomFrente
@@ -202,8 +200,8 @@ def percorre_gasoduto_esquerda():
     global condition
     MboxAlphaBeta.send("PercorrimentoGasodutoEsquerda")
     le_valores_max_min()
-    valor_minimo = 66  #De manhã deu 58, 12h deu 75 --- 48
-    valor_maximo = 59  #De manhã deu 72, 12h deu 88 -- 58
+    valor_minimo = 45 #De manhã deu 58, 12h deu 75 --- 48
+    valor_maximo = 51 #De manhã deu 72, 12h deu 88 -- 58
     MboxAlphaBetaUltrassom.wait()
     while True:
         le_valores_percorrimento_esquerda()
@@ -211,7 +209,9 @@ def percorre_gasoduto_esquerda():
         #print('Luz Esq',ValorLuzEsquerda, 'Ult Esq', DistanciaUltrassomEsquerda, 'ult frente', DistanciaUltrassomFrente)
         if viu_beirada():
             robot.stop()
-            wait(40000)
+            ev3.speaker.beep(900, 3000)
+            FIM_DO_PROGRAMA = True
+            break
         elif checa_luz_esquerda('max'):
             virada_gasoduto_esquerda()
         elif checa_distancia_ultrassom_frente():
@@ -220,41 +220,16 @@ def percorre_gasoduto_esquerda():
             mede_tamanho_gap()
             tamanho_gap = define_tamanho_gap()
             if tamanho_gap: #Se foi realmente visto um gap, ou era só uma aberturazinha
-                #MANDAR MENSAGEM PRO LUIGI
-                busca_tubo(define_tamanho_gap())
+                if modo == 'ignorar':
+                    pass
+                elif modo == 'medir':
+                    #MANDAR MENSAGEM PRO LUIGI
+                    busca_tubo(tamanho_gap)
+                    break
+                elif modo == 'entregar':
+                    coloca_tubo(tamanho_gap)
+                    break
         elif checa_luz_esquerda('min'):
             virada_gasoduto_direita()
         else:
             segue_reto_gasoduto()
-
-def percorre_gasoduto_esquerda_com_tubo(tamanho): #Percorre gasoduto para colocar o tubo que já está em sua garra 
-    return
-
-
-def percorre_gasoduto_esquerda_ate_final(): # Percoore até o fim, medindo todos os gaps
-    global valor_minimo
-    global valor_maximo
-    MboxAlphaBeta.send("PercorrimentoGasodutoEsquerda")
-    le_valores_max_min()
-    valor_minimo = 40  #De manhã deu 58, 12h deu 75 --- 48
-    valor_maximo = 48  #De manhã deu 72, 12h deu 88 -- 58
-    MboxAlphaBetaUltrassom.wait()
-    while True:
-        le_valores_percorrimento_esquerda()
-        adiciona_lista_ultrassom_esquerda()
-        #print('Luz Esq',ValorLuzEsquerda, 'Ult Esq', DistanciaUltrassomEsquerda, 'ult frente', DistanciaUltrassomFrente)
-        if viu_beirada():
-            robot.stop()
-            break
-        elif checa_luz_esquerda('max'):
-            virada_gasoduto_esquerda()
-        elif checa_distancia_ultrassom_frente():
-            virada_ultrassom_frente()
-        elif checa_distancia_ultrassom_esquerda():
-            mede_tamanho_gap()
-            define_tamanho_gap()
-        elif checa_luz_esquerda('min'):
-            virada_gasoduto_direita()
-        else:
-            segue_reto_gasoduto()
-        

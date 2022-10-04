@@ -2,7 +2,7 @@ from declaracoes import *
 from cores import *
 from percorregasoduto import *
 
-def inicio():
+def inicio():   #INÍCIO DO PROGRAMA -> Acaba quando o Mario chega no gasoduto pela primeira vez
     watch2.reset()
     while True:
         le_sensor_cor()
@@ -34,7 +34,7 @@ def inicio():
         else:
             robot.drive(100,0)
 
-def desce_rampa_comeco():
+def desce_rampa_comeco(): #DESCER RAMPA NO COMEÇO DO CODIGO DE FRENTE
     while not (viu_azul()):
         le_sensor_cor()
         if viu_beirada():
@@ -46,7 +46,7 @@ def desce_rampa_comeco():
     robot.turn(-90)
     return
 
-def desce_rampa_comeco_costas():
+def desce_rampa_comeco_costas(): #Descer rampa no começo do programa de costas, considerando ele alinhado com a rampa de frente
     global eq
     global dr
     robot.straight(-100)
@@ -63,7 +63,8 @@ def desce_rampa_comeco_costas():
     return
 
 
-def chega_no_gasoduto():
+def chega_no_gasoduto(): # Função para chegar no gasoduto após descer a rampa e virar
+
     while not (viu_beirada()):   #Após descer a rampa e virar para a esquerda, andar reto até encontrar a beirada
         le_sensor_cor()
         if viu_verde_azul():
