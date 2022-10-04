@@ -10,7 +10,7 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 ev3 = EV3Brick()
 
 motorEmpilhadeira = Motor(Port.A)
-motorUltrassom = Motor(Port.B)
+#motorUltrassom = Motor(Port.B)
 motorDireito = Motor(Port.D)
 motorEsquerdo = Motor(Port.C)
 
@@ -26,12 +26,12 @@ rodas = DriveBase(rodaEsquerda, rodaDireita, wheel_diameter= 41, axle_track=110)
 rodas.settings(100, 300) #velocidade_reto / aceleração reto / velocidade de giro / aceleração de giro
 leitura_ultrassom = ultrassom.distance()
 
-cor_da_area = "vermelho"
+cor_area = "vermelho"
 estado_empilhadeira = "baixo"
 estado_ultrassom = "esquerda"
 pegou_tubo = False
 alinhado_ao_tubo = False #identifica seo robô esta alinhado
-tubo_esta_perto = 15
+tubo_esta_perto = 24
 alinhado_ao_preto = False
 lado_pista = "direito"
 viu_borda = False
