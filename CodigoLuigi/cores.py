@@ -7,8 +7,8 @@ def le_sensor_cor():
     ValorCorEsquerda = luzEsquerda.rgb()
     ValorCorDireita = luzDireita.rgb()
 
-    #print("Valor na Esquerda é:", ValorCorEsquerda, "E na direita é", ValorCorDireita)
-    return
+    print("Valor na Esquerda é:", ValorCorEsquerda, "E na direita é", ValorCorDireita)
+    return 
 
 def ve_branco():    # Se está vendo branco com os dois sensores retorna True, else False
     global ValorCorEsquerda

@@ -9,14 +9,8 @@ def sobe_empilhadeira():
     motorEmpilhadeira.run_until_stalled(250) #parametros: Velocidade (para subir, < 0), tempo;
     estado_empilhadeira = "cima"
 
-def desce_empilhadeira():
-    global estado_empilhadeira
 
-    motorEmpilhadeira.run_until_stalled(-250,then = Stop.BRAKE)
-    motorEmpilhadeira.run_time(250, 800)
-    estado_empilhadeira = "baixo"
-
-def esquerda_ultrassom():
+'''def esquerda_ultrassom():
     global estado_ultrassom
     angulo = motorUltrassom.angle()
     motorUltrassom.run_time(-150, 500,then = Stop.BRAKE) #faz esse extra só pro caso de ter forçado
@@ -38,6 +32,7 @@ def centraliza_ultrassom():
 
     motorUltrassom.run_time(-150,400)
     estado_ultrassom = "centro"
+'''
 
 def ve_tubo(): #Identifica se o ultrassom está lendo algo a frente
     global tubo_esta_perto
@@ -48,7 +43,7 @@ def ve_tubo(): #Identifica se o ultrassom está lendo algo a frente
         ev3.speaker.beep()
         return True
 
-def define_intensidade_motor_ultrassom_pro_radar():
+'''def define_intensidade_motor_ultrassom_pro_radar():
     global estado_ultrassom
 
     
@@ -98,6 +93,7 @@ def verifica_alinhado_ao_tubo(leitura_radar):
 def alinha_com_tubo():
     global leitura_ultrassom 
     global tubo_esta_perto #ve menor leitura e vira p ela
+'''
 
 def pega_tubo():
     global estado_empilhadeira
@@ -107,26 +103,33 @@ def pega_tubo():
     rodas.straight(-30)
     if estado_empilhadeira == "cima":
         desce_empilhadeira()
-    rodas.straight(150)
+    
+    ev3.speaker.beep()
+    motorEmpilhadeira.run_time(250,800)
+    ev3.speaker.beep()
+    
+    rodas.straight(120)
+    desce_empilhadeira()
+    rodas.straight(100)
     sobe_empilhadeira()
     estado_empilhadeira = "cima"
 
     leitura_ultrassom = ultrassom.distance()
     print('aqui deu {}'.format(leitura_ultrassom))
-    if leitura_ultrassom < 20:
+    if leitura_ultrassom <= 21:
         pegou_tubo = True
 
     else:
         pegou_tubo = False
         desce_empilhadeira()
         estado_empilhadeira = "baixo"
-
+    print(pegou_tubo)
     return pegou_tubo
     
 def entra_na_area_e_pega_tubo():
     global pegou_tubo
 
-    while pegou_tubo != True:
+    while not pegou_tubo:
         le_sensor_cor()
         if ve_borda():
             atitude_borda()
@@ -153,15 +156,9 @@ def teste_ultrassom():
     if leitura_ultrassom < tubo_esta_perto:
         ev3.speaker.beep()
         
-def teste_radar(x_vezes):
+'''def teste_radar(x_vezes):
     for i in range(x_vezes):
-        radar_tubo()
-
-
-
-
-
-
+        radar_tubo()'''
 
 
 '''if abs(angulo-motorUltrassom.angle()) < 30:

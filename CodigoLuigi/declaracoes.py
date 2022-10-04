@@ -36,3 +36,5 @@ alinhado_ao_preto = False
 lado_pista = "direito"
 viu_borda = False
 
+ValorCorEsquerda = luzEsquerda.rgb()
+ValorCorDireita = luzDireita.rgb()

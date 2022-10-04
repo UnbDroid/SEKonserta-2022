@@ -1,21 +1,19 @@
 #!/usr/bin/env pybricks-micropython 
 
+from servidor import *
 from declaracoes import *
 from pegaTubo import *
-from servidor import *
 from andaPista import *
 from cores import *
 
 
+
 def inicio():
-    global pegou_tubo
-
     comeco()
-    cor_area = identifica_cor()
-    print(cor_area)
-
+    '''cor_area = identifica_cor_area()
+    print(cor_area)'''
     while True:
-        le_sensor_cor()
+        #le_sensor_cor()
         if ve_borda():
             atitude_borda()
             #viu_borda = True
@@ -24,12 +22,11 @@ def inicio():
             atitude_rampa()
             
         if ve_preto():
-            alinha_preto()
+            alinha_preto_frente()##########################
             rodas.straight(30)
             le_sensor_cor()
-            print(qual_cor_ve())
 
-        elif pegou_tubo == True:
+        elif pegou_tubo:
             rodas.drive(-60,0)
             if ve_preto():
                 alinha_preto()
@@ -40,5 +37,5 @@ def inicio():
         else:
             rodas.drive(80,0) #numero > 0, vai pra direita // < 0 
 
-
-entra_na_area_e_pega_tubo()
+#entra_na_area_e_pega_tubo()]
+inicio()
