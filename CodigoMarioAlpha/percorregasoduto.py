@@ -200,8 +200,8 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto
     global condition
     MboxAlphaBeta.send("PercorrimentoGasodutoEsquerda")
     le_valores_max_min()
-    valor_minimo = 45 #De manhã deu 58, 12h deu 75 --- 48
-    valor_maximo = 51 #De manhã deu 72, 12h deu 88 -- 58
+    valor_minimo = 37 #De manhã deu 58, 12h deu 75 --- 48
+    valor_maximo = 43 #De manhã deu 72, 12h deu 88 -- 58
     MboxAlphaBetaUltrassom.wait()
     while True:
         le_valores_percorrimento_esquerda()

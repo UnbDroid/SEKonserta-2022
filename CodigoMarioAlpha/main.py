@@ -9,10 +9,10 @@ from comeco import *
 from movimentacao import *
 
 
-# conecta_alpha_beta()
-# percorre_gasoduto_esquerda('ignorar')
-
-# wait(50000)
+# abre_garra(20)
+# ev3.speaker.beep(400)
+# wait(1000)
+# fecha_garra(20)
 
 # ------------------------------------- Código Certo --------------------------------------------
 sobe_empilhadeira_centro()

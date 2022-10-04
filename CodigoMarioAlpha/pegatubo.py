@@ -1,7 +1,7 @@
 from declaracoes import *
 
 tempo_empilhadeira = 4600
-tempo_garra = 8000
+tempo_garra = 8500
 
 
 def sobe_empilhadeira(i = 1): #Função utilizada para subir a empilhadeira
@@ -27,21 +27,13 @@ def fecha_garra(i = 1):  #Função utilizada para fechar a garra da empilhadeira
         tempo = tempo_garra/3
     elif i == 15:
         i = 1
-        tempo = tempo_garra*0.66
+        tempo = 5500
     elif i == 20:
         i = 1
         tempo = tempo_garra
     else:
         tempo = tempo_garra
-    MotorGarra.run_time(-400,1.5*i* tempo)
-    #MotorGarra.run_until_stalled(-300, Stop.HOLD)
-    # MotorGarra.reset_angle(0)
-    # angulo = MotorGarra.run_until_stalled(-300, Stop.HOLD)  #angulo = angulo que o motor rodou até parar
-    # print(angulo)
-    # if angulo < 130:
-    #     return True
-    # else:
-    #     return False
+    MotorGarra.run_time(-400,1*i* tempo)
 
 def abre_garra(i =1): #Função utilizada para abrir a garra da empilhadeira
     if i == 10:
@@ -49,7 +41,7 @@ def abre_garra(i =1): #Função utilizada para abrir a garra da empilhadeira
         tempo = tempo_garra/3
     elif i == 15:
         i = 1
-        tempo = tempo_garra/2
+        tempo = 5500
     elif i == 20:
         i = 1
         tempo = tempo_garra
