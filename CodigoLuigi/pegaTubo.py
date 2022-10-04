@@ -1,4 +1,6 @@
 from declaracoes import *
+from cores import *
+from andaPista import *
 
 def sobe_empilhadeira():
     global estado_ultrassom
@@ -111,7 +113,7 @@ def pega_tubo():
 
     leitura_ultrassom = ultrassom.distance()
     print('aqui deu {}'.format(leitura_ultrassom))
-    if leitura_ultrassom < 10:
+    if leitura_ultrassom < 20:
         pegou_tubo = True
 
     else:
@@ -121,6 +123,29 @@ def pega_tubo():
 
     return pegou_tubo
     
+def entra_na_area_e_pega_tubo():
+    global pegou_tubo
+
+    while pegou_tubo != True:
+        le_sensor_cor()
+        if ve_borda():
+            atitude_borda()
+
+        elif ve_tubo():
+            pegou_tubo = pega_tubo()
+        else:
+            rodas.drive(80,0)
+
+def sai_da_area_com_tubo():
+    global cor_area
+    global valorCorEquerda
+    global valorCorDireita
+
+    while not ve_preto():
+        rodas.drive(-60,0)
+
+        
+
 def teste_ultrassom():
     leitura_ultrassom = ultrassom.distance()
     print(leitura_ultrassom)

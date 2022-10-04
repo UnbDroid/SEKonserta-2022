@@ -124,10 +124,10 @@ def ve_borda():
     global dr
 
     eq_min =[0,0,0]
-    eq_max = [2,2,2]
+    eq_max = [0,0,0]
 
     dr_min = [0,0,0]
-    dr_max = [2,2,2] 
+    dr_max = [0,0,0] 
     
     eq = False
     dr = False
@@ -162,39 +162,61 @@ def ve_rampa():
     return eq or dr
 
 def alinha_borda():
-    le_sensor_cor()
+    global ValorCorEsquerda
+    global ValorCorDireita
+    global eq
+    global dr
 
-    leitura_esq = luzEsquerda.reflection()
-    leitura_dir = luzDireita.reflection()
+    eq_min =[0,0,0]
+    eq_max = [2,2,2]
 
-    if leitura_esq > 0: 
-        while leitura_esq > 0:
-            rodaEsquerda.run(100)
-            leitura_esq = luzEsquerda.reflection()
+    dr_min = [0,0,0]
+    dr_max = [2,2,2] 
 
-    elif leitura_dir > 0: 
-        while leitura_dir > 0:
-            rodaDireita.run(100)
-            leitura_dir = luzDireita.reflection()
+    if eq_min[0] < ValorCorEsquerda[0] > eq_max[0] and eq_min[1] < ValorCorEsquerda[1] > eq_max[1] and eq_min[2] < ValorCorEsquerda[2] > eq_max[2]: #esq não vendo preto
+        while eq_min[0] < ValorCorEsquerda[0] > eq_max[0] and eq_min[1] < ValorCorEsquerda[1] > eq_max[1] and eq_min[2] < ValorCorEsquerda[2] > eq_max[2]:
+            rodas.drive(8,15) #direita
+            ValorCorEsquerda = luzEsquerda.rgb()
+            ValorCorDireita = luzDireita.rgb()
+
+    elif dr_min[0] < ValorCorDireita[0] > dr_max[0] and dr_min[1] < ValorCorDireita[1] > dr_max[1] and dr_min[2] < ValorCorDireita[2] > dr_max[2]: #dir vendo_preto
+        while dr_min[0] < ValorCorDireita[0] > dr_max[0] and dr_min[1] < ValorCorDireita[1] > dr_max[1] and dr_min[2] < ValorCorDireita[2] > dr_max[2]:
+            rodas.drive(8,-15) #esquerda
+            ValorCorEsquerda = luzEsquerda.rgb()
+            ValorCorDireita = luzDireita.rgb()
+    rodas.stop()
 
     return True
 
 def alinha_rampa():
-    leitura_esq = luzEsquerda.reflection()
-    leitura_dir = luzDireita.reflection()
+    global ValorCorEsquerda
+    global ValorCorDireita
+    global eq
+    global dr
 
-    if leitura_esq > 5: 
-        while leitura_esq > 5:
-            rodaEsquerda.run(100)
-            leitura_esq = luzEsquerda.reflection()
+    eq_min =[2, 15, 0]
+    eq_max = [6, 20, 3]
 
-    elif leitura_dir > 5: 
-        while leitura_dir > 5:
-            rodaDireita.run(100)
-            leitura_dir = luzDireita.reflection()
+    dr_min = [2, 12, 6]
+    dr_max = [8, 16, 14] 
+
+
+    if eq_min[0] < ValorCorEsquerda[0] > eq_max[0] and eq_min[1] < ValorCorEsquerda[1] > eq_max[1] and eq_min[2] < ValorCorEsquerda[2] > eq_max[2]: #esq não vendo preto
+        while eq_min[0] < ValorCorEsquerda[0] > eq_max[0] and eq_min[1] < ValorCorEsquerda[1] > eq_max[1] and eq_min[2] < ValorCorEsquerda[2] > eq_max[2]:
+            rodas.drive(8,15) #direita
+            ValorCorEsquerda = luzEsquerda.rgb()
+            ValorCorDireita = luzDireita.rgb()
+
+    elif dr_min[0] < ValorCorDireita[0] > dr_max[0] and dr_min[1] < ValorCorDireita[1] > dr_max[1] and dr_min[2] < ValorCorDireita[2] > dr_max[2]: #dir vendo_preto
+        while dr_min[0] < ValorCorDireita[0] > dr_max[0] and dr_min[1] < ValorCorDireita[1] > dr_max[1] and dr_min[2] < ValorCorDireita[2] > dr_max[2]:
+            rodas.drive(8,-15) #esquerda
+            ValorCorEsquerda = luzEsquerda.rgb()
+            ValorCorDireita = luzDireita.rgb()
+    rodas.stop()
+
     return True
 
-def alinha_preto():
+def alinha_preto_re():
     rodas.stop()
     leitura_esq = luzEsquerda.reflection()
     leitura_dir = luzDireita.reflection()
@@ -208,11 +230,43 @@ def alinha_preto():
         while leitura_dir > 20:
             rodaDireita.run(-30)
             leitura_dir = luzDireita.reflection()
+    return True
+
+def alinha_preto_frente():
+    global ValorCorEsquerda
+    global ValorCorDireita
+    global eq
+    global dr
+
+    eq_min =[4, 6, 3]
+    eq_max = [6,8,5]
+
+    dr_min = [9, 12, 13]
+    dr_max = [12,14,20] 
+    
+    eq = False
+    dr = False
+    
+    if eq_min[0] < ValorCorEsquerda[0] > eq_max[0] and eq_min[1] < ValorCorEsquerda[1] > eq_max[1] and eq_min[2] < ValorCorEsquerda[2] > eq_max[2]: #esq não vendo preto
+        while eq_min[0] < ValorCorEsquerda[0] > eq_max[0] and eq_min[1] < ValorCorEsquerda[1] > eq_max[1] and eq_min[2] < ValorCorEsquerda[2] > eq_max[2]:
+            rodas.drive(8,15) #direita
+            ValorCorEsquerda = luzEsquerda.rgb()
+            ValorCorDireita = luzDireita.rgb()
+
+    elif dr_min[0] < ValorCorDireita[0] > dr_max[0] and dr_min[1] < ValorCorDireita[1] > dr_max[1] and dr_min[2] < ValorCorDireita[2] > dr_max[2]: #dir vendo_preto
+        while dr_min[0] < ValorCorDireita[0] > dr_max[0] and dr_min[1] < ValorCorDireita[1] > dr_max[1] and dr_min[2] < ValorCorDireita[2] > dr_max[2]:
+            rodas.drive(8,-15) #esquerda
+            ValorCorEsquerda = luzEsquerda.rgb()
+            ValorCorDireita = luzDireita.rgb()
+    rodas.stop()
 
     return True
 
-def qual_cor_ve():
-    global cor_da_area
+def identifica_cor_area():
+    global cor_area 
+    global valorCorEsquerda
+    global valorCorDireita
+
     if ve_amarelo():
         cor_da_area = "amarelo"
 
@@ -221,5 +275,26 @@ def qual_cor_ve():
 
     elif ve_azul():
         cor_da_area = "azul"
+    
+    return cor_area
 
-    return cor_da_area
+def valida_cor_area():
+    global cor_area 
+    global valorCorEsquerda
+    global valorCorDireita
+    angulos = [45,-45,-45]
+
+    cores_lidas = []
+
+    for i in range(3):
+        rodas.turn(angulos[i])
+        le_sensor_cor()
+        cores_lidas.append(identifica_cor_area())
+
+    for i in range(len(cores_lidas)):
+        if cores_lidas[0] != cores_lidas[i]:
+            cor_lida =  False
+    
+    return True
+
+

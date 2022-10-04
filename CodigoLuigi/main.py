@@ -10,7 +10,10 @@ from cores import *
 def inicio():
     global pegou_tubo
 
-    ajustes_comeco()
+    comeco()
+    cor_area = identifica_cor()
+    print(cor_area)
+
     while True:
         le_sensor_cor()
         if ve_borda():
@@ -38,22 +41,4 @@ def inicio():
             rodas.drive(80,0) #numero > 0, vai pra direita // < 0 
 
 
-
-inicio()
-
-'''elif ve_tubo():
-            alinhado_ao_tubo = verifica_alinhado_ao_tubo()
-            radar
-            if alinhado_ao_tubo():
-                pegou_tubo = pega_tubo()'''
-
-'''
-while True:
-    le_sensor_cor()
-    if ve_rampa():
-        rodas.stop()
-        alinha_rampa()
-        desvia_rampa()
-    else:
-        rodas.drive(80,0)'''
-
+entra_na_area_e_pega_tubo()
