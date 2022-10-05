@@ -7,7 +7,8 @@ from comeco import *
 
 #Arquivo para as funções de movimentação do meio do desafio como subir e descer rampas, encontrar tubos e etc
 
-
+eq = False
+dr = False
 
 def le_ultrassom_frente_cores():
     global DistanciaUltrassomFrente
@@ -88,25 +89,52 @@ def anda_ate_direita_branco():   #Alinhado no branco em cima, vira a direita e c
     while not viu_beirada():
         le_sensor_cor()
         if viu_verde_branco():
-            robot.drive(20,-40)
+            robot.drive(50,-20)
         else:
-            robot.drive(100,0)
+            robot.drive(90,0)
     alinha_beirada()
     robot.straight(-400) #VALOR COMBINADO COM O LUIGI
     robot.turn(-90)
 
 
 def sobe_rampa():   # Sobe rampa de frente já alinhado
+    global eq
+    global dr
     le_sensor_cor()
     while not viu_branco():
-        robot.drive(80,0)
         le_sensor_cor()
+        print('isso é dr:', dr, 'isso é eq', eq, 'isso é viu_beirada:', viu_beirada)
+        if viu_beirada() and eq:
+            robot.drive(80,30)
+        elif viu_beirada and dr:
+            robot.drive(80,-30)
+        else:
+            robot.drive(80,0)
     robot.stop()
     alinha_branco()
     robot.stop()
-    # wait(5000)
-    # robot.straight(100)
-    # robot.stop()
+
+def posiciona_para_devolver_Luigi():
+    global tamanho_do_tubo_espera
+    robot.straight(100)
+    robot.turn(-90)
+    while not viu_beirada():
+        le_sensor_cor()
+        if viu_verde_branco():
+            robot.drive(50,20)
+        else:
+            robot.drive(90,0)
+    alinha_beirada()
+    robot.straight(-400) #Valor combinado
+    robot.turn(90)
+    robot.straight(60) # Valor combinado
+    desce_empilhadeira()
+    fecha_garra(tamanho_do_tubo_na_garra)
+    robot.straight(-60)
+    sobe_empilhadeira_centro()
+    tamanho_do_tubo_na_garra = 0
+    robot.turn(90)
+    busca_tubo_ja_acima(tamanho_do_tubo_espera)
 
 def busca_tubo(tamanho):  # Função chamada depois de encontrar o GAP do gasoduto, engloba a saída do gasoduto até a pegada do tubo (alinhando em baixo)
     gasoduto_ate_rampa()
@@ -115,13 +143,27 @@ def busca_tubo(tamanho):  # Função chamada depois de encontrar o GAP do gasodu
     pega_tubo(tamanho)
     return
 
-def busca_tubo_em_cima(tamanho): #Igual a de cima, porém se alinha em cima
+def busca_tubo_em_cima(tamanho): #Igual a de cima, porém se alinha em cima - começando no gasoduto
     gasoduto_ate_rampa()
     sobe_rampa()
     anda_ate_direita_branco()
     pega_tubo(tamanho)
     return
 
+def busca_tubo_ja_acima(tamanho): #Busca tubo já estando na parte de cima, depois de devolver um tubo
+    anda_ate_direita_branco()
+    pega_tubo(tamanho)
+    percorre_gasoduto_esquerda('entregar')
+    return
+
+
+
 def gasoduto_apos_pegar_tubo():
     desce_rampa_costas()
     chega_no_gasoduto()
+
+def devolve_tubo_ao_Luigi():
+    robot.straight(-100)
+    gasoduto_ate_rampa()
+    sobe_rampa()
+    posiciona_para_devolver_Luigi()

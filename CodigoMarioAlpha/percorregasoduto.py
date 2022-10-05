@@ -11,6 +11,8 @@ DistanciaUltrassomEsquerda = 0
 DistanciaUltrassomFrente = 0
 valor_minimo = 5
 valor_maximo = 65
+tamanho_do_tubo_na_garra = 0
+lista_de_gaps = []
 
 def le_valores_percorrimento_esquerda():
     global ValorLuzEsquerda                                                                           
@@ -187,7 +189,8 @@ def mede_tamanho_gap():
         #coloca_tubo(define_tamanho_gap())
 
 
-def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto
+def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo sem varredura completa
+
     #IF modo ==  'ignorar' -> Percorrer o gasoduto até o final medindo os GAPs mas "ignorando" eles
     #IF modo ==  'medir' -> Percorrer o gasoduto até o primeiro GAP, e após achá-lo, ir buscar o tubo
     #IF modo == 'entregar' -> Percorrer o gasoduto até o primeiro GAP, e após achá-lo, colocar ele no local e após isso continuar o percorrimento do modo 'medir'
@@ -201,10 +204,13 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto
     global distancia_percorrida
     global distancia_na_curva
     global condition
+    global tamanho_do_tubo_na_garra
+    global tamanho_do_tubo_espera
+    primeira_vez = True #Esse valor só deixa de ser True quando o Mario passa por um gap de um tamanho diferente do tamanho do tubo que está na garra
     MboxAlphaBeta.send("PercorrimentoGasodutoEsquerda")
     le_valores_max_min()
-    valor_minimo = 40 #De manhã deu 58, 12h deu 75 --- 48
-    valor_maximo = 47 #De manhã deu 72, 12h deu 88 -- 58
+    valor_minimo = 33 #De manhã deu 58, 12h deu 75 --- 48
+    valor_maximo = 38 #De manhã deu 72, 12h deu 88 -- 58
     MboxAlphaBetaUltrassom.wait()
     while True:
         le_valores_percorrimento_esquerda()
@@ -213,7 +219,10 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto
         if viu_beirada():
             robot.stop()
             ev3.speaker.beep(900, 3000)
-            FIM_DO_PROGRAMA = True
+            if modo == 'medir':
+                FIM_DO_PROGRAMA = True  #Se ele estiver medindo e chegara até o fim do gasoduto, finalizar o programa
+            if modo == 'entregar': # Se ele chegar ao fim do programa com um tubo para ser entregue, devolver o tubo ao Luigi
+                devole_tubo_ao_Luigi()
             break
         elif checa_luz_esquerda('max'):
             virada_gasoduto_esquerda()
@@ -231,10 +240,77 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto
                     busca_tubo_em_cima(tamanho_gap)
                     break
                 elif modo == 'entregar':
-                    coloca_tubo(tamanho_gap)
-                    reposiciona_gasoduto()
-                    break
+                    if tamanho_gap == tamanho_do_tubo_na_garra:  # Se o tamanho do GAP encontrado for igual ao do tubo que está na garra
+                        coloca_tubo(tamanho_gap)
+                        reposiciona_gasoduto()
+                        tamanho_do_tubo_na_garra = 0
+                        break
+                    else:
+                        if primeira_vez:
+                            tamanho_do_tubo_espera = tamanho_gap # Esse vai ser o tamanho do próximo tubo a ser pego pelo Mario
+                            primeira_vez = False
+                        pass # Se o tamanho do GAP encontrada for diferente ao do tubo que está na garra
         elif checa_luz_esquerda('min'):
             virada_gasoduto_direita()
         else:
             segue_reto_gasoduto()
+
+def percorre_gasoduto_esquerda_com_varredura_completa(modo = 'varredura'):  #Percorre o gasoduto do modo sem varredura completa
+
+    #IF modo ==  'varredura' -> Percorrer o gasoduto até o final medindo os GAPs e adicionando na lista de GAPS
+    #IF modo == 'entregar' -> Percorrer o gasoduto até o primeiro GAP, e após achá-lo, colocar ele no local e após isso continuar o percorrimento do modo 'medir'
+    global ValorLuzEsquerda                                                                           
+    global DistanciaUltrassomEsquerda
+    global DistanciaUltrassomFrente
+    global ValorCorEsquerda
+    global ValorCorDireita
+    global valor_minimo
+    global valor_maximo
+    global distancia_percorrida
+    global distancia_na_curva
+    global condition
+    global tamanho_do_tubo_na_garra
+    global lista_de_gaps
+
+    MboxAlphaBeta.send("PercorrimentoGasodutoEsquerda")
+    le_valores_max_min()
+    valor_minimo = 35 #De manhã deu 58, 12h deu 75 --- 48
+    valor_maximo = 41 #De manhã deu 72, 12h deu 88 -- 58
+    MboxAlphaBetaUltrassom.wait()
+    while True:
+        le_valores_percorrimento_esquerda()
+        adiciona_lista_ultrassom_esquerda()
+        #print('Luz Esq',ValorLuzEsquerda, 'Ult Esq', DistanciaUltrassomEsquerda, 'ult frente', DistanciaUltrassomFrente)
+        if viu_beirada():
+            robot.stop()
+            ev3.speaker.beep(900, 3000)
+            # Finalizar o programa se não tiverem mais tubos
+            break
+        elif checa_luz_esquerda('max'):
+            virada_gasoduto_esquerda()
+        elif checa_distancia_ultrassom_frente():
+            virada_ultrassom_frente()
+        elif checa_distancia_ultrassom_esquerda():
+            ev3.speaker.beep(50)
+            mede_tamanho_gap()
+            tamanho_gap = define_tamanho_gap()
+            if tamanho_gap: #Se foi realmente visto um gap, ou era só uma aberturazinha
+                if modo == 'varredura':
+                    lista_de_gaps.append(tamanho_gap)
+                elif modo == 'entregar':
+                    if tamanho_gap == tamanho_do_tubo_na_garra:  # Se o tamanho do GAP encontrado for igual ao do tubo que está na garra
+                        coloca_tubo(tamanho_gap)
+                        reposiciona_gasoduto()
+                        tamanho_do_tubo_na_garra = 0
+                        lista_de_gaps.pop() #Tirar o último gap da lista
+                        break
+                    else:
+                        if primeira_vez:
+                            tamanho_do_tubo_espera = tamanho_gap # Esse vai ser o tamanho do próximo tubo a ser pego pelo Mario
+                            primeira_vez = False
+                        pass # Se o tamanho do GAP encontrada for diferente ao do tubo que está na garra
+        elif checa_luz_esquerda('min'):
+            virada_gasoduto_direita()
+        else:
+            segue_reto_gasoduto()
+

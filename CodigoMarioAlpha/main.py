@@ -28,13 +28,37 @@ from movimentacao import *
 # fecha_garra(15)
 # ev3.speaker.beep()
 #fecha_garra(10)
-# ------------------------------------- Código Certo --------------------------------------------
-sobe_empilhadeira_centro()
+# ------------------------------------- Código Certo -> Voltando pegar o tubo após ler o primeiro GAP --------------------------------------------
+
+modo_do_programa = "SemVarreduraCompleta"
+#sobe_empilhadeira_centro()
 conecta_alpha_beta()
-inicio()
+#inicio()
 while not FIM_DO_PROGRAMA:
     percorre_gasoduto_esquerda('medir')
+    if FIM_DO_PROGRAMA:
+        break
     gasoduto_apos_pegar_tubo()
     percorre_gasoduto_esquerda('entregar')
 # -----------------------------------Final Código Certo ------------------------------------------------
 
+while True:
+    ev3.speaker.beep(1100,200)
+    wait(100)
+
+
+
+#----------------------------------- Código fazendo varredura inicial no começo -------------------------- #
+
+modo_do_programa = 'ComVarreduraCompleta'
+sobe_empilhadeira_centro()
+conecta_alpha_beta()
+inicio()
+while not FIM_DO_PROGRAMA:
+    percorre_gasoduto_esquerda('ignorar')
+    if FIM_DO_PROGRAMA:
+        break
+    gasoduto_apos_pegar_tubo()
+    percorre_gasoduto_esquerda('entregar')
+
+#-------------------------------------- Final Código ----------------------------------------------------- #
