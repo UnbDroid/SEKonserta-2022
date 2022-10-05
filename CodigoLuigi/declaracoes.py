@@ -11,8 +11,6 @@ ev3 = EV3Brick()
 
 motorEmpilhadeira = Motor(Port.A)
 #motorUltrassom = Motor(Port.B)
-motorDireito = Motor(Port.D)
-motorEsquerdo = Motor(Port.C)
 
 #ultrassom = UltrasonicSensor(Port.S1)
 ultrassom = InfraredSensor(Port.S1)

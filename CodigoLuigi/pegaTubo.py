@@ -9,11 +9,12 @@ def sobe_empilhadeira():
     motorEmpilhadeira.run_until_stalled(250) #parametros: Velocidade (para subir, < 0), tempo;
     estado_empilhadeira = "cima"
 
-def desce_empilhadeira():
+
+def desce_empilhadeira(): #TODO Ele vai descer até forçar o motor?? E depois ele vai subir por 800ms?
     global estado_empilhadeira
 
-    motorEmpilhadeira.run_until_stalled(-250,then = Stop.BRAKE)
-    motorEmpilhadeira.run_time(250, 800)
+    motorEmpilhadeira.run_until_stalled(-250,then = Stop.BRAKE) 
+    motorEmpilhadeira.run_time(250, 800) #run_time(speed, time)
     estado_empilhadeira = "baixo"
 
 def esquerda_ultrassom():
