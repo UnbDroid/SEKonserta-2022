@@ -9,11 +9,16 @@ from cores import *
 
 
 def inicio():
-    comeco()
-    '''cor_area = identifica_cor_area()
-    print(cor_area)'''
-    while True:
-        #le_sensor_cor()
+    #comeco()
+    procura_tubo()
+    '''while not pega_tubo():
+        if leitura_ultrassom < tubo_esta_perto:
+            ev3.speaker.beep()
+            pega_tubo()
+        else:
+            entra_na_area_e_pega_tubo()'''
+
+    '''#le_sensor_cor()
         if ve_borda():
             atitude_borda()
             #viu_borda = True
@@ -37,5 +42,5 @@ def inicio():
         else:
             rodas.drive(80,0) #numero > 0, vai pra direita // < 0 
 
-#entra_na_area_e_pega_tubo()]
+#entra_na_area_e_pega_tubo()]'''
 inicio()
