@@ -12,4 +12,4 @@ percorre_gasoduto_esquerda()
 
 while True:
     wait(100)
-    print('A ambient é:', LuzEsquerda.ambient(), 'Já a reflection é:', LuzEsquerda.reflection(), 'Toque:',SensorToque.pressed())
+    print('A ambient é:', LuzEsquerda.ambient(), 'Já a reflection é:', LuzEsquerda.reflection())#, 'Toque:',SensorToque.pressed())

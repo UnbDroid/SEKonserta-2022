@@ -15,7 +15,7 @@ def le_sensor_cor():
     global ValorCorDireita
     ValorCorEsquerda = SensorCorEsquerda.rgb()
     ValorCorDireita = SensorCorDireita.rgb()
-    print("Valor na Esquerda é:", ValorCorEsquerda, "E na direita é", ValorCorDireita)
+    #print("Valor na Esquerda é:", ValorCorEsquerda, "E na direita é", ValorCorDireita)
     return
 
 

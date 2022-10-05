@@ -19,7 +19,7 @@ RodaEsquerda = Motor(Port.D)
 RodaDireita = Motor(Port.A)
 MotorEmpilhadeira = Motor(Port.C)
 MotorGarra = Motor(Port.B)
-robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=40, axle_track=118)
+robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=41, axle_track=109.4) #axle_track antigo -> 118
 watch = StopWatch()
 watch2 = StopWatch()
 watch_virada = StopWatch()

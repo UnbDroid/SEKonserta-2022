@@ -1,7 +1,7 @@
 from declaracoes import *
 
 tempo_empilhadeira = 4600
-tempo_garra = 8500
+tempo_garra = 8800
 
 
 def sobe_empilhadeira(i = 1): #Função utilizada para subir a empilhadeira
@@ -16,10 +16,10 @@ def desce_empilhadeira(i =1): #Função utilizada para fescer a empilhadeira
     return
 
 def desce_empilhadeira_centro():
-    desce_empilhadeira(0.8)
+    desce_empilhadeira(0.85)
 
 def sobe_empilhadeira_centro():
-    sobe_empilhadeira(0.8)
+    sobe_empilhadeira(0.85)
 
 def fecha_garra(i = 1):  #Função utilizada para fechar a garra da empilhadeira - Retorna TRUE quando um tubo foi pego e False quando não foi pego
     if i == 10:
@@ -27,7 +27,7 @@ def fecha_garra(i = 1):  #Função utilizada para fechar a garra da empilhadeira
         tempo = tempo_garra/3
     elif i == 15:
         i = 1
-        tempo = 5500
+        tempo = 5000
     elif i == 20:
         i = 1
         tempo = tempo_garra
@@ -41,7 +41,7 @@ def abre_garra(i =1): #Função utilizada para abrir a garra da empilhadeira
         tempo = tempo_garra/3
     elif i == 15:
         i = 1
-        tempo = 5500
+        tempo = 5000
     elif i == 20:
         i = 1
         tempo = tempo_garra
@@ -85,10 +85,10 @@ def checa_tubo(tamanho):  #Função utilizada para checar se o robô está alinh
     return
 
 def devolve_tubo(tam =20):  #Função utilizada apenas para colocar o tubo no gasoduto, já considerando o robô posicionado corretamente
-    desce_empilhadeira(0.6)
+    desce_empilhadeira(0.4)
     fecha_garra(0.4)
     robot.straight(-200)
-    sobe_empilhadeira(0.6)
+    sobe_empilhadeira(0.3)
     fecha_garra(tam)
 
 def posiciona_gasoduto(): #Função que posiciona o robô de forma correta para colocar o tubo no gasoduto
@@ -97,7 +97,7 @@ def posiciona_gasoduto(): #Função que posiciona o robô de forma correta para 
         distancia = UltrassomFrente.distance()
         robot.drive(70,0)
     robot.stop()
-    robot.straight(30)
+    robot.straight(20)
 
 def pega(): # Função feita apenas para testar a captura de um tubo na frente do robô, e a sua devolução no gasoduto a sua frente também
     robot.drive(70,0)
@@ -128,6 +128,9 @@ def pega_tubo(tamanho): #Função que pega o tubo já alinhado com ele previamen
     robot.stop()
     desce_empilhadeira_centro()
     robot.straight(100)
+    print("o tamanho é esse", tamanho)
+    if tamanho == 15:
+        ev3.speaker.beep(900,700)
     abre_garra(tamanho)
     sobe_empilhadeira()
     wait(3000)
