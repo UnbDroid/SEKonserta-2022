@@ -171,13 +171,17 @@ def alinha_robo(eq_min, eq_max, dr_min, dr_max):
     nao_ve_borda_sensor_direita = 0
 
 
-    for minEsq, maxEsq in zip (eq_min, eq_max):
-        if minEsq > ValorCorEsquerda > maxEsq:
-            nao_ve_borda_sensor_esquerdo += 1    
+    for minEsq, valorCorEsq, maxEsq in zip (eq_min, ValorCorEsquerda, eq_max):
+        if minEsq > valorCorEsq > maxEsq:
+            nao_ve_borda_sensor_esquerdo += 1  
+        else:
+            nao_ve_borda_sensor_esquerdo = 0  
 
-    for minDir, maxDir in zip(dr_min, dr_max):
-        if minDir > ValorCorDireita > maxDir:
+    for minDir, valorCorDir, maxDir in zip(dr_min, ValorCorDireita, dr_max):
+        if minDir > valorCorDir > maxDir:
             nao_ve_borda_sensor_direita += 1
+        else:
+            nao_ve_borda_sensor_direita = 0
 
     
     if(nao_ve_borda_sensor_esquerdo == 3):
