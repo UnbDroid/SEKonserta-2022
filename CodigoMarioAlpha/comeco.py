@@ -84,7 +84,7 @@ def chega_no_gasoduto(): # Função para chegar no gasoduto após descer a rampa
             robot.drive(70,0)
     robot.stop()
     watch.reset()
-    while watch.time()<2650:
+    while watch.time()<2800:
         robot.drive(8, 29)
     robot.stop()
     return

@@ -86,6 +86,19 @@ def anda_ate_direita_rampa():   #Alinhado no verde em baixo, vira a direita e ch
 def anda_ate_direita_branco():   #Alinhado no branco em cima, vira a direita e chega até o fim da arena na direita, pra pegar o tubo
     robot.straight(50)
     robot.turn(90)
+    le_sensor_cor()
+    while not viu_beirada():
+        le_sensor_cor()
+        if viu_verde_branco():
+            robot.drive(50,-20)
+        else:
+            robot.drive(90,0)
+    alinha_beirada()
+    robot.straight(-400) #VALOR COMBINADO COM O LUIGI
+    robot.turn(-90)
+
+def anda_ate_fim_direita_branco(): #vai até o outro lado da arena buscar o tubo depois de devolver o tubo do lado esquerdo]
+    le_sensor_cor()
     while not viu_beirada():
         le_sensor_cor()
         if viu_verde_branco():
@@ -97,25 +110,26 @@ def anda_ate_direita_branco():   #Alinhado no branco em cima, vira a direita e c
     robot.turn(-90)
 
 
+
 def sobe_rampa():   # Sobe rampa de frente já alinhado
     global eq
     global dr
     le_sensor_cor()
     while not viu_branco():
         le_sensor_cor()
-        print('isso é dr:', dr, 'isso é eq', eq, 'isso é viu_beirada:', viu_beirada)
-        if viu_beirada() and eq:
+        if viu_beirada_eq():
+            print('Entrei aqui na esquerda -rampa')
             robot.drive(80,30)
-        elif viu_beirada and dr:
+        elif viu_beirada_dr():
+            print('Entrei aqui na direita - rampa')
             robot.drive(80,-30)
         else:
-            robot.drive(80,0)
+            robot.drive(120,0)
     robot.stop()
     alinha_branco()
     robot.stop()
 
-def posiciona_para_devolver_Luigi():
-    global tamanho_do_tubo_espera
+def posiciona_para_devolver_Luigi(tamanho_do_tubo_na_garra, tamanho_do_tubo_espera): # Já em cima da rampa, se posiciona e coloca o tubo no lugar para o Luigi devolver
     robot.straight(100)
     robot.turn(-90)
     while not viu_beirada():
@@ -151,9 +165,9 @@ def busca_tubo_em_cima(tamanho): #Igual a de cima, porém se alinha em cima - co
     return
 
 def busca_tubo_ja_acima(tamanho): #Busca tubo já estando na parte de cima, depois de devolver um tubo
-    anda_ate_direita_branco()
+    anda_ate_fim_direita_branco()
     pega_tubo(tamanho)
-    percorre_gasoduto_esquerda('entregar')
+    #percorre_gasoduto_esquerda('entregar') # essa func já está sendo chamada no while not tubo foi entregue na main()
     return
 
 
@@ -162,8 +176,8 @@ def gasoduto_apos_pegar_tubo():
     desce_rampa_costas()
     chega_no_gasoduto()
 
-def devolve_tubo_ao_Luigi():
+def devolve_tubo_ao_Luigi(tamanho_do_tubo_na_garra, tamanho_do_tubo_espera):
     robot.straight(-100)
     gasoduto_ate_rampa()
     sobe_rampa()
-    posiciona_para_devolver_Luigi()
+    posiciona_para_devolver_Luigi(tamanho_do_tubo_na_garra, tamanho_do_tubo_espera)

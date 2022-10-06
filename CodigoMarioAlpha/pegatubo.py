@@ -2,6 +2,7 @@ from declaracoes import *
 
 tempo_empilhadeira = 4600
 tempo_garra = 8800
+tamanho_do_tubo_na_garra = 0
 
 
 def sobe_empilhadeira(i = 1): #Função utilizada para subir a empilhadeira
@@ -129,8 +130,8 @@ def pega_tubo(tamanho): #Função que pega o tubo já alinhado com ele previamen
     robot.stop()
     desce_empilhadeira_centro()
     robot.straight(100)
-    print("o tamanho é esse", tamanho)
     tamanho_do_tubo_na_garra = tamanho
+    print("o tamanho é esse", tamanho_do_tubo_na_garra)
     if tamanho == 15:
         ev3.speaker.beep(900,700)
     abre_garra(tamanho)

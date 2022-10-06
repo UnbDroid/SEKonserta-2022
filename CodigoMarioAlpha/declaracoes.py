@@ -25,6 +25,7 @@ watch2 = StopWatch()
 watch_virada = StopWatch()
 
 FIM_DO_PROGRAMA = False
+TUBO_ENTREGUE = False
 
 
 

@@ -38,6 +38,14 @@ def viu_branco():    # Se está vendo branco com os dois sensores retorna True, 
 
     return eq or dr
 
+def viu_branco_eq():
+    global eq
+    return viu_branco() and eq
+
+def viu_branco_dr():
+    global dr
+    return viu_branco() and dr
+
 def viu_verde_branco():          #Retorna True se Viu verde saindo do branco, em qualquer um dos sensores
     global ValorCorEsquerda
     global ValorCorDireita
@@ -87,8 +95,15 @@ def viu_beirada():          #Viu beirada em algum dos dois sensores
         eq = True
     if dr_min[0] <= ValorCorDireita[0] <= dr_max[0] and dr_min[1] <= ValorCorDireita[1] <= dr_max[1] and dr_min[2] <= ValorCorDireita[2] <= dr_max[2]:
         dr = True
-    print('isso é dr:', dr, 'isso é eq', eq)
     return eq or dr
+
+def viu_beirada_eq():
+    global eq
+    return viu_beirada() and eq
+
+def viu_beirada_dr():
+    global dr
+    return viu_beirada() and dr
 
 def viu_azul():          #Viu azul
     global ValorCorEsquerda

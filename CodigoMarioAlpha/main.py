@@ -8,25 +8,10 @@ from cores import *
 from comeco import *
 from movimentacao import *
 
-#
-# while True:
-#     wait(3000)
-#     abre_garra(20)
-#     ev3.speaker.beep(400,3000)
-#     #wait(3000)
-#     fecha_garra(20)
-#fecha_garra(0.3)
+FIM_DO_PROGRAMA = False
+TUBO_ENTREGUE = False
 
-    
-#sobe_empilhadeira_centro()
-# conecta_alpha_beta()
-# percorre_gasoduto_esquerda('entregar')
-#fecha_garra()
 
-# abre_garra(15)
-# wait(5000)
-# fecha_garra(15)
-# ev3.speaker.beep()
 #fecha_garra(10)
 # ------------------------------------- Código Certo -> Voltando pegar o tubo após ler o primeiro GAP --------------------------------------------
 
@@ -34,31 +19,33 @@ modo_do_programa = "SemVarreduraCompleta"
 #sobe_empilhadeira_centro()
 conecta_alpha_beta()
 #inicio()
-while not FIM_DO_PROGRAMA:
+while not fim_programa():
     percorre_gasoduto_esquerda('medir')
-    if FIM_DO_PROGRAMA:
+    if fim_programa():
         break
     gasoduto_apos_pegar_tubo()
-    percorre_gasoduto_esquerda('entregar')
+    print('entrei pra entregar')
+    while not tubo_foi_entregue():   # ele continuar entregando, caso ele tenha q devolver 
+        percorre_gasoduto_esquerda('entregar')
 # -----------------------------------Final Código Certo ------------------------------------------------
 
-while True:
-    ev3.speaker.beep(1100,200)
-    wait(100)
+while True: #Fica apitando infinitamente quando acaba o programa
+    ev3.speaker.beep(1100,500)
+    wait(400)
 
 
 
-#----------------------------------- Código fazendo varredura inicial no começo -------------------------- #
+# #----------------------------------- Código fazendo varredura inicial no começo -------------------------- #
 
-modo_do_programa = 'ComVarreduraCompleta'
-sobe_empilhadeira_centro()
-conecta_alpha_beta()
-inicio()
-while not FIM_DO_PROGRAMA:
-    percorre_gasoduto_esquerda('ignorar')
-    if FIM_DO_PROGRAMA:
-        break
-    gasoduto_apos_pegar_tubo()
-    percorre_gasoduto_esquerda('entregar')
+# modo_do_programa = 'ComVarreduraCompleta'
+# sobe_empilhadeira_centro()
+# conecta_alpha_beta()
+# inicio()
+# while not FIM_DO_PROGRAMA:
+#     percorre_gasoduto_esquerda('ignorar')
+#     if FIM_DO_PROGRAMA:
+#         break
+#     gasoduto_apos_pegar_tubo()
+#     percorre_gasoduto_esquerda('entregar')
 
-#-------------------------------------- Final Código ----------------------------------------------------- #
+# #-------------------------------------- Final Código ----------------------------------------------------- #

@@ -13,6 +13,16 @@ valor_minimo = 5
 valor_maximo = 65
 tamanho_do_tubo_na_garra = 0
 lista_de_gaps = []
+FIM_DO_PROGRAMA = False
+TUBO_ENTREGUE = False
+
+def fim_programa():   #Função feita pq não entendo ainda como funcionam as variáveis globais entre arquivos kk
+    global FIM_DO_PROGRAMA
+    return FIM_DO_PROGRAMA
+
+def tubo_foi_entregue():
+    global TUBO_ENTREGUE
+    return TUBO_ENTREGUE
 
 def le_valores_percorrimento_esquerda():
     global ValorLuzEsquerda                                                                           
@@ -206,10 +216,13 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
     global condition
     global tamanho_do_tubo_na_garra
     global tamanho_do_tubo_espera
+    global FIM_DO_PROGRAMA
+    global TUBO_ENTREGUE
+    TUBO_ENTREGUE = True 
     primeira_vez = True #Esse valor só deixa de ser True quando o Mario passa por um gap de um tamanho diferente do tamanho do tubo que está na garra
     MboxAlphaBeta.send("PercorrimentoGasodutoEsquerda")
     le_valores_max_min()
-    valor_minimo = 33 #De manhã deu 58, 12h deu 75 --- 48
+    valor_minimo = 32 #De manhã deu 58, 12h deu 75 --- 48
     valor_maximo = 38 #De manhã deu 72, 12h deu 88 -- 58
     MboxAlphaBetaUltrassom.wait()
     while True:
@@ -220,9 +233,17 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
             robot.stop()
             ev3.speaker.beep(900, 3000)
             if modo == 'medir':
-                FIM_DO_PROGRAMA = True  #Se ele estiver medindo e chegara até o fim do gasoduto, finalizar o programa
+                FIM_DO_PROGRAMA = True  #Se ele estiver medindo e chegar até o fim do gasoduto, finalizar o programa
+                print(FIM_DO_PROGRAMA)
             if modo == 'entregar': # Se ele chegar ao fim do programa com um tubo para ser entregue, devolver o tubo ao Luigi
-                devole_tubo_ao_Luigi()
+                ev3.speaker.beep(900)
+                wait(100)
+                ev3.speaker.beep(900)
+                wait(100)
+                ev3.speaker.beep(900)
+                wait(100)
+                wait(5000)
+                devolve_tubo_ao_Luigi(tamanho_do_tubo_na_garra, tamanho_do_tubo_espera)
             break
         elif checa_luz_esquerda('max'):
             virada_gasoduto_esquerda()
@@ -238,12 +259,15 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
                 elif modo == 'medir':
                     #MANDAR MENSAGEM PRO LUIGI
                     busca_tubo_em_cima(tamanho_gap)
+                    tamanho_do_tubo_na_garra = tamanho_gap
                     break
                 elif modo == 'entregar':
+                    print('o tamano do gap é:', tamanho_gap, 'o tamanho do tubo na garra é:',tamanho_do_tubo_na_garra)
                     if tamanho_gap == tamanho_do_tubo_na_garra:  # Se o tamanho do GAP encontrado for igual ao do tubo que está na garra
                         coloca_tubo(tamanho_gap)
                         reposiciona_gasoduto()
                         tamanho_do_tubo_na_garra = 0
+                        TUBO_ENTREGUE = True
                         break
                     else:
                         if primeira_vez:
