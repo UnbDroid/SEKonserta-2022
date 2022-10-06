@@ -37,4 +37,5 @@ def inicio():
             rodas.drive(80,0) #numero > 0, vai pra direita // < 0 
 
 
-vai_pro_ponto_inicial()
+
+

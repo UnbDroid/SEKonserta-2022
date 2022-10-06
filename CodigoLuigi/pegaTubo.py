@@ -1,6 +1,13 @@
 from declaracoes import *
 from cores import *
-from andaPista import *
+
+
+def desce_empilhadeira():
+    global estado_empilhadeira
+
+    motorEmpilhadeira.run_until_stalled(-250,then = Stop.BRAKE)
+    motorEmpilhadeira.run_time(250, 800)
+    estado_empilhadeira = "baixo"
 
 def sobe_empilhadeira():
     global estado_ultrassom
@@ -10,43 +17,32 @@ def sobe_empilhadeira():
     estado_empilhadeira = "cima"
 
 
+def le_ultrassom():
+    global leitura_ultrassom
+    leitura_ultrassom = ultrassom.distance()
+    print('ultrassom está lendo: ',leitura_ultrassom)
+    return
 
-def esquerda_ultrassom():
-    global estado_ultrassom
-    angulo = motorUltrassom.angle()
-    motorUltrassom.run_time(-150, 500,then = Stop.BRAKE) #faz esse extra só pro caso de ter forçado
-    motorUltrassom.run_until_stalled(-150, then = Stop.BRAKE) #Parametros: velocidade
-     
-    estado_ultrassom = "esquerda" 
+def define_dist_chao_e_tubo():
+    global leitura_ultrassom
+    global distancia_chao
+    global tubo_esta_perto
 
-def direita_ultrassom(): 
-    global estado_ultrassom
-
-    angulo = motorUltrassom.angle()
-    motorUltrassom.run_until_stalled(150, then = Stop.BRAKE) #Parametros: velocidade
-
-    estado_ultrassom = "direita"
-
-def centraliza_ultrassom():
-    global estado_ultrassom
-    esquerda_ultrassom()
-
-    motorUltrassom.run_time(-150,400)
-    estado_ultrassom = "centro"
+    distancia_chao = leitura_ultrassom
+    tubo_esta_perto = distancia_chao - 8
+    
+    return distancia_chao, tubo_esta_perto
 
 def ve_tubo(): #Identifica se o ultrassom está lendo algo a frente
     global tubo_esta_perto
 
-    leitura_ultrassom = ultrassom.distance()
-    print(leitura_ultrassom)
     if leitura_ultrassom < tubo_esta_perto:
         ev3.speaker.beep()
         return True
 
 def define_intensidade_motor_ultrassom_pro_radar():
     global estado_ultrassom
-
-    
+ 
     if estado_ultrassom == "esquerda":
         intensidade_motor = 50
         estado_ultrassom = "direita"
@@ -90,10 +86,6 @@ def verifica_alinhado_ao_tubo(leitura_radar):
 
     return alinhado_ao_tubo
 
-def alinha_com_tubo():
-    global leitura_ultrassom 
-    global tubo_esta_perto #ve menor leitura e vira p ela
-
 def pega_tubo():
     global estado_empilhadeira
     global estado_ultrassom
@@ -106,7 +98,7 @@ def pega_tubo():
     sobe_empilhadeira()
     estado_empilhadeira = "cima"
 
-    leitura_ultrassom = ultrassom.distance()
+    le_ultrassom()
     print('aqui deu {}'.format(leitura_ultrassom))
     if leitura_ultrassom < 20:
         pegou_tubo = True
@@ -137,39 +129,5 @@ def sai_da_area_com_tubo():
     global valorCorDireita
 
     while not ve_preto():
-        rodas.drive(-60,0)
+        rodas.drive(-60,0)        
 
-        
-
-def teste_ultrassom():
-    leitura_ultrassom = ultrassom.distance()
-    print(leitura_ultrassom)
-
-    if leitura_ultrassom < tubo_esta_perto:
-        ev3.speaker.beep()
-        
-def teste_radar(x_vezes):
-    for i in range(x_vezes):
-        radar_tubo()
-
-
-
-
-
-
-
-
-'''if abs(angulo-motorUltrassom.angle()) < 30:
-        while abs(angulo-motorUltrassom.angle()) < 30:
-            motorUltrassom.run_until_stalled(-150, then = Stop.BRAKE)'''
-
-
-'''    #print(leitura_radar)
-    for i in vendo_branco:
-        if i in leitura_radar:
-            alinhado_ao_tubo = False
-
-    if alinhado_ao_tubo == True:
-        ev3.speaker.beep()
-
-    return estado_ultrassom'''

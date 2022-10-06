@@ -2,15 +2,24 @@ from declaracoes import *
 from pegaTubo import *
 from cores import *
 
-def desce_empilhadeira():
-    global estado_empilhadeira
-
-    motorEmpilhadeira.run_until_stalled(-250,then = Stop.BRAKE)
-    motorEmpilhadeira.run_time(250, 800)
-    estado_empilhadeira = "baixo"
-
 def ajustes_comeco():
+    global distancia_chao
+    global tubo_esta_perto
+
     desce_empilhadeira()
+
+    le_ultrassom()
+    distancia_chao,tubo_esta_perto = define_dist_chao_e_tubo()
+    #print(distancia_chao, tubo_esta_perto)
+    return
+
+def valida_se_viu_preto():
+    global leitura_ultrassom
+    global distancia_chao
+    
+    le_ultrassom()
+    if leitura_ultrassom <= distancia_chao:
+        
 
 def desvia_borda():
     rodas.stop()
@@ -56,6 +65,7 @@ def vai_pro_ponto_inicial():
             viu_preto = True
             o_que_ele_andou_vendo.append("viu_preto")
             atitude_preto()
+
         elif ve_borda():
             viu_borda = True
             atitude_borda()
@@ -78,16 +88,18 @@ def vai_pro_ponto_inicial():
 
         #identifica a cor e seta como zero. Se puder virar p esquerda, vira e conta a distância, se não, vira p direita e conta a distância. Assim ele vai conseguir identificar as 3 cores
 
+
+
 def descobre_info_area():
     global cor_da_area
 
     le_sensor_cor()
-    while ve_branco():
+    while not ve_preto():
         le_sensor_cor()
         rodas.drive(80,0)
+    alinha_preto_frente()
 
-    rodas.straight(40)
-    
+    rodas.straight(40) #entra na área colorida    
     le_sensor_cor()
     cor_da_area = identifica_cor_da_area()
     print(cor_da_area)
@@ -95,25 +107,31 @@ def descobre_info_area():
     return cor_da_area
 
 def muda_de_area_para_localizacao():
-    rodas.straight(-80) #sai da area 1
+    while not ve_preto():
+        le_sensor_cor()
+        rodas.drive(-80,0) #sai da area 1
+    alinha_preto_re()
+    rodas.straight(-40)
+
+
     rodas.turn(-90) #vira 90 graus para andar até a area 2
     rodas.straight(830) #anda até chegar no meio da area 2
     rodas.turn(90) #vira 90 graus em direcao da area 2
 
 def acha_localizacao_das_cores():
-    global info_area_1
-    global info_area_2
-    global info_area_3
+    global ordem_areas
+    cores = ['vemelho','amarelo','azul']
 
-    info_area_1.append(descobre_info_area())
-    print(info_area_1)
+    sobe_empilhadeira()
+    ordem_areas.append(descobre_info_area())
     muda_de_area_para_localizacao()
-    info_area_2.append(descobre_info_area())
-    print(info_area_2)
-    muda_de_area_para_localizacao()
-    info_area_3.append(descobre_info_area())
-    print(info_area_3)
-
+    ordem_areas.append(descobre_info_area())
+    
+    for i in cores:
+        if i not in ordem_areas:
+            ordem_areas.append(i)
+    
+    print(ordem_areas)
     return
     
 
@@ -128,3 +146,6 @@ def acha_localizacao_das_cores():
 
 
 
+def teste():
+    ajustes_comeco()
+    print(ve_preto())
