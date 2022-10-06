@@ -4,10 +4,10 @@ from declaracoes import *
 from servidor import *
 from percorregasoduto import *
 
-conecta_alpha_beta()
-while not (MboxAlphaBeta.read() == "PercorrimentoGasodutoEsquerda"):
-    print(MboxAlphaBeta.read())
-percorre_gasoduto_esquerda()
+# conecta_alpha_beta()
+# while not (MboxAlphaBeta.read() == "PercorrimentoGasodutoEsquerda"):
+#     print(MboxAlphaBeta.read())
+# percorre_gasoduto_esquerda()
 
 
 while True:

@@ -253,6 +253,24 @@ def alinha_branco():
         print("Wtf, isso tá muito errado")
 
 
+def alinha_not_branco():
+    global eq
+    global dr
+    if eq and dr:
+        print("Os dois")
+        return
+    elif eq:
+        print("Só na esquerda")
+        while not (viu_azul() and eq and dr):
+            le_sensor_cor()
+            robot.drive(26.75, -15)
+    elif dr:
+        print("Só na direita")
+        while not (viu_azul() and eq and dr):
+            le_sensor_cor()
+            robot.drive(26.75, 15)
+    else:
+        print("Wtf, isso tá muito errado")
 
 
 def alinha_verde_azul():

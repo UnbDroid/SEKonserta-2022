@@ -41,7 +41,8 @@ def percorre_gasoduto_esquerda():
     calibra_sensor_luz()
     while True:
         wait(100)
-        ValorLuzEsquerda = LuzEsquerda.ambient()
+        #ValorLuzEsquerda = LuzEsquerda.ambient() # Usar quando está claro (De dia e fora da sala)
+        ValorLuzEsquerda = LuzEsquerda.reflection() #Usar quando está escuro (Dentro da sala ou de noite)
         print(ValorLuzEsquerda)
         MboxAlphaBetaLuz.send(ValorLuzEsquerda)
         ValorUltrassomEsquerda = UltrassomEsquerda.distance()
