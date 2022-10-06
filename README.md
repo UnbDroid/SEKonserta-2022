@@ -1,12 +1,80 @@
 # SEKonserta-2022
-ve_sensor_cor([59, 68, 64],[100,100,100],[82, 76, 100],[100,100,100]) #ta vendo BRANCO
-ve_sensor_cor([60, 42, 7],[72,50,11],[82, 49, 23],[96,54,26]) #ta vendo AMARELO
-ve_sensor_cor([46, 6, 2],[55,10,5],[64, 9, 10],[73,13,16] )#ta vendo VERMELHO
-ve_sensor_cor([2, 5, 6],[6,10,13],[6, 9, 28],[11,15,36])#ta vendo AZUL
-ve_sensor_cor([4, 6, 3],[6,8,5],[9, 12, 13],[12,14,20] )#ta vendo PRETO
-ve_sensor_cor([0,0,0],[0,0,0],[0,0,0],[0,0,0])#ta vendo BORDA
-ve_sensor_cor([2, 15, 0],[6, 20, 3],[2, 12, 6],[8, 16, 14])#ta vendo RAMPA
 
-alinha([0,0,0],[0,0,0],[0,0,0],[0,0,0])#alinhou com a BORDA
-alinha([2, 15, 0],[6, 20, 3],[2, 12, 6],[8, 16, 14])#alinhou com a RAMPA
-alinha([4, 6, 3],[6,8,5],[9, 12, 13],[12,14,20])##alinhou com o PRETO frente
+# LUIGI
+- Quais valores são retornados ao ver:
+    Branco: 
+    Azul:
+    Vermelho:
+    Preto:
+    Borda/Não estar perto o suficiente/Ver um buraco:
+    Rampa:
+
+
+    Alinha
+    - Borda:
+    eq_min =[0,0,0]  #TODO esse valor significa estar perto de ver preto?
+    eq_max = [2,2,2]
+
+    dr_min = [0,0,0]
+    dr_max = [2,2,2] 
+
+    - Rampa:
+    eq_min =[2, 15, 0]
+    eq_max = [6, 20, 3]
+
+    dr_min = [2, 12, 6]
+    dr_max = [8, 16, 14] 
+
+
+    Vê Cor
+
+    - Rampa:
+    eq_min =[2, 15, 0]
+    eq_max = [6, 20, 3]
+
+    dr_min = [2, 12, 6]
+    dr_max = [8, 16, 14] 
+    
+    - Borda:
+    eq_min =[0,0,0] #TODO isso aqui é tipo um filtro?!
+    eq_max = [0,0,0]
+
+    dr_min = [0,0,0]
+    dr_max = [0,0,0] 
+
+    -Vê Preto
+    eq_min =[4, 6, 3]
+    eq_max = [6,8,5]
+
+    dr_min = [9, 12, 13]
+    dr_max = [12,14,20] 
+
+    - Azul
+    eq_min =[2, 5, 6]
+    eq_max = [6,10,13]
+
+    dr_min = [6, 9, 28]
+    dr_max = [11,15,36] 
+
+    -Vermelho
+    eq_min =[46, 6, 2]
+    eq_max = [55,10,5]
+
+    dr_min = [64, 9, 10]
+    dr_max = [73,13,16] 
+
+    -Amerelo
+    eq_min =[60, 42, 7]
+    eq_max = [72,50,11]
+
+    dr_min = [82, 49, 23]
+    dr_max = [96,54,26] 
+
+    - Branco
+    eq_min =[59, 68, 64]
+    eq_max = [100,100,100]
+
+    dr_min = [82, 76, 100]
+    dr_max = [100,100,100]
+
+    

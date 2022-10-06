@@ -23,7 +23,6 @@ def inicio():
             alinha_preto()
             rodas.straight(30)
             le_sensor_cor()
-            print(qual_cor_ve())
 
         elif pegou_tubo == True:
             rodas.drive(-60,0)
@@ -39,3 +38,4 @@ def inicio():
 
 
 
+comeco()
