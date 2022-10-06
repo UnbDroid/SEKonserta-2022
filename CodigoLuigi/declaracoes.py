@@ -31,10 +31,10 @@ estado_empilhadeira = "baixo"
 estado_ultrassom = "esquerda"
 pegou_tubo = False
 alinhado_ao_tubo = False #identifica seo robô esta alinhado
-tubo_esta_perto = 31#28
+tubo_esta_perto = 25
 alinhado_ao_preto = False
 lado_pista = "direito"
 viu_borda = False
-
 ValorCorEsquerda = luzEsquerda.rgb()
 ValorCorDireita = luzDireita.rgb()
+ACHOU = False

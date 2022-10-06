@@ -10,13 +10,15 @@ from cores import *
 
 def inicio():
     #comeco()
+    desce_empilhadeira()
     procura_tubo()
-    '''while not pega_tubo():
+    #pega_tubo()
+    while not pega_tubo():
         if leitura_ultrassom < tubo_esta_perto:
             ev3.speaker.beep()
             pega_tubo()
         else:
-            entra_na_area_e_pega_tubo()'''
+            entra_na_area_e_pega_tubo()
 
     '''#le_sensor_cor()
         if ve_borda():

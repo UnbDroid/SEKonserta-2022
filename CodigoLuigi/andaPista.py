@@ -1,21 +1,12 @@
-from pegaTubo import *
 from declaracoes import *
-from pegaTubo import *
 from cores import *
-
-def desce_empilhadeira():
-    global estado_empilhadeira
-
-    motorEmpilhadeira.run_until_stalled(-250,then = Stop.BRAKE)
-    motorEmpilhadeira.run_time(250, 800)
-    estado_empilhadeira = "baixo"
 
 def ajustes_comeco():
     desce_empilhadeira()
 
 def desvia_borda():
     rodas.stop()
-    rodas.straight(-60)
+    rodas.straight(-80)
     rodas.turn(90)
 
 def desvia_rampa():

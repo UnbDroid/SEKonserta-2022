@@ -2,6 +2,13 @@ from declaracoes import *
 from cores import *
 from andaPista import *
 
+def desce_empilhadeira():
+    global estado_empilhadeira
+
+    motorEmpilhadeira.run_until_stalled(-250,then = Stop.BRAKE)
+    motorEmpilhadeira.run_time(250, 800)
+    estado_empilhadeira = "baixo"
+
 def sobe_empilhadeira():
     global estado_ultrassom
     global estado_empilhadeira
@@ -28,7 +35,7 @@ def pega_tubo():
     if estado_empilhadeira == "cima":
         desce_empilhadeira()
     
-    #motorEmpilhadeira.run_time(250,700)
+    motorEmpilhadeira.run_time(250,700)
     
     rodas.straight(120)
     desce_empilhadeira()
@@ -38,7 +45,7 @@ def pega_tubo():
 
     leitura_ultrassom = ultrassom.distance()
     print('aqui deu {}'.format(leitura_ultrassom))
-    if leitura_ultrassom <= 24:
+    if leitura_ultrassom <= 15:
         pegou_tubo = True
 
     else:
@@ -71,33 +78,66 @@ def sai_da_area_com_tubo():
 
 def procura_tubo():
     global tubo_esta_perto
+    
+    le_sensor_cor()
+    if ve_borda():
+            atitude_borda()
 
     leitura_ultrassom = ultrassom.distance()
-    while leitura_ultrassom > tubo_esta_perto:
+    print(leitura_ultrassom)
+    ACHOU = False
+    while not ACHOU:
         print(leitura_ultrassom)
+        leituras_ultrassom = []
+        rodas.straight(100)
+        
         le_sensor_cor()
         if ve_borda():
             atitude_borda()
-        rodas.stop()
-        ev3.speaker.beep()
-        rodaEsquerda.run_time(350, 2000, then=Stop.BRAKE, wait=False)
+
         leitura_ultrassom = ultrassom.distance()
-        if leitura_ultrassom < tubo_esta_perto:
+        leituras_ultrassom.append(leitura_ultrassom)
+        leituras_ultrassom.sort()
+        print(leituras_ultrassom)
+        if leituras_ultrassom[0] < tubo_esta_perto:
             ev3.speaker.beep()
+            ACHOU = True
             break
-        rodaDireita.run_time(350, 2000, then=Stop.BRAKE, wait=True)
+        
+        for i in range(6):
+            if ACHOU:
+                break
+            rodas.turn(15)
+            leitura_ultrassom = ultrassom.distance()
+            leituras_ultrassom.append(leitura_ultrassom)
+            leituras_ultrassom.sort()
+            print(leituras_ultrassom)
+            if leituras_ultrassom[0] < tubo_esta_perto:
+                ev3.speaker.beep()
+                ACHOU = True
+                break
+        if ACHOU:
+            break
+            
+        rodas.turn(-90)
+        leituras_ultrassom = []
+        for i in range(6):
+            if ACHOU:
+                break
+            rodas.turn(-15)
+            leitura_ultrassom = ultrassom.distance()
+            leituras_ultrassom.append(leitura_ultrassom)
+            leituras_ultrassom.sort()
+            print(leituras_ultrassom)
+            if leituras_ultrassom[0] < tubo_esta_perto:
+                ev3.speaker.beep()
+                ACHOU = True
+                break
+        if ACHOU:
+                break
         
         rodas.turn(90)
-        leitura_ultrassom = ultrassom.distance()
-        if leitura_ultrassom < tubo_esta_perto:
-            ev3.speaker.beep()
-            break
-        rodas.turn(-180)
-        leitura_ultrassom = ultrassom.distance()
-        if leitura_ultrassom < tubo_esta_perto:
-            ev3.speaker.beep()
-            break
-        rodas.turn(90)
+        leituras_ultrassom = []
         leitura_ultrassom = ultrassom.distance()
 
 def teste_ultrassom():
