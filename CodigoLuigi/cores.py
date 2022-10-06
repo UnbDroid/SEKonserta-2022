@@ -102,10 +102,10 @@ def ve_preto():    # Se está vendo preto com algum dois sensores retorna True, 
     global dr
 
     eq_min =[4, 6, 3]
-    eq_max = [6,8,5]
+    eq_max = [9,13,5]
 
-    dr_min = [9, 12, 13]
-    dr_max = [12,14,20] 
+    dr_min = [7, 12, 13]
+    dr_max = [15,19,20] 
     
     eq = False
     dr = False
@@ -145,11 +145,11 @@ def ve_rampa():
     global eq
     global dr
 
-    eq_min =[2, 15, 0]
+    eq_min =[0, 14, 0]
     eq_max = [6, 20, 3]
 
-    dr_min = [2, 12, 6]
-    dr_max = [8, 16, 14] 
+    dr_min = [1, 12, 6]
+    dr_max = [8, 17, 14] 
     
     eq = False
     dr = False
@@ -262,39 +262,21 @@ def alinha_preto_frente():
 
     return True
 
-def identifica_cor_area():
-    global cor_area 
-    global valorCorEsquerda
-    global valorCorDireita
-
-    if ve_amarelo():
+def identifica_cor_da_area():
+    global cor_da_area 
+    global ValorCorEsquerda
+    global ValorCorDireita
+ 
+    if ve_amarelo(): 
         cor_da_area = "amarelo"
 
-    elif ve_vermelho():
+    if ve_vermelho():
         cor_da_area = "vermelho"
 
-    elif ve_azul():
+    if ve_azul():
         cor_da_area = "azul"
     
-    return cor_area
+    return cor_da_area
 
-def valida_cor_area():
-    global cor_area 
-    global valorCorEsquerda
-    global valorCorDireita
-    angulos = [45,-45,-45]
-
-    cores_lidas = []
-
-    for i in range(3):
-        rodas.turn(angulos[i])
-        le_sensor_cor()
-        cores_lidas.append(identifica_cor_area())
-
-    for i in range(len(cores_lidas)):
-        if cores_lidas[0] != cores_lidas[i]:
-            cor_lida =  False
-    
-    return True
 
 

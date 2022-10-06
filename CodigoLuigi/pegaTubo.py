@@ -9,12 +9,7 @@ def sobe_empilhadeira():
     motorEmpilhadeira.run_until_stalled(250) #parametros: Velocidade (para subir, < 0), tempo;
     estado_empilhadeira = "cima"
 
-def desce_empilhadeira():
-    global estado_empilhadeira
 
-    motorEmpilhadeira.run_until_stalled(-250,then = Stop.BRAKE)
-    motorEmpilhadeira.run_time(250, 800)
-    estado_empilhadeira = "baixo"
 
 def esquerda_ultrassom():
     global estado_ultrassom
@@ -137,7 +132,7 @@ def entra_na_area_e_pega_tubo():
             rodas.drive(80,0)
 
 def sai_da_area_com_tubo():
-    global cor_area
+    global cor_da_area 
     global valorCorEquerda
     global valorCorDireita
 

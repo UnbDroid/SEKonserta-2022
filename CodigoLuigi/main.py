@@ -10,10 +10,6 @@ from cores import *
 def inicio():
     global pegou_tubo
 
-    comeco()
-    cor_area = identifica_cor()
-    print(cor_area)
-
     while True:
         le_sensor_cor()
         if ve_borda():
@@ -41,4 +37,12 @@ def inicio():
             rodas.drive(80,0) #numero > 0, vai pra direita // < 0 
 
 
-entra_na_area_e_pega_tubo()
+
+'''vai_pro_ponto_inicial()
+acha_localizacao_das_cores()
+
+print(info_area_1)
+print(info_area_2)
+print(info_area_3)'''
+
+vai_pro_ponto_inicial()

@@ -26,13 +26,16 @@ rodas = DriveBase(rodaEsquerda, rodaDireita, wheel_diameter= 41, axle_track=110)
 rodas.settings(100, 300) #velocidade_reto / aceleração reto / velocidade de giro / aceleração de giro
 leitura_ultrassom = ultrassom.distance()
 
-cor_area = "vermelho"
+cor_da_area = "o café do cabeçs leva um MS"
 estado_empilhadeira = "baixo"
-estado_ultrassom = "esquerda"
 pegou_tubo = False
 alinhado_ao_tubo = False #identifica seo robô esta alinhado
-tubo_esta_perto = 24
+tubo_esta_perto = 31
 alinhado_ao_preto = False
-lado_pista = "direito"
 viu_borda = False
+ValorCorEsquerda = luzEsquerda.rgb()
+ValorCorDireita = luzDireita.rgb()
+info_area_1 = [0]#lista que contém distância ao ponto inicial e sua respectiva área (que ainda será identificada)
+info_area_2 = [830]
+info_area_3 = [1660]
 
