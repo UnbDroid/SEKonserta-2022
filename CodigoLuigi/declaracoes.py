@@ -23,8 +23,9 @@ rodaEsquerda = Motor(Port.C)
 rodas = DriveBase(rodaEsquerda, rodaDireita, wheel_diameter= 41, axle_track=110) #axel track >= 109.5 < 109.8 foi demais. 108 foi demais
 rodas.settings(130, 300) #velocidade_reto / aceleração reto / velocidade de giro / aceleração de giro
 
-distancia_chao = leitura_ultrassom = ultrassom.distance()
-tubo_esta_perto = 31
+distancia_chao = 28
+leitura_ultrassom = ultrassom.distance()
+tubo_esta_perto = distancia_chao - 8
 ValorCorEsquerda = luzEsquerda.rgb()
 ValorCorDireita = luzDireita.rgb()
 
@@ -41,18 +42,18 @@ ordem_areas = []#lista que contém distância ao ponto inicial e sua respectiva 
 
 
 BORDA_ESQ_MIN = [0,0,0]
-BORDA_ESQ_MAX = [2,2,2]
+BORDA_ESQ_MAX = [0,0,0]
 
 BORDA_DIR_MIN = [0,0,0]
-BORDA_DIR_MAX = [2,2,2]
+BORDA_DIR_MAX = [0,0,0]
 
-TURN_BORDA = 90
+TURN_BORDA = -90
 
-RAMPA_ESQ_MIN = [2, 15, 0]
-RAMPA_ESQ_MAX = [6, 20, 3]
+RAMPA_ESQ_MIN = [0, 8, 0]
+RAMPA_ESQ_MAX = [4, 17, 3]
 
-RAMPA_DIREITO_MIN_ = [2, 12, 6]
-RAMPA_DIREITO_MAX = [8, 16, 14] 
+RAMPA_DIREITO_MIN_ = [2, 9, 3]
+RAMPA_DIREITO_MAX = [6, 22, 10] 
 
 TURN_RAMPA = 180
 
@@ -77,6 +78,6 @@ VERMELHO_DIR_MIN = [64, 9, 10]
 VERMELHO_DIR_MAX = [73,13,16] 
 
 PRETO_ESQ_MIN = [4, 6, 3]
-PRETO_ESQ_MAX = [6,8,5]
-PRETO_DIR_MIN = [9, 12, 13]
-PRETO_DIR_MAX = [12,14,20] 
+PRETO_ESQ_MAX = [8,13,8]
+PRETO_DIR_MIN = [6, 12, 13]
+PRETO_DIR_MAX = [16,22,20] 

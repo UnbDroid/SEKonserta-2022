@@ -9,22 +9,27 @@ def ajustes_comeco():
 
     desce_empilhadeira()
 
-    le_ultrassom()
+    '''le_ultrassom()
     distancia_chao,tubo_esta_perto = define_dist_chao_e_tubo()
-    #print(distancia_chao, tubo_esta_perto)
-    return
+    print(distancia_chao, tubo_esta_perto)
+    return'''
 
-def valida_se_viu_preto():
+def valida_cores_com_ultrassom():
     global leitura_ultrassom
     global distancia_chao
-    
+    o_que_ve = 'nada'
+
     le_ultrassom()
-    if leitura_ultrassom <= distancia_chao:
-        
+    if leitura_ultrassom >= distancia_chao:
+        print('entrou aqui')
+        o_que_ve = "viu_rampa"
+    else:
+        o_que_ve = "viu_preto"
+    
+    return o_que_ve
 
 def desvia(turn):  
-    rodas.stop()
-    rodas.straight(-60) 
+    rodas.straight(-70) 
     rodas.turn(turn)
 
 def atitude(eq_min, eq_max, dr_min, dr_max, turn): 
@@ -51,37 +56,30 @@ def vai_pro_ponto_inicial():
     o_que_ele_andou_vendo = []
     ajustes_comeco()
 
-    while viu_preto == False:
-        desvia_mario() 
+    while not (viu_preto and viu_borda):
         le_sensor_cor() 
         
         if ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX): 
+            viu_borda = True
+            o_que_ele_andou_vendo.append("viu_borda")
             atitude(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX, TURN_BORDA)
-
+            
         elif ve_cor(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX):
             atitude(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX, TURN_RAMPA)
 
         elif ve_cor(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX):
-
-            alinha_preto_frente() 
             viu_preto = True
             o_que_ele_andou_vendo.append("viu_preto")
+            alinha_preto_frente() 
             atitude_preto()
 
-        elif ve_borda():
-            viu_borda = True
-            atitude_borda()
-            o_que_ele_andou_vendo.append("viu_borda")
-        
-        elif ve_rampa():
-            atitude_rampa()
         else:
-            rodas.drive(130,0)
+            rodas.drive(100,0)
     
     if o_que_ele_andou_vendo[-1] == "viu_preto":
-        while not ve_borda():
+        while not ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX): 
             le_sensor_cor()
-            if ve_preto(): #como a função ve preto retorna true caso ele veja com apenas um dos sensores, é o que eu quero
+            if ve_cor(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX): #como a função ve preto retorna true caso ele veja com apenas um dos sensores, é o que eu quero
                 rodas.turn(5) 
             rodas.drive(130,0)
 
@@ -101,7 +99,7 @@ def descobre_info_area():
     global cor_da_area
 
     le_sensor_cor()
-    while not ve_preto():
+    while not ve_cor(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX):
         le_sensor_cor()
         rodas.drive(80,0)
     alinha_preto_frente()
@@ -109,12 +107,11 @@ def descobre_info_area():
     rodas.straight(40) #entra na área colorida    
     le_sensor_cor()
     cor_da_area = identifica_cor_da_area()
-    print(cor_da_area)
 
     return cor_da_area
 
 def muda_de_area_para_localizacao():
-    while not ve_preto():
+    while not ve_cor(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX):
         le_sensor_cor()
         rodas.drive(-80,0) #sai da area 1
     alinha_preto_re()
@@ -127,7 +124,7 @@ def muda_de_area_para_localizacao():
 
 def acha_localizacao_das_cores():
     global ordem_areas
-    cores = ['vemelho','amarelo','azul']
+    cores = ['vermelho','amarelo','azul']
 
     sobe_empilhadeira()
     ordem_areas.append(descobre_info_area())

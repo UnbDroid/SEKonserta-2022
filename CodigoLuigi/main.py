@@ -38,4 +38,4 @@ def inicio():
 
 
 
-comeco()
+acha_localizacao_das_cores()
