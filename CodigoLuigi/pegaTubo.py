@@ -1,6 +1,5 @@
 from declaracoes import *
 from cores import *
-from andaPista import *
 
 def sobe_empilhadeira():
     global estado_ultrassom
