@@ -14,13 +14,13 @@ motorEmpilhadeira = Motor(Port.A)
 
 #ultrassom = UltrasonicSensor(Port.S1)
 ultrassom = InfraredSensor(Port.S1)
-giroscopio = GyroSensor(Port.S2)
+ultrassom_lateral = UltrasonicSensor(Port.S2)
 luzEsquerda = ColorSensor(Port.S3)
 luzDireita = ColorSensor(Port.S4)
 
 rodaDireita = Motor(Port.D)
 rodaEsquerda = Motor(Port.C)
-rodas = DriveBase(rodaEsquerda, rodaDireita, wheel_diameter= 41, axle_track=110) #axel track >= 109.5 < 109.8 foi demais. 108 foi demais
+rodas = DriveBase(rodaEsquerda, rodaDireita, wheel_diameter= 41, axle_track=109) #axel track >= 109.5 < 109.8 foi demais. 108 foi demais
 rodas.settings(130, 300) #velocidade_reto / aceleração reto / velocidade de giro / aceleração de giro
 
 distancia_chao = 28
@@ -28,6 +28,8 @@ leitura_ultrassom = ultrassom.distance()
 tubo_esta_perto = distancia_chao - 8
 ValorCorEsquerda = luzEsquerda.rgb()
 ValorCorDireita = luzDireita.rgb()
+
+watch = StopWatch()
 
 cor_da_area = "o café do cabeçs leva um MS"
 estado_empilhadeira = "baixo"
@@ -81,3 +83,7 @@ PRETO_ESQ_MIN = [4, 6, 3]
 PRETO_ESQ_MAX = [8,13,8]
 PRETO_DIR_MIN = [6, 12, 13]
 PRETO_DIR_MAX = [16,22,20] 
+
+
+
+# max rampa [15, 18, 10]

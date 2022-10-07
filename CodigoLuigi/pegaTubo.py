@@ -18,9 +18,10 @@ def sobe_empilhadeira():
     estado_empilhadeira = "cima"
 
 
-def le_ultrassom():
-    global leitura_ultrassom
+'''def le_ultrassom():
+
     leitura_ultrassom = ultrassom.distance()
+    
     print('ultrassom está lendo: ',leitura_ultrassom)
     return
 
@@ -33,11 +34,12 @@ def define_dist_chao_e_tubo():
     tubo_esta_perto = distancia_chao - 8
     
     return distancia_chao, tubo_esta_perto
+'''
 
 def ve_tubo(): #Identifica se o ultrassom está lendo algo a frente
     global tubo_esta_perto
 
-    if leitura_ultrassom < tubo_esta_perto:
+    if ultrassom.distance() < tubo_esta_perto:
         ev3.speaker.beep()
         return True
 
@@ -57,7 +59,6 @@ def define_intensidade_motor_ultrassom_pro_radar():
 def radar_tubo(): #essa função atua como um radar no tubo, escaneando sua largura.
     leitura_radar = []
     
-    global leitura_ultrassom 
     global estado_ultrassom
     global alinhado_ao_tubo
 
@@ -99,7 +100,8 @@ def pega_tubo():
     sobe_empilhadeira()
     estado_empilhadeira = "cima"
 
-    le_ultrassom()
+    leitura_ultrassom = ultrassom.distance()
+    
     print('aqui deu {}'.format(leitura_ultrassom))
     if leitura_ultrassom < 20:
         pegou_tubo = True

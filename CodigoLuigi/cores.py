@@ -67,13 +67,13 @@ def alinha_preto_re():
     
     if eq_min[0] < ValorCorEsquerda[0] > eq_max[0] and eq_min[1] < ValorCorEsquerda[1] > eq_max[1] and eq_min[2] < ValorCorEsquerda[2] > eq_max[2]: #esq não vendo preto
         while eq_min[0] < ValorCorEsquerda[0] > eq_max[0] and eq_min[1] < ValorCorEsquerda[1] > eq_max[1] and eq_min[2] < ValorCorEsquerda[2] > eq_max[2]:
-            rodas.drive(-8,-15) #direita
+            rodas.drive(-15,-30) #direita
             ValorCorEsquerda = luzEsquerda.rgb()
             ValorCorDireita = luzDireita.rgb()
 
     elif dr_min[0] < ValorCorDireita[0] > dr_max[0] and dr_min[1] < ValorCorDireita[1] > dr_max[1] and dr_min[2] < ValorCorDireita[2] > dr_max[2]: #dir vendo_preto
         while dr_min[0] < ValorCorDireita[0] > dr_max[0] and dr_min[1] < ValorCorDireita[1] > dr_max[1] and dr_min[2] < ValorCorDireita[2] > dr_max[2]:
-            rodas.drive(-8,-15) #esquerda
+            rodas.drive(-15,30) #esquerda
             ValorCorEsquerda = luzEsquerda.rgb()
             ValorCorDireita = luzDireita.rgb()
     rodas.stop()

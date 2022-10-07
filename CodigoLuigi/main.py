@@ -7,35 +7,32 @@ from andaPista import *
 from cores import *
 
 
-def inicio():
-    global pegou_tubo
-
-    while True:
-        le_sensor_cor()
-        if ve_borda():
-            atitude_borda()
-            #viu_borda = True
-
-        if ve_rampa():
-            atitude_rampa()
-            
-        if ve_preto():
-            alinha_preto()
-            rodas.straight(30)
-            le_sensor_cor()
-
-        elif pegou_tubo == True:
-            rodas.drive(-60,0)
-            if ve_preto():
-                alinha_preto()
-                rodas.turn(180)
-                break 
-        elif ve_tubo():
-            pegou_tubo = pega_tubo()
-        else:
-            rodas.drive(80,0) #numero > 0, vai pra direita // < 0 
 
 
+'''rodas.straight(-300)
 
 
-acha_localizacao_das_cores()
+le_sensor_cor()
+while not (ve_cor(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX) or ve_cor(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX)):
+    le_sensor_cor()
+    rodas.drive(100,0)
+
+rodas.stop()
+
+print('ACHEI')
+le_sensor_cor()'''
+
+vai_pro_ponto_inicial()
+#rodas.straight(1000)
+
+
+'''while luzEsquerda.reflection() < 60:
+    rodas.drive(50,0)
+rodas.stop()
+
+
+while not ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX): 
+    le_sensor_cor()
+    segue_linha_sensor_esquerdo_prop()'''
+
+#print(luzEsquerda.reflection())
