@@ -1,4 +1,3 @@
-from ast import Global
 from declaracoes import *
 from cores import *
 
@@ -159,29 +158,41 @@ def teste_radar(x_vezes):
         radar_tubo()
 
 def verifica_tubo_reto():
-    global listUltrassom
-    ve_tubo_reto - False
-    global distancia_andada
-    global distancia_terminal
+    listUltrassom = []
+    listaVeReto = 0
+    distancia_andada = 0
+    distancia_terminal = 0
+    semValoresRepetidos = 0
+    tubos_distancia = {}
+    total = 1
 
     rodas.reset()
 
-    while( distancia_terminal != 850):
-        rodas.drive(80,0)
+    rodas.drive(50,0)   
+
+    while not distancia_terminal > 840:   
+
         for i in range(100):
-            listUltrassom.append(ultrassom.distance())
+            listUltrassom.append(ultrassomLateral.distance())
+            print(ultrassomLateral.distance())    
+        
+        for i in listUltrassom:
+            if(i < 200):
+                listaVeReto =+ i
+                total =+ 1
 
-        for leitura in listUltrassom[:90]:
-            total += leitura
-
-        if(100 < total/100 < 200):
-            ve_tubo_reto = True
+        if(listaVeReto/total < 200): 
             distancia_andada = rodas.distance()
+    
 
-        distancia_terminal = rodas.distance()
-    rodas.stop()
-    print(distancia_terminal)
-    print(total/100)
+    print(distancia_andada)
+    print(listaVeReto/total)
+
+
+
+
+
+
 
 
 

@@ -14,7 +14,7 @@ motorEmpilhadeira = Motor(Port.A)
 
 #ultrassom = UltrasonicSensor(Port.S1)
 ultrassom = InfraredSensor(Port.S1)
-giroscopio = GyroSensor(Port.S2)
+ultrassomLateral = UltrasonicSensor(Port.S2)
 luzEsquerda = ColorSensor(Port.S3)
 luzDireita = ColorSensor(Port.S4)
 
