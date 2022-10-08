@@ -159,8 +159,8 @@ def teste_radar(x_vezes):
 
 def verifica_tubo_reto():
     listUltrassom = []
-    listaVeReto = 0
-    distancia_andada = 0
+    listaVeReto = []
+    distancia_andada = []
     distancia_terminal = 0
     semValoresRepetidos = 0
     tubos_distancia = {}
@@ -172,18 +172,22 @@ def verifica_tubo_reto():
 
     while not distancia_terminal > 840:   
 
+        distancia_terminal = rodas.distance()
+
         for i in range(100):
-            listUltrassom.append(ultrassomLateral.distance())
-            print(ultrassomLateral.distance())    
+            listUltrassom.append(ultrassomLateral.distance())  
         
         for i in listUltrassom:
-            if(i < 200):
-                listaVeReto =+ i
-                total =+ 1
+            if(i < 20):
+                listaVeReto.append(i)
 
-        if(listaVeReto/total < 200): 
-            distancia_andada = rodas.distance()
-    
+        porcentagem = len(listaVeReto)/len(listUltrassom)
+
+        if(porcentagem > 0,7): 
+            while(ultrassomLateral.distance() < 20):
+                ve_tubo_reto = True
+            rodas.stop        
+            distancia_terminal = 840
 
     print(distancia_andada)
     print(listaVeReto/total)
