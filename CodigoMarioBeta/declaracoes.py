@@ -6,13 +6,15 @@ from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
 from pybricks.messaging import *
 from pybricks.nxtdevices import LightSensor
+from pybricks.nxtdevices import UltrasonicSensor as us
 
 # Motores e Sensores
 ev3 = EV3Brick()
 #UltrassomDireita = UltrasonicSensor(Port.S1)
-UltrassomEsquerda = UltrasonicSensor(Port.S2)
+#UltrassomEsquerda = UltrasonicSensor(Port.S2)
 #LuzDireita = LightSensor(Port.S3)
 #SensorToque = TouchSensor(Port.S3)
+
 LuzEsquerda = LightSensor(Port.S4)
 watch = StopWatch()
 

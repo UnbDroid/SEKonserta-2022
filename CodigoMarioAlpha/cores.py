@@ -243,12 +243,12 @@ def alinha_branco():
         print("Só na esquerda")
         while not (viu_branco() and eq and dr):
             le_sensor_cor()
-            robot.drive(36.75, -15)
+            robot.drive(100, -42) #36.75 e -15
     elif dr:
         print("Só na direita")
         while not (viu_branco() and eq and dr):
             le_sensor_cor()
-            robot.drive(36.75, 15)
+            robot.drive(100, 42)
     else:
         print("Wtf, isso tá muito errado")
 

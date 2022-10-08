@@ -11,16 +11,22 @@ def sobe_empilhadeira(i = 1): #Função utilizada para subir a empilhadeira
     return
 
 def desce_empilhadeira(i =1): #Função utilizada para fescer a empilhadeira
-    MotorEmpilhadeira.run_time(200, 1.01*tempo_empilhadeira* i)
+    MotorEmpilhadeira.run_time(200, tempo_empilhadeira* i)
     #MotorEmpilhadeira.run_until_stalled(200, Stop.HOLD)
     #MotorEmpilhadeira.run_time(100, 500)
     return
 
-def desce_empilhadeira_centro():
-    desce_empilhadeira(0.85)
+def desce_empilhadeira_centro(i = True):
+    if True:
+        desce_empilhadeira(0.85)
+    else:
+        desce_empilhadeira(0.15)
 
-def sobe_empilhadeira_centro():
-    sobe_empilhadeira(0.85)
+def sobe_empilhadeira_centro(i = True):
+    if True:
+        sobe_empilhadeira(0.85)
+    else:
+        sobe_empilhadeira(0.15)
 
 def fecha_garra(i = 1):  #Função utilizada para fechar a garra da empilhadeira - Retorna TRUE quando um tubo foi pego e False quando não foi pego
     if i == 10:
@@ -89,8 +95,10 @@ def devolve_tubo(tam =20):  #Função utilizada apenas para colocar o tubo no ga
     desce_empilhadeira(0.4)
     fecha_garra(0.4)
     robot.straight(-200)
-    sobe_empilhadeira(0.3)
+    sobe_empilhadeira(0.2)
+    abre_garra(0.4)
     fecha_garra(tam)
+
 
 def posiciona_gasoduto(): #Função que posiciona o robô de forma correta para colocar o tubo no gasoduto
     distancia = UltrassomFrente.distance()
