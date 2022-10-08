@@ -35,7 +35,6 @@ def alinha_robo(eq_min, eq_max, dr_min, dr_max):
     global eq
     global dr
 
-    print(ValorCorEsquerda)
     if (eq_min[0] > ValorCorEsquerda[0]  or  ValorCorEsquerda[0] > eq_max[0]) and (eq_min[1] > ValorCorEsquerda[1]  or  ValorCorEsquerda[1] > eq_max[1]) and (eq_min[2] > ValorCorEsquerda[2]  or  ValorCorEsquerda[2] > eq_max[2]): #esq não vendo borda
         while (eq_min[0] > ValorCorEsquerda[0]  or  ValorCorEsquerda[0] > eq_max[0]) and (eq_min[1] > ValorCorEsquerda[1]  or  ValorCorEsquerda[1] > eq_max[1]) and (eq_min[2] > ValorCorEsquerda[2]  or  ValorCorEsquerda[2] > eq_max[2]): #TODO ValorCorEsquerda se for maior que o mínimo e maior que o máximo?!
             rodas.drive(15,30) #direita

@@ -50,34 +50,19 @@ def descobre_info_area():
     global cor_da_area
 
     le_sensor_cor()
-    while not ve_cor(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX):
+
+    '''    while not ve_cor(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX):
         le_sensor_cor()
         rodas.drive(80,0)
-    alinha_preto_frente()
+    alinha_preto_frente()'''
 
     rodas.straight(40) #entra na área colorida    
     le_sensor_cor()
     cor_da_area = identifica_cor_da_area()
+    rodas.straight(-40)
 
     return cor_da_area
 
-def segue_linha_sensor_esquerdo_tres_cores():
-    global ValorCorEsquerda
-    global PRETO_ESQ_MIN
-    global PRETO_ESQ_MAX
-    
-    viu_preto = 0
-
-    le_sensor_cor()
-    for i in range(3):
-        if ValorCorEsquerda[i] > PRETO_ESQ_MIN[i] and ValorCorEsquerda[i] < PRETO_ESQ_MAX[i] :
-            viu_preto += 1
-    
-    if viu_preto == 3:
-        rodas.drive(30,30)
-    else:
-        rodas.drive(30,-30)
-    viu_preto = 0
 
 def segue_linha_sensor_esquerdo_prop():
     PRETO = 8
@@ -87,79 +72,86 @@ def segue_linha_sensor_esquerdo_prop():
     DRIVE_SPEED = 100
 
     leitura_sensor = luzEsquerda.reflection()
-    print(leitura_sensor)
+    #print(leitura_sensor)
     
     deviation =  threshold - leitura_sensor 
     turn_rate = PROPORTIONAL_GAIN * deviation
     rodas.drive(DRIVE_SPEED, turn_rate)
 
+def segue_linha_sensor_direito_prop():
+    PRETO = 15
+    
+    threshold = 70
+    PROPORTIONAL_GAIN = 1.2
+    DRIVE_SPEED = 100
+
+    leitura_sensor = luzDireita.reflection()
+    #print(leitura_sensor)
+    
+    deviation =  leitura_sensor - threshold
+    turn_rate = PROPORTIONAL_GAIN * deviation
+    rodas.drive(DRIVE_SPEED, turn_rate)
+
+
 def vai_pro_ponto_inicial():
     global ValorCorEsquerda
     global ValorCorDireita
     global cor_da_area
+    global ordem_areas
+    global distancia_primeira_cor_do_ponto_inicial
 
     viu_preto = False
-    viu_borda = False
-
-    o_que_ele_andou_vendo = []
     leitura_ultrassom = valida_cores_com_ultrassom()
 
-
-    while not (viu_preto and viu_borda):
+    while not (viu_preto):
         le_sensor_cor() 
         leitura_ultrassom = valida_cores_com_ultrassom()
         
         if watch.time() > 5000:
-            print('entrou aq')
             rodas.turn(90)
             watch.reset()
 
-        if ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX): 
-            viu_borda = True
-            o_que_ele_andou_vendo.append("viu_borda")
+        if ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX):
             atitude(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX, TURN_BORDA)
             watch.reset()
 
         elif (ve_cor(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX) or ve_cor(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX)):
-            print('vi uma BORDA')
             le_sensor_cor()
             if leitura_ultrassom == "viu_rampa":
+                print('vi uma RAMPA')
                 atitude(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX, TURN_RAMPA)
                 watch.reset()
 
             elif leitura_ultrassom == "viu_preto":
-                cor_da_area = descobre_info_area()
+                rodas.reset()
                 viu_preto = True
-                o_que_ele_andou_vendo.append("viu_preto")
                 alinha_preto_frente() 
-                atitude_preto()
+                cor_da_area = descobre_info_area()
+                ordem_areas.append(cor_da_area)
                 watch.reset()
         else:
             rodas.drive(100,0)
     
-    if o_que_ele_andou_vendo[-1] == "viu_preto":
-        rodas.turn(-25)
-        while luzEsquerda.reflection() < 60:
-            rodas.drive(50,0)
-        rodas.stop()
+    rodas.straight(-40)
+    rodas.turn(75)
 
-        while not ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX): 
-            le_sensor_cor()
-            segue_linha_sensor_esquerdo_prop()
-        rodas.stop()
-        alinha_robo(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX)
-        rodas.straight(-60)
-        rodas.turn(-90)
+    while not ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX): 
+        le_sensor_cor()
+        segue_linha_sensor_esquerdo_prop()
+
+    distancia_primeira_cor_do_ponto_inicial = rodas.distance()
+
+    rodas.stop()
+    alinha_robo(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX)
+    rodas.straight(-80)
+    rodas.turn(-90)
     
     while not ve_cor(PRETO_ESQ_MIN,PRETO_ESQ_MAX,PRETO_DIR_MIN,PRETO_DIR_MAX):
         le_sensor_cor()
         rodas.drive(100,0)
-
     alinha_preto_frente()
     rodas.stop()
-
-
-
+    return
 
 def sai_da_area_cores():
     while not ve_cor(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX):
@@ -168,27 +160,51 @@ def sai_da_area_cores():
     alinha_preto_re()
     rodas.straight(-40)
 
-
 def muda_de_area_para_localizacao():
-    rodas.turn(-90) #vira 90 graus para andar até a area 2
-    rodas.straight(840) #anda até chegar no meio da area 2
+    rodas.turn(-75) #vira 90 graus para andar até a area 2
+    rodas.reset()
+    while rodas.distance() < 840:
+        segue_linha_sensor_direito_prop() #anda até chegar no meio da area 2
     rodas.turn(90) #vira 90 graus em direcao da area 2
 
 def acha_localizacao_das_cores():
     global ordem_areas
+    global distancia_primeira_cor_do_ponto_inicial
+    global cor_da_area
+
+
+    print(ordem_areas)
+    print(distancia_primeira_cor_do_ponto_inicial)
     cores = ['vermelho','amarelo','azul']
+    distancias = [833,1666,2500]
 
-    sobe_empilhadeira()
-    ordem_areas.append(descobre_info_area())
-
-    sai_da_area_cores()
-    muda_de_area_para_localizacao()
-
-    ordem_areas.append(descobre_info_area())
     
-    for i in cores:
-        if i not in ordem_areas:
-            ordem_areas.append(i)
+    if distancia_primeira_cor_do_ponto_inicial >= 833: 
+        primeira_cor = descobre_info_area()
+        if distancia_primeira_cor_do_ponto_inicial >= 1666:
+            terceira_cor = ordem_areas[0]
+            for i in cores:
+                if i != terceira_cor and i != primeira_cor:
+                    segunda_cor = i
+        else: 
+            segunda_cor = ordem_areas[0]
+            for i in cores:
+                if i != segunda_cor and i != primeira_cor:
+                    terceira_cor = i
+        ordem_areas = []
+        ordem_areas.append(primeira_cor)
+        ordem_areas.append(segunda_cor)
+        ordem_areas.append(terceira_cor)
+    
+    else:
+        sobe_empilhadeira()
+        sai_da_area_cores()
+        muda_de_area_para_localizacao()
+        ordem_areas.append(descobre_info_area())
+
+        for i in cores:
+            if i not in ordem_areas:
+                ordem_areas.append(i)
     
     print(ordem_areas)
     return

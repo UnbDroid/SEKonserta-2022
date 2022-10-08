@@ -24,6 +24,7 @@ rodas = DriveBase(rodaEsquerda, rodaDireita, wheel_diameter= 41, axle_track=109)
 rodas.settings(130, 300) #velocidade_reto / aceleração reto / velocidade de giro / aceleração de giro
 
 distancia_chao = 28
+distancia_primeira_cor_do_ponto_inicial = 0
 leitura_ultrassom = ultrassom.distance()
 tubo_esta_perto = distancia_chao - 8
 ValorCorEsquerda = luzEsquerda.rgb()
