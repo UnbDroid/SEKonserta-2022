@@ -33,7 +33,7 @@ ValorCorDireita = luzDireita.rgb()
 
 watch = StopWatch()
 
-cor_da_area = "o café do cabeçs leva um MS"
+cor_da_area = "nada"
 estado_empilhadeira = "cima"
 
 comeco = True
@@ -44,7 +44,7 @@ alinhado_ao_tubo = False #identifica seo robô esta alinhado
 alinhado_ao_preto = False
 viu_borda = False
 
-global ordem_areas = []#lista que contém distância ao ponto inicial e sua respectiva área (que ainda será identificada)
+ordem_areas = []#lista que contém distância ao ponto inicial e sua respectiva área (que ainda será identificada)
 #ordem_areas = ['amarelo','vermelho','azul']
 
 
@@ -92,3 +92,52 @@ PRETO_DIR_MAX = [16,22,20]
 
 
 # max rampa [15, 18, 10]
+
+def setCores(valor):
+    global cor_da_area
+    cor_da_area = valor
+
+def getCores():
+    global cor_da_area
+    return cor_da_area
+
+def setDr(valor):
+    global dr
+    dr = valor
+
+def getDr():
+    global dr
+    return dr
+
+def setEq(valor):
+    global eq
+    eq = valor
+
+def getEq():
+    global eq
+    return eq
+
+def setValorCorEsquerda(valor):
+    global ValorCorEsquerda
+    ValorCorEsquerda = valor
+
+def getValorCorEsquerda():
+    global ValorCorEsquerda
+    return ValorCorEsquerda
+
+def setValorCorDireita(valor):
+    global ValorCorDireita
+    ValorCorDireita = valor
+    
+def getValorCorDireita():
+    global ValorCorDireita
+    return ValorCorDireita
+
+
+def setOrdemAreas(valor):
+    global ordem_areas
+    ordem_areas = valor
+    
+def getOrdemAreas():
+    global ordem_areas
+    return ordem_areas
