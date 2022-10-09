@@ -12,14 +12,9 @@ FIM_DO_PROGRAMA = False
 TUBO_ENTREGUE = False
 
 
-#conecta_alpha_beta()
-#devolve_tubo_ao_Luigi(20,15)
-
-
-
 # ------------------------------------- Código Certo -> Voltando pegar o tubo após ler o primeiro GAP --------------------------------------------
 modo_do_programa = "SemVarreduraCompleta"
-#sobe_empilhadeira_centro()
+sobe_empilhadeira_centro()
 #fecha_garra(20)
 #abre_garra()
 conecta_alpha_beta()

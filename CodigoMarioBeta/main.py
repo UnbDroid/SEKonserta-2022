@@ -11,7 +11,8 @@ while not (MboxAlphaBeta.read() == "PercorrimentoGasodutoEsquerda"):
 percorre_gasoduto_esquerda()
 
 
+
 while True:
-    wait(200)
+    wait(100)
     print('A ambient é:', LuzEsquerda.ambient(), 'Já a reflection é:', LuzEsquerda.reflection())#, 'Toque:',SensorToque.pressed())
     # print("a distancia é", UltrassomEsquerda.distance())

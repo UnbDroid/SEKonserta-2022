@@ -1,6 +1,7 @@
 from declaracoes import *
 from cores import *
 from percorregasoduto import *
+from movimentacao import *
 
 def inicio():   #INÍCIO DO PROGRAMA -> Acaba quando o Mario chega no gasoduto pela primeira vez
     watch2.reset()
@@ -67,10 +68,12 @@ def chega_no_gasoduto(): # Função para chegar no gasoduto após descer a rampa
 
     while not (viu_beirada()):   #Após descer a rampa e virar para a esquerda, andar reto até encontrar a beirada
         le_sensor_cor()
-        if viu_verde_azul():
-            robot.drive(20, 40)
-        else:
-            robot.drive(100,0)
+        # if viu_verde_azul():
+        #     robot.drive(20, 40)
+        # else:
+        #     robot.drive(100,0)
+        segue_verde_azul_eq()
+    robot.stop()
     alinha_beirada()
     robot.straight(-100)
     robot.turn(90)
@@ -85,6 +88,6 @@ def chega_no_gasoduto(): # Função para chegar no gasoduto após descer a rampa
     robot.stop()
     watch.reset()
     while watch.time()<2800:
-        robot.drive(8, 29)
+        robot.drive(9, 30)
     robot.stop()
     return

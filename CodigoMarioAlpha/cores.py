@@ -10,14 +10,76 @@ from declaracoes import *
 #ValorCorEsquerda = 0
 #ValorCorDireita = 0
 
+
+
 def le_sensor_cor():
     global ValorCorEsquerda
     global ValorCorDireita
     ValorCorEsquerda = SensorCorEsquerda.rgb()
     ValorCorDireita = SensorCorDireita.rgb()
-    #print("Valor na Esquerda é:", ValorCorEsquerda, "E na direita é", ValorCorDireita)
+    print("Valor na Esquerda é:", ValorCorEsquerda, "E na direita é", ValorCorDireita)
     return
 
+def valor_dr(i = 0):
+    global ValorCorDireita
+    if i == 0:
+        return ValorCorDireita[0]
+    elif i == 1:
+        return ValorCorDireita[1]
+    else:
+        return ValorCorDireita[2]
+
+def valor_eq(i = 0):
+    global ValorCorEsquerda
+    if i == 0:
+        return ValorCorEsquerda[0]
+    elif i == 1:
+        return ValorCorEsquerda[1]
+    else:
+        return ValorCorEsquerda[2]
+
+def segue_verde_branco_dr():
+    global ValorCorDireita
+    threshold = 20
+    PROPORTIONAL_GAIN = 1
+    DRIVE_SPEED = 80
+
+    leitura_sensor = valor_dr(2)
+    print(leitura_sensor)
+    
+    deviation =  leitura_sensor - threshold
+    if deviation < 0:
+        PROPORTIONAL_GAIN = 1
+    turn_rate = PROPORTIONAL_GAIN * deviation
+    robot.drive(DRIVE_SPEED, turn_rate)
+
+def segue_verde_branco_eq():
+    global ValorCorDireita
+    threshold = 26
+    PROPORTIONAL_GAIN = 1
+    DRIVE_SPEED = 80
+
+    leitura_sensor = valor_eq(2)
+    print(leitura_sensor)
+    
+    deviation =  -leitura_sensor + threshold
+    if deviation > 0:
+        PROPORTIONAL_GAIN = 1
+    turn_rate = PROPORTIONAL_GAIN * deviation
+    robot.drive(DRIVE_SPEED, turn_rate)
+
+def segue_verde_azul_eq():
+    global ValorCorDireita
+    threshold = 7
+    PROPORTIONAL_GAIN = 5
+    DRIVE_SPEED = 85
+
+    leitura_sensor = valor_eq(2)
+    print(leitura_sensor)
+    
+    deviation =  -leitura_sensor + threshold
+    turn_rate = PROPORTIONAL_GAIN * deviation
+    robot.drive(DRIVE_SPEED, turn_rate)
 
 def viu_branco():    # Se está vendo branco com os dois sensores retorna True, else False
     global ValorCorEsquerda

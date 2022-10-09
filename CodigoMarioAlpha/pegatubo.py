@@ -1,6 +1,6 @@
 from declaracoes import *
 
-tempo_empilhadeira = 4600
+tempo_empilhadeira = 5500
 tempo_garra = 8800
 tamanho_do_tubo_na_garra = 0
 
@@ -92,10 +92,10 @@ def checa_tubo(tamanho):  #Função utilizada para checar se o robô está alinh
     return
 
 def devolve_tubo(tam =20):  #Função utilizada apenas para colocar o tubo no gasoduto, já considerando o robô posicionado corretamente
-    desce_empilhadeira(0.4)
+    desce_empilhadeira(0.5)
     fecha_garra(0.4)
     robot.straight(-200)
-    sobe_empilhadeira(0.2)
+    sobe_empilhadeira(0.35)
     abre_garra(0.4)
     fecha_garra(tam)
 

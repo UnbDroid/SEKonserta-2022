@@ -16,6 +16,7 @@ def le_ultrassom_frente_cores():
     DistanciaUltrassomFrente = UltrassomFrente.distance()
     return
 
+
 def reposiciona_gasoduto(): #Se reposiciona no gasoduto para continuar seu percorrimnto após a entrega de um tubo
     DistanciaUltrassomFrente = UltrassomFrente.distance()
     while DistanciaUltrassomFrente > 160:
@@ -115,10 +116,11 @@ def anda_ate_direita_branco():   #Alinhado no branco em cima, vira a direita e c
     le_sensor_cor()
     while not viu_beirada():
         le_sensor_cor()
-        if viu_verde_branco():
-            robot.drive(50,-5)
-        else:
-            robot.drive(90,0)
+        # if viu_verde_branco():
+        #     robot.drive(50,-5)
+        # else:
+        #     robot.drive(90,0)
+        segue_verde_branco_dr()
     alinha_beirada()
     robot.straight(-400) #VALOR COMBINADO COM O LUIGI
     robot.turn(-90)
@@ -127,11 +129,12 @@ def anda_ate_fim_direita_branco(): #vai até o outro lado da arena buscar o tubo
     le_sensor_cor()
     while not viu_beirada():
         le_sensor_cor()
-        if not viu_branco_dr():
-            ev3.speaker.beep(900)
-            robot.drive(90,-9)
-        else:
-            robot.drive(90,2)
+        # if not viu_branco_dr():
+        #     ev3.speaker.beep(900)
+        #     robot.drive(90,-9)
+        # else:
+        #     robot.drive(90,2)
+        segue_verde_branco_dr()
     alinha_beirada()
     robot.straight(-400) #VALOR COMBINADO COM O LUIGI
     robot.turn(-90)
@@ -161,11 +164,12 @@ def posiciona_para_devolver_Luigi(tamanho_do_tubo_na_garra, tamanho_do_tubo_espe
     robot.turn(-90)
     while not viu_beirada():
         le_sensor_cor()
-        if not viu_branco_eq():
-            ev3.speaker.beep(900)
-            robot.drive(80,9)
-        else:
-            robot.drive(80,0)
+        # if not viu_branco_eq():
+        #     ev3.speaker.beep(900)
+        #     robot.drive(80,9)
+        # else:
+        #     robot.drive(80,0)
+        segue_verde_branco_eq()
     alinha_beirada()
     robot.straight(-400) #Valor combinado
     robot.turn(90)

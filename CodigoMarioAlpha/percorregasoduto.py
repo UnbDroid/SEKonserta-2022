@@ -127,9 +127,8 @@ def coloca_tubo(tamanho):
                 robot.drive(-39, -31)
         elif tamanho == 20:
             while watch.time()<3000:
-                robot.drive(-43, -29.5)
+                robot.drive(-43.2, -29.5)
         robot.stop()
-        wait(1000)
         posiciona_gasoduto()
         devolve_tubo(tamanho)
 
@@ -227,13 +226,14 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
     global tamanho_do_tubo_espera
     global FIM_DO_PROGRAMA
     global TUBO_ENTREGUE
+    global MEDIR_DENOVO
     TUBO_ENTREGUE = False
     primeira_vez = True #Esse valor só deixa de ser True quando o Mario passa por um gap de um tamanho diferente do tamanho do tubo que está na garra
     MEDIR_DENOVO = True # Só se torna False quando o Mario está com um tubo na garra, passa por um gap de tamanho diferente x, segue o gasoduto e acha um gap do tamanho do tubo e o entrega. após isso ele já vai buscar um tubo de tamanho x portanto não precisa medir o gasoduto novamente
     MboxAlphaBeta.send("PercorrimentoGasodutoEsquerda")
     le_valores_max_min()
-    valor_minimo = 35 #De manhã deu 58, 12h deu 75 --- 48
-    valor_maximo = 38 #De manhã deu 72, 12h deu 88 -- 58
+    valor_minimo = 41 #De manhã deu 58, 12h deu 75 --- 48
+    valor_maximo = 50 #De manhã deu 72, 12h deu 88 -- 58
     MboxAlphaBetaLuz.wait()
     while True:
         le_valores_percorrimento_esquerda()
@@ -243,12 +243,14 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
             robot.stop()
             ev3.speaker.beep(900, 3000)
             alinha_beirada()
+            robot.stop()
             if modo == 'medir':
                 FIM_DO_PROGRAMA = True  #Se ele estiver medindo e chegar até o fim do gasoduto, finalizar o programa
                 print(FIM_DO_PROGRAMA)
             if modo == 'entregar': # Se ele chegar ao fim do programa com um tubo para ser entregue, devolver o tubo ao Luigi
                 ev3.speaker.beep(900)
                 devolve_tubo_ao_Luigi(tamanho_do_tubo_na_garra, tamanho_do_tubo_espera)
+                tamanho_do_tubo_na_garra = tamanho_do_tubo_espera
             break
         elif checa_luz_esquerda('max'): # Modo Luz Ambient -> max       Reflection -> min (ambient de dia, reflection de noite)
             virada_gasoduto_esquerda()
@@ -275,8 +277,12 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
                         TUBO_ENTREGUE = True
                         if not primeira_vez: # Se ele já tinha passado por um gap de outro tamanho antes de entregar, ele vai buscar um tubo desse tamanho
                             busca_tubo_em_cima(tamanho_do_tubo_espera)
-                            tamanho_do_tubo_na_garra = tamanho_gap   
+                            tamanho_do_tubo_na_garra = tamanho_do_tubo_espera   
                             MEDIR_DENOVO = False
+                            robot.stop()
+                            ev3.speaker.beep(100,2000)
+                            gasoduto_apos_pegar_tubo()
+                            TUBO_ENTREGUE =  False # ele já buscou outro e vai entregar
                         break
                     else:
                         if primeira_vez:
