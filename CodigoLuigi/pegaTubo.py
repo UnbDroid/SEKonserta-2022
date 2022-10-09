@@ -13,7 +13,7 @@ def desce_empilhadeira(): #TODO Ele vai descer até forçar o motor?? E depois e
     global estado_empilhadeira
 
     motorEmpilhadeira.run_until_stalled(-250,then = Stop.BRAKE) 
-    motorEmpilhadeira.run_time(250, 800) #run_time(speed, time)
+    #motorEmpilhadeira.run_time(250, 800) #run_time(speed, time)
     estado_empilhadeira = "baixo"
 
 def esquerda_ultrassom():
@@ -104,16 +104,16 @@ def pega_tubo():
     global estado_ultrassom
     global pegou_tubo
 
-    rodas.straight(-30)
+    rodas.straight(-50)
     if estado_empilhadeira == "cima":
         desce_empilhadeira()
-    rodas.straight(150)
+    rodas.straight(100)
     sobe_empilhadeira()
     estado_empilhadeira = "cima"
 
     leitura_ultrassom = ultrassom.distance()
     print('aqui deu {}'.format(leitura_ultrassom))
-    if leitura_ultrassom < 20:
+    if ultrassomLateral.distance() < 20:
         pegou_tubo = True
 
     else:
@@ -164,33 +164,48 @@ def verifica_tubo_reto():
     distancia_terminal = 0
     semValoresRepetidos = 0
     tubos_distancia = {}
-    total = 1
+    porcentagem = 0
+    global estado_empilhadeira
 
     rodas.reset()
 
-    rodas.drive(50,0)   
+    sobe_empilhadeira()
+
+    rodas.drive(50,0)
+
 
     while not distancia_terminal > 840:   
 
         distancia_terminal = rodas.distance()
 
         for i in range(100):
-            listUltrassom.append(ultrassomLateral.distance())  
+            listUltrassom.append(ultrassom.distance())          
         
         for i in listUltrassom:
-            if(i < 20):
+            if(i <= 30):
                 listaVeReto.append(i)
 
         porcentagem = len(listaVeReto)/len(listUltrassom)
+        print(porcentagem)
 
-        if(porcentagem > 0,7): 
-            while(ultrassomLateral.distance() < 20):
+        if(porcentagem > 0.6): 
+            while(ultrassom.distance() <= 30):
                 ve_tubo_reto = True
-            rodas.stop        
-            distancia_terminal = 840
+            rodas.stop()
+            rodas.straight(-45)
+            rodas.turn(90)
+            estado_empilhadeira = "cima"
+            pega_tubo()            
+            break
+    rodas.stop()
 
-    print(distancia_andada)
-    print(listaVeReto/total)
+    print(listUltrassom)
+    print(porcentagem)
+
+def loop_empilhadeira():
+    while True:
+        sobe_empilhadeira()
+        desce_empilhadeira()
 
 
 
