@@ -13,8 +13,8 @@ motorEmpilhadeira = Motor(Port.A)
 #motorUltrassom = Motor(Port.B)
 
 #ultrassom = UltrasonicSensor(Port.S1)
-ultrassom = InfraredSensor(Port.S1)
-ultrassom_lateral = UltrasonicSensor(Port.S2)
+ultrassom = UltrasonicSensor(Port.S2)
+ultrassom_lateral = InfraredSensor(Port.S1)
 luzEsquerda = ColorSensor(Port.S3)
 luzDireita = ColorSensor(Port.S4)
 
@@ -23,7 +23,8 @@ rodaEsquerda = Motor(Port.C)
 rodas = DriveBase(rodaEsquerda, rodaDireita, wheel_diameter= 41, axle_track=109) #axel track >= 109.5 < 109.8 foi demais. 108 foi demais
 rodas.settings(130, 300) #velocidade_reto / aceleração reto / velocidade de giro / aceleração de giro
 
-distancia_chao = 28
+distancia_chao = 210
+cor_pega_tubo = 'vermelho'
 distancia_primeira_cor_do_ponto_inicial = 0
 leitura_ultrassom = ultrassom.distance()
 tubo_esta_perto = distancia_chao - 8
@@ -33,15 +34,18 @@ ValorCorDireita = luzDireita.rgb()
 watch = StopWatch()
 
 cor_da_area = "o café do cabeçs leva um MS"
-estado_empilhadeira = "baixo"
+estado_empilhadeira = "cima"
 
+comeco = True
+eq = False
+dr = False
 pegou_tubo = False
 alinhado_ao_tubo = False #identifica seo robô esta alinhado
 alinhado_ao_preto = False
 viu_borda = False
 
-ordem_areas = []#lista que contém distância ao ponto inicial e sua respectiva área (que ainda será identificada)
-
+global ordem_areas = []#lista que contém distância ao ponto inicial e sua respectiva área (que ainda será identificada)
+#ordem_areas = ['amarelo','vermelho','azul']
 
 
 BORDA_ESQ_MIN = [0,0,0]

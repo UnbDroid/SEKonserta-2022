@@ -3,10 +3,10 @@ from declaracoes import *
 def le_sensor_cor(): #TODO como que esse valor é lido? ele é um inteiro normal? Como que eu sei qual cor que está?!
     global ValorCorEsquerda
     global ValorCorDireita
+    
 
     ValorCorEsquerda = luzEsquerda.rgb() # é uma lista de 3 valores RGB
     ValorCorDireita = luzDireita.rgb()
-
     #print("Valor na Esquerda é:", ValorCorEsquerda, "E na direita é", ValorCorDireita)
     return
 
@@ -24,7 +24,7 @@ def ve_cor(eq_min, eq_max, dr_min, dr_max):
         eq = True
     if dr_min[0] <= ValorCorDireita[0] <= dr_max[0] and dr_min[1] <= ValorCorDireita[1] <= dr_max[1] and dr_min[2] <= ValorCorDireita[2] <= dr_max[2]:
         dr = True
-    
+
     return eq or dr
 
 
@@ -113,17 +113,48 @@ def identifica_cor_da_area():
     global cor_da_area 
     global ValorCorEsquerda
     global ValorCorDireita
+    global eq
+    global dr
  
-    if ve_cor(AMARELO_ESQ_MIN, AMARELO_ESQ_MAX, AMARELO_DIR_MIN, AMARELO_DIR_MAX): 
+    
+    if ve_cor(AMARELO_ESQ_MIN, AMARELO_ESQ_MAX, AMARELO_DIR_MIN, AMARELO_DIR_MAX) and dr: 
         cor_da_area = "amarelo"
 
-    if ve_cor(VERMELHO_ESQ_MIN, VERMELHO_ESQ_MAX, VERMELHO_DIR_MIN, VERMELHO_DIR_MAX):
+    if ve_cor(VERMELHO_ESQ_MIN, VERMELHO_ESQ_MAX, VERMELHO_DIR_MIN, VERMELHO_DIR_MAX) and dr:
         cor_da_area = "vermelho"
 
-    if ve_cor(AZUL_ESQ_MIN, AZUL_ESQ_MAX, AZUL_DIR_MIN, AZUL_DIR_MAX):
+    if ve_cor(AZUL_ESQ_MIN, AZUL_ESQ_MAX, AZUL_DIR_MIN, AZUL_DIR_MAX) and dr:
         cor_da_area = "azul"
-    
+
     return cor_da_area
+
+def segue_linha_sensor_esquerdo_prop():
+    PRETO = 8
+    
+    threshold = 50
+    PROPORTIONAL_GAIN = 1.5
+    DRIVE_SPEED = 100
+
+    leitura_sensor = luzEsquerda.reflection()
+    #print(leitura_sensor)
+    
+    deviation =  threshold - leitura_sensor 
+    turn_rate = PROPORTIONAL_GAIN * deviation
+    rodas.drive(DRIVE_SPEED, turn_rate)
+
+def segue_linha_sensor_direito_prop():
+    PRETO = 15
+    
+    threshold = 75
+    PROPORTIONAL_GAIN = 1
+    DRIVE_SPEED = 100
+
+    leitura_sensor = luzDireita.reflection()
+    #print(leitura_sensor)
+    
+    deviation =  leitura_sensor - threshold
+    turn_rate = PROPORTIONAL_GAIN * deviation
+    rodas.drive(DRIVE_SPEED, turn_rate)
 
 
 

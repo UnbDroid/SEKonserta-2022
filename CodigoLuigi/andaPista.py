@@ -8,18 +8,12 @@ def ajustes_comeco():
     global tubo_esta_perto
     desce_empilhadeira()
 
-    '''le_ultrassom()
-    distancia_chao,tubo_esta_perto = define_dist_chao_e_tubo()
-    print(distancia_chao, tubo_esta_perto)
-    return'''
 
 def valida_cores_com_ultrassom():
-    global distancia_chao
     o_que_ve = 'nada'
+    leitura_ultrassom = ve_ultrassom(50)
 
-    leitura_ultrassom = ultrassom.distance()
-    print('a leitura é: ',leitura_ultrassom)
-    if leitura_ultrassom >= distancia_chao+10:
+    if leitura_ultrassom > 2000:
         print('entrou aqui')
         o_que_ve = "viu_rampa"
     else:
@@ -60,54 +54,27 @@ def descobre_info_area():
     le_sensor_cor()
     cor_da_area = identifica_cor_da_area()
     rodas.straight(-40)
+    ev3.speaker.beep()
 
     return cor_da_area
-
-
-def segue_linha_sensor_esquerdo_prop():
-    PRETO = 8
-    
-    threshold = 50
-    PROPORTIONAL_GAIN = 1.5
-    DRIVE_SPEED = 100
-
-    leitura_sensor = luzEsquerda.reflection()
-    #print(leitura_sensor)
-    
-    deviation =  threshold - leitura_sensor 
-    turn_rate = PROPORTIONAL_GAIN * deviation
-    rodas.drive(DRIVE_SPEED, turn_rate)
-
-def segue_linha_sensor_direito_prop():
-    PRETO = 15
-    
-    threshold = 70
-    PROPORTIONAL_GAIN = 1.2
-    DRIVE_SPEED = 100
-
-    leitura_sensor = luzDireita.reflection()
-    #print(leitura_sensor)
-    
-    deviation =  leitura_sensor - threshold
-    turn_rate = PROPORTIONAL_GAIN * deviation
-    rodas.drive(DRIVE_SPEED, turn_rate)
 
 
 def vai_pro_ponto_inicial():
     global ValorCorEsquerda
     global ValorCorDireita
-    global cor_da_area
+    global comeco
+    #global cor_da_area
     global ordem_areas
     global distancia_primeira_cor_do_ponto_inicial
 
+    ajustes_comeco()
     viu_preto = False
     leitura_ultrassom = valida_cores_com_ultrassom()
 
     while not (viu_preto):
         le_sensor_cor() 
-        leitura_ultrassom = valida_cores_com_ultrassom()
         
-        if watch.time() > 5000:
+        if watch.time() > 10000:
             rodas.turn(90)
             watch.reset()
 
@@ -117,12 +84,17 @@ def vai_pro_ponto_inicial():
 
         elif (ve_cor(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX) or ve_cor(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX)):
             le_sensor_cor()
+            rodas.stop()
+            if comeco:
+                leitura_ultrassom = valida_cores_com_ultrassom()
+                print(comeco)
             if leitura_ultrassom == "viu_rampa":
                 print('vi uma RAMPA')
                 atitude(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX, TURN_RAMPA)
                 watch.reset()
 
             elif leitura_ultrassom == "viu_preto":
+                print('vi um PRETO')
                 rodas.reset()
                 viu_preto = True
                 alinha_preto_frente() 
@@ -151,19 +123,17 @@ def vai_pro_ponto_inicial():
         rodas.drive(100,0)
     alinha_preto_frente()
     rodas.stop()
-    return
 
-def sai_da_area_cores():
-    while not ve_cor(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX):
-        le_sensor_cor()
-        rodas.drive(-80,0) #sai da area 1
-    alinha_preto_re()
-    rodas.straight(-40)
+    comeco = False
+    
+    return cor_da_area
 
-def muda_de_area_para_localizacao():
+
+
+def muda_de_area(distancia):
     rodas.turn(-75) #vira 90 graus para andar até a area 2
     rodas.reset()
-    while rodas.distance() < 840:
+    while rodas.distance() < distancia:
         segue_linha_sensor_direito_prop() #anda até chegar no meio da area 2
     rodas.turn(90) #vira 90 graus em direcao da area 2
 
@@ -176,12 +146,12 @@ def acha_localizacao_das_cores():
     print(ordem_areas)
     print(distancia_primeira_cor_do_ponto_inicial)
     cores = ['vermelho','amarelo','azul']
-    distancias = [833,1666,2500]
 
     
-    if distancia_primeira_cor_do_ponto_inicial >= 833: 
+    if distancia_primeira_cor_do_ponto_inicial >= 830: 
         primeira_cor = descobre_info_area()
-        if distancia_primeira_cor_do_ponto_inicial >= 1666:
+        #print(primeira_cor)
+        if distancia_primeira_cor_do_ponto_inicial >= 1660:
             terceira_cor = ordem_areas[0]
             for i in cores:
                 if i != terceira_cor and i != primeira_cor:
@@ -199,7 +169,7 @@ def acha_localizacao_das_cores():
     else:
         sobe_empilhadeira()
         sai_da_area_cores()
-        muda_de_area_para_localizacao()
+        muda_de_area(distancia = 840)
         ordem_areas.append(descobre_info_area())
 
         for i in cores:
@@ -251,7 +221,6 @@ def teste_ultrassom_lateral():
     while rodas.distance() < 830:
         ultrassom_valores.append(ultrassom_lateral.distance())
         rodas.drive(100,0)
-
 
 
     for i in ultrassom_valores:

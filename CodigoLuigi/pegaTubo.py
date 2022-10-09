@@ -1,13 +1,11 @@
 from declaracoes import *
 from cores import *
 
-
-
 def desce_empilhadeira(): #TODO Ele vai descer até forçar o motor?? E depois ele vai subir por 800ms?
     global estado_empilhadeira
 
     motorEmpilhadeira.run_until_stalled(-250,then = Stop.BRAKE) 
-    motorEmpilhadeira.run_time(250, 800) #run_time(speed, time)
+    motorEmpilhadeira.run_time(250, 750) #run_time(speed, time)
     estado_empilhadeira = "baixo"
 
 def sobe_empilhadeira():
@@ -17,24 +15,43 @@ def sobe_empilhadeira():
     motorEmpilhadeira.run_until_stalled(250) #parametros: Velocidade (para subir, < 0), tempo;
     estado_empilhadeira = "cima"
 
+def media_ponderada(lista):
+    lista_aux = lista.copy()
+    elementos = sorted(set(lista))
+    pesos = []
+    vezes_que_aparece  = 0
+    numerador = 0
+    denominador = 0
 
-'''def le_ultrassom():
+    for i in elementos:
+        while i in lista_aux:
+            vezes_que_aparece  += 1
+            lista_aux.remove(i)
+        pesos.append(vezes_que_aparece)
+        vezes_que_aparece  = 0
 
-    leitura_ultrassom = ultrassom.distance()
-    
-    print('ultrassom está lendo: ',leitura_ultrassom)
-    return
+    for i in range(len(elementos)):
+        numerador += elementos[i]*pesos[i]
+        denominador += pesos[i]
 
-def define_dist_chao_e_tubo():
-    global leitura_ultrassom
-    global distancia_chao
-    global tubo_esta_perto
+    return numerador/denominador
 
-    distancia_chao = leitura_ultrassom
-    tubo_esta_perto = distancia_chao - 8
-    
-    return distancia_chao, tubo_esta_perto
-'''
+def ve_ultrassom(num_leituras):
+    leituras_ultrassom = []
+
+    for i in range(num_leituras):
+        leituras_ultrassom.append(ultrassom.distance())
+    leitura_ultrassom = media_ponderada(leituras_ultrassom)
+
+    return leitura_ultrassom
+
+def sai_da_area_cores():
+    while not ve_cor(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX):
+        le_sensor_cor()
+        rodas.drive(-80,0) #sai da area 1
+    alinha_preto_re()
+    rodas.straight(-60)
+
 
 def ve_tubo(): #Identifica se o ultrassom está lendo algo a frente
     global tubo_esta_perto
@@ -43,50 +60,16 @@ def ve_tubo(): #Identifica se o ultrassom está lendo algo a frente
         ev3.speaker.beep()
         return True
 
-def define_intensidade_motor_ultrassom_pro_radar():
-    global estado_ultrassom
- 
-    if estado_ultrassom == "esquerda":
-        intensidade_motor = 50
-        estado_ultrassom = "direita"
-        
-    else:
-        intensidade_motor = -50
-        estado_ultrassom = "esquerda"
-    
-    return intensidade_motor
+def posiciona_tubo_mario():
+    rodas.turn(75)
 
-def radar_tubo(): #essa função atua como um radar no tubo, escaneando sua largura.
-    leitura_radar = []
-    
-    global estado_ultrassom
-    global alinhado_ao_tubo
+    while not ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX): 
+        le_sensor_cor()
+        segue_linha_sensor_esquerdo_prop()
 
-    alinhado_ao_tubo = True
-    intensidade_motor_ultrassom = define_intensidade_motor_ultrassom_pro_radar()
-
-    while not motorUltrassom.stalled():
-        leitura_ultrassom = ultrassom.distance()
-        leitura_radar.append(leitura_ultrassom)
-        if leitura_ultrassom < 15:
-            ev3.speaker.beep()
-            return leitura_radar
-            break
-        motorUltrassom.run(intensidade_motor_ultrassom)
-
-    return leitura_radar
-
-def verifica_alinhado_ao_tubo(leitura_radar):
-    global alinhado_ao_tubo
-    vendo_branco = [23,24,25,26,27,28,29,30,31]
-
-    for i in vendo_branco:
-        if i in leitura_radar:
-            alinhado_ao_tubo = False
-        else:
-            alinhado_ao_tubo = True
-
-    return alinhado_ao_tubo
+    rodas.straight(-150)
+    rodas.turn(90)
+    desce_empilhadeira()
 
 def pega_tubo():
     global estado_empilhadeira
@@ -94,16 +77,17 @@ def pega_tubo():
     global pegou_tubo
 
     rodas.straight(-30)
+    print(estado_empilhadeira)
     if estado_empilhadeira == "cima":
         desce_empilhadeira()
     rodas.straight(150)
     sobe_empilhadeira()
     estado_empilhadeira = "cima"
 
-    leitura_ultrassom = ultrassom.distance()
-    
+    leitura_ultrassom = ve_ultrassom(100)
+
     print('aqui deu {}'.format(leitura_ultrassom))
-    if leitura_ultrassom < 20:
+    if leitura_ultrassom < 100 or leitura_ultrassom == 2550:
         pegou_tubo = True
 
     else:
@@ -112,25 +96,91 @@ def pega_tubo():
         estado_empilhadeira = "baixo"
 
     return pegou_tubo
+
+def encontra_tubo_com_ultrassom_lateral():
+    global cor_pega_tubo
+    achou = False
+
+    ev3.speaker.beep()
+    cores = ['amarelo','vermelho','azul']
+    tamanhos = [100,150,200]
+    tamanho_do_tubo = 0
+    leituras_ultrassom = []
+
+    for i in cores:
+        if i == cor_pega_tubo:
+            index_em_cores = cores.index(i)
     
+    tamanho_do_tubo = tamanhos[index_em_cores]
+    print(tamanho_do_tubo)
+
+    while ultrassom_lateral.distance() > 40:
+        segue_linha_sensor_direito_prop()
+    rodas.stop()
+
+    rodas.reset()
+    while ultrassom_lateral.distance() < 50:
+        leituras_ultrassom.append(ultrassom_lateral.distance())
+        rodas.drive(80,0)
+    
+    rodas.stop()
+    distancia = rodas.distance()
+    print(distancia)
+    if rodas.distance() >= tamanho_do_tubo:
+        rodas.straight(-((2*tamanho_do_tubo)/3))
+        achou = True
+
+    return achou
+    #print(leituras_ultrassom)
+
 def entra_na_area_e_pega_tubo():
     global pegou_tubo
+    global estado_empilhadeira
+    desce_empilhadeira()
+    estado_empilhadeira = 'baixo'
 
     while pegou_tubo != True:
+        leitura_ultrassom = ve_ultrassom(100)
         le_sensor_cor()
-        if ve_borda():
-            atitude_borda()
+        if ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX) :
+            atitude(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX,TURN_BORDA)
 
-        elif ve_tubo():
+        elif leitura_ultrassom < 130: 
             pegou_tubo = pega_tubo()
         else:
             rodas.drive(80,0)
+  
+def sai_do_ponto_inicial_e_pega_tubo():
+    global cor_pega_tubo
+    global ordem_areas
+    
+    distancia = 0
+    index = 0
+    
+    distancias_comeco_areas = [0,750,1500]
+    for i in ordem_areas:
+        if i == cor_pega_tubo:
+            index = ordem_areas.index(cor_pega_tubo)
 
-def sai_da_area_com_tubo():
-    global cor_da_area 
-    global valorCorEquerda
-    global valorCorDireita
+    distancia = distancias_comeco_areas[index]
+    
+    rodas.reset()
 
-    while not ve_preto():
-        rodas.drive(-60,0)        
+    rodas.straight(-40)
+    rodas.turn(-75)
+
+    while rodas.distance() < distancia:
+        segue_linha_sensor_direito_prop()
+    
+    if encontra_tubo_com_ultrassom_lateral():
+        rodas.turn(90)
+        '''while not ve_cor(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX):
+            rodas.drive(80,0)
+        alinha_preto_frente()'''
+        entra_na_area_e_pega_tubo()
+        sai_da_area_cores()
+
+
+    
+
 
