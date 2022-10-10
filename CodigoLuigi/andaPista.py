@@ -68,27 +68,27 @@ def descobre_info_area():
 
     return getCores()
 
+def andando_por_um_tempo():
+    if watch.time() > 5000:
+        rodas.turn(90)
+        watch.reset()
 
-def vai_pro_ponto_inicial(comeco):
-    global distancia_primeira_cor_do_ponto_inicial
-    ordem_areas = getOrdemAreas()
-
-    ajustes_comeco()
-    viu_preto = False
-    leitura_ultrassom = valida_cores_com_ultrassom()
-
-    while not (viu_preto):
-        le_sensor_cor() 
+def esta_vendo_borda_ou_rampa():
+        valorEsquerdo = getValorCorEsquerda()
+        valorDireito = getValorCorDireita()
         
-        if watch.time() > 5000:
-            rodas.turn(90)
-            watch.reset()
-
+        print("valoresquerdo:", valorEsquerdo)
+        print("valordireito:", valorDireito)
         if ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX):
             print('estou na borda')
+            valorEsquerdo = getValorCorEsquerda()
+            valorDireito = getValorCorDireita()
+
+            print("valoresquerdo:", valorEsquerdo)
+            print("valordireito:", valorDireito)
+
             atitude(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX, TURN_BORDA)
             watch.reset()
-
         elif (ve_cor(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX) or ve_cor(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX)):
             le_sensor_cor()
             leitura_ultrassom = valida_cores_com_ultrassom()
@@ -113,28 +113,53 @@ def vai_pro_ponto_inicial(comeco):
                 watch.reset()     
         else:
             rodas.drive(100,0)
-    
-    rodas.straight(-40)
-    rodas.turn(75)
 
-    le_sensor_cor()
+def enquanto_nao_ve_borda_segue_linha():
     while not ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX): 
         print('entrei no if da borda')
         le_sensor_cor()
         segue_linha_sensor_esquerdo_prop(100)
+
+def enquanto_nao_ve_preto_anda():
+    while not ve_cor(PRETO_ESQ_MIN,PRETO_ESQ_MAX,PRETO_DIR_MIN,PRETO_DIR_MAX):
+        le_sensor_cor()
+        rodas.drive(100,0)
+
+
+
+def vai_pro_ponto_inicial(comeco):
+    global distancia_primeira_cor_do_ponto_inicial
+    ordem_areas = getOrdemAreas()
+
+    ajustes_comeco()
+    viu_preto = False
+    leitura_ultrassom = valida_cores_com_ultrassom()
+
+    while not (viu_preto):
+        le_sensor_cor()         
+        andando_por_um_tempo()
+        esta_vendo_borda_ou_rampa()
+        print("saiu borda ou rampa")
+    
+    rodas.straight(-40)
+    rodas.turn(75)
+    le_sensor_cor()
+
+    enquanto_nao_ve_borda_segue_linha()
+    print("viu borda no segue linha")
 
     distancia_primeira_cor_do_ponto_inicial = rodas.distance()
 
     rodas.stop()
     print('li borda')
     le_sensor_cor()
+
     alinha_robo(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX)
     rodas.straight(-80)
     rodas.turn(-90)
     
-    while not ve_cor(PRETO_ESQ_MIN,PRETO_ESQ_MAX,PRETO_DIR_MIN,PRETO_DIR_MAX):
-        le_sensor_cor()
-        rodas.drive(100,0)
+    enquanto_nao_ve_preto_anda()
+
     alinha_preto_frente()
     rodas.stop()
 
