@@ -1,4 +1,5 @@
 from declaracoes import *
+from servidor import *
 
 tempo_empilhadeira = 5500
 tempo_garra = 8800
@@ -152,6 +153,8 @@ def pega2(tam):  #Outra função apenas de teste para pegar e devolver o tubo
 
 def pega_tubo(tamanho): #Função que pega o tubo já alinhado com ele previamente, com o tubo na sua frente a uma distância indefinida
     global tamanho_do_tubo_na_garra
+    while not posso_pegar_tubo():
+        pass
     DistanciaUltrassomFrente = UltrassomFrente.distance()
     while DistanciaUltrassomFrente > 170:
         robot.drive(70,0)

@@ -237,8 +237,8 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
     MEDIR_DENOVO = True # Só se torna False quando o Mario está com um tubo na garra, passa por um gap de tamanho diferente x, segue o gasoduto e acha um gap do tamanho do tubo e o entrega. após isso ele já vai buscar um tubo de tamanho x portanto não precisa medir o gasoduto novamente
     MboxAlphaBeta.send("PercorrimentoGasodutoEsquerda")
     le_valores_max_min()
-    valor_minimo = 40 #De manhã deu 58, 12h deu 75 --- 48
-    valor_maximo = 50 #De manhã deu 72, 12h deu 88 -- 58
+    valor_minimo = 26 #De manhã deu 58, 12h deu 75 --- 48
+    valor_maximo = 33 #De manhã deu 72, 12h deu 88 -- 58
     MboxAlphaBetaLuz.wait()
     while True:
         le_valores_percorrimento_esquerda()
@@ -246,14 +246,13 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
         #print('Luz Esq',ValorLuzEsquerda, 'Ult Esq', DistanciaUltrassomEsquerda, 'ult frente', DistanciaUltrassomFrente)
         if viu_beirada():
             robot.stop()
-            ev3.speaker.beep(900, 3000)
-            alinha_beirada()
+            ev3.speaker.beep(900, 1000)
             robot.stop()
             if modo == 'medir':
                 FIM_DO_PROGRAMA = True  #Se ele estiver medindo e chegar até o fim do gasoduto, finalizar o programa
                 print(FIM_DO_PROGRAMA)
             if modo == 'entregar': # Se ele chegar ao fim do programa com um tubo para ser entregue, devolver o tubo ao Luigi
-                ev3.speaker.beep(900)
+                alinha_beirada()
                 devolve_tubo_ao_Luigi(tamanho_do_tubo_na_garra, tamanho_do_tubo_espera)
                 tamanho_do_tubo_na_garra = tamanho_do_tubo_espera
             break
@@ -269,7 +268,7 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
                 if modo == 'ignorar':
                     pass
                 elif modo == 'medir':
-                    #MANDAR MENSAGEM PRO LUIGI
+                    manda_mensagem_Luigi(tamanho_gap, 'Nada')
                     busca_tubo_em_cima(tamanho_gap)
                     tamanho_do_tubo_na_garra = tamanho_gap
                     break
@@ -281,6 +280,7 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
                         tamanho_do_tubo_na_garra = 0
                         TUBO_ENTREGUE = True
                         if not primeira_vez: # Se ele já tinha passado por um gap de outro tamanho antes de entregar, ele vai buscar um tubo desse tamanho
+                            manda_mensagem_luigi(tamanho_do_tubo_espera, tamanho_gap)
                             busca_tubo_em_cima(tamanho_do_tubo_espera)
                             tamanho_do_tubo_na_garra = tamanho_do_tubo_espera   
                             MEDIR_DENOVO = False
