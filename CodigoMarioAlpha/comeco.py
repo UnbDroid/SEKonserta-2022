@@ -54,7 +54,7 @@ def desce_rampa_comeco_costas(): #Descer rampa no começo do programa de costas,
     robot.turn(180)
     while not (viu_azul()):
         le_sensor_cor()
-        robot.drive(-80,0)
+        robot.drive(-120,0)
     while not (viu_verde_azul()):
         le_sensor_cor()
         robot.drive(80,0)
@@ -87,7 +87,7 @@ def chega_no_gasoduto(): # Função para chegar no gasoduto após descer a rampa
             robot.drive(70,0)
     robot.stop()
     watch.reset()
-    while watch.time()<2800:
-        robot.drive(9, 30)
+    while watch.time()<1400:
+        robot.drive(23.5, 60)
     robot.stop()
     return

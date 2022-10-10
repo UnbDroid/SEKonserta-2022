@@ -42,7 +42,7 @@ def segue_verde_branco_dr():
     global ValorCorDireita
     threshold = 20
     PROPORTIONAL_GAIN = 1
-    DRIVE_SPEED = 80
+    DRIVE_SPEED = 110
 
     leitura_sensor = valor_dr(2)
     print(leitura_sensor)
@@ -55,9 +55,9 @@ def segue_verde_branco_dr():
 
 def segue_verde_branco_eq():
     global ValorCorDireita
-    threshold = 26
+    threshold = 35
     PROPORTIONAL_GAIN = 1
-    DRIVE_SPEED = 80
+    DRIVE_SPEED = 110
 
     leitura_sensor = valor_eq(2)
     print(leitura_sensor)
@@ -72,7 +72,7 @@ def segue_verde_azul_eq():
     global ValorCorDireita
     threshold = 7
     PROPORTIONAL_GAIN = 5
-    DRIVE_SPEED = 85
+    DRIVE_SPEED = 110
 
     leitura_sensor = valor_eq(2)
     print(leitura_sensor)
@@ -378,15 +378,13 @@ def alinha_beirada():
 
 
 def teste2():
-    global ValorCorEsquerda
-    global ValorCorDireita
     le_sensor_cor()
     while True:
         le_sensor_cor()
-        robot.drive(15,0)
-    alinha_verde_azul()
-    while True:
-        robot.drive(120,0)
+        if viu_beirada():
+            robot.stop()
+        else:
+            robot.drive(110,0)
 
 
 def teste():

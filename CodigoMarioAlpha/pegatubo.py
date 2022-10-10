@@ -4,31 +4,47 @@ tempo_empilhadeira = 5500
 tempo_garra = 8800
 tamanho_do_tubo_na_garra = 0
 
+porcentagem_centro = 1 #qt por cento a empilhadeira tem q subir do seu máximo para estar no centro
 
-def sobe_empilhadeira(i = 1): #Função utilizada para subir a empilhadeira
-    MotorEmpilhadeira.run_time(-200, tempo_empilhadeira *i)
-    #MotorEmpilhadeira.run_until_stalled(-100, Stop.HOLD)
+
+def sobe_empilhadeira(i = 1, continuar = False): #Função utilizada para subir a empilhadeira
+    if not continuar:
+        MotorEmpilhadeira.run_time(-200, tempo_empilhadeira *i)
+    else:
+        MotorEmpilhadeira.run_time(-200, tempo_empilhadeira *i, then = Stop.HOLD, wait = False)
     return
 
-def desce_empilhadeira(i =1): #Função utilizada para fescer a empilhadeira
-    MotorEmpilhadeira.run_time(200, tempo_empilhadeira* i)
-    #MotorEmpilhadeira.run_until_stalled(200, Stop.HOLD)
-    #MotorEmpilhadeira.run_time(100, 500)
+def desce_empilhadeira(i =1, continuar = False): #Função utilizada para fescer a empilhadeira
+    if not continuar:
+        MotorEmpilhadeira.run_time(200, tempo_empilhadeira* i)
+    else:
+        MotorEmpilhadeira.run_time(200, tempo_empilhadeira* i, then = Stop.HOLD, wait = False)
     return
 
 def desce_empilhadeira_centro(i = True):
-    if True:
-        desce_empilhadeira(0.85)
+    global porcentagem_centro
+    if i:
+        desce_empilhadeira(porcentagem_centro)
     else:
-        desce_empilhadeira(0.15)
+        desce_empilhadeira(1 - porcentagem_centro)
 
-def sobe_empilhadeira_centro(i = True):
-    if True:
-        sobe_empilhadeira(0.85)
+def sobe_empilhadeira_centro(i = True, continuar = True):
+    global porcentagem_centro
+    if i:
+        if continuar:
+            sobe_empilhadeira(porcentagem_centro, True)
+        else:
+            sobe_empilhadeira(porcentagem_centro)
     else:
-        sobe_empilhadeira(0.15)
+        sobe_empilhadeira(1 - porcentagem_centro)
 
-def fecha_garra(i = 1):  #Função utilizada para fechar a garra da empilhadeira - Retorna TRUE quando um tubo foi pego e False quando não foi pego
+def desce_empilhadeira_gasoduto():
+    desce_empilhadeira(0.45)
+
+def sobe_empilhadeira_gasoduto():
+    sobe_empilhadeira(0.45 - 1 + porcentagem_centro) #Sobe para o centro após colocar o tubo no gasoduti
+
+def fecha_garra(i = 1, continuar = False):  #Função utilizada para fechar a garra da empilhadeira - Retorna TRUE quando um tubo foi pego e False quando não foi pego
     if i == 10:
         i = 1
         tempo = tempo_garra/3
@@ -40,9 +56,12 @@ def fecha_garra(i = 1):  #Função utilizada para fechar a garra da empilhadeira
         tempo = tempo_garra
     else:
         tempo = tempo_garra
-    MotorGarra.run_time(-400,1*i* tempo)
+    if not continuar:
+        MotorGarra.run_time(-400,1*i* tempo)
+    else:
+        MotorGarra.run_time(-400, i*tempo, then=Stop.HOLD, wait = False)
 
-def abre_garra(i =1): #Função utilizada para abrir a garra da empilhadeira
+def abre_garra(i =1, continuar = False): #Função utilizada para abrir a garra da empilhadeira - if continue = True, abrir e continuar o programa
     if i == 10:
         i = 1
         tempo = tempo_garra/3
@@ -54,16 +73,17 @@ def abre_garra(i =1): #Função utilizada para abrir a garra da empilhadeira
         tempo = tempo_garra
     else:
         tempo = tempo_garra
-    MotorGarra.run_time(400, i*tempo)
-    #MotorGarra.run_until_stalled(300, Stop.HOLD)
+    if not continuar:
+        MotorGarra.run_time(400, i*tempo)
+    else:
+        MotorGarra.run_time(400, i*tempo, then=Stop.HOLD, wait = False) #Continuar o código enquanto abre a garra
     return
 
+def fecha_garra_gasoduto():
+    fecha_garra(0.4)
 
-# def pegar_tubo(tam = 20):      # Função utilizada para pegar um tubo, considerando o robô já alinhado ao tubo
-#     desce_empilhadeira()
-#     robot.straight(100)
-#     abre_garra(tam)
-#     sobe_empilhadeira()
+def abre_garra_gasoduto():
+    abre_garra(0.4, True)
 
 
 
@@ -92,12 +112,14 @@ def checa_tubo(tamanho):  #Função utilizada para checar se o robô está alinh
     return
 
 def devolve_tubo(tam =20):  #Função utilizada apenas para colocar o tubo no gasoduto, já considerando o robô posicionado corretamente
-    desce_empilhadeira(0.5)
+    desce_empilhadeira_gasoduto()
     fecha_garra(0.4)
     robot.straight(-200)
-    sobe_empilhadeira(0.35)
-    abre_garra(0.4)
-    fecha_garra(tam)
+    sobe_empilhadeira_gasoduto()
+    ev3.speaker.beep(200)
+    abre_garra_gasoduto()
+    ev3.speaker.beep(200)
+    fecha_garra(tam, True)
 
 
 def posiciona_gasoduto(): #Função que posiciona o robô de forma correta para colocar o tubo no gasoduto
@@ -106,7 +128,7 @@ def posiciona_gasoduto(): #Função que posiciona o robô de forma correta para 
         distancia = UltrassomFrente.distance()
         robot.drive(70,0)
     robot.stop()
-    robot.straight(20)
+    robot.straight(10)
 
 def pega(): # Função feita apenas para testar a captura de um tubo na frente do robô, e a sua devolução no gasoduto a sua frente também
     robot.drive(70,0)
@@ -117,7 +139,6 @@ def pega(): # Função feita apenas para testar a captura de um tubo na frente d
         posiciona_gasoduto()
         devolve_tubo()
         fecha_garra(15)
-        wait(4000)
 
 def pega2(tam):  #Outra função apenas de teste para pegar e devolver o tubo
     distancia = UltrassomFrente.distance()
@@ -144,5 +165,4 @@ def pega_tubo(tamanho): #Função que pega o tubo já alinhado com ele previamen
         ev3.speaker.beep(900,700)
     abre_garra(tamanho)
     sobe_empilhadeira()
-    wait(3000)
 

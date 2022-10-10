@@ -120,32 +120,37 @@ def coloca_tubo(tamanho):
     else:
         watch.reset()
         if tamanho == 10:
-            while watch.time()<3000:
-                robot.drive(-22, -32)
+            while watch.time()<1500:
+                robot.drive(-44, -64)
         elif tamanho == 15:
-            while watch.time()<3000:
-                robot.drive(-39, -31)
+            while watch.time()<1500:
+                robot.drive(-78, -62)
         elif tamanho == 20:
-            while watch.time()<3000:
-                robot.drive(-43.2, -29.5)
+            while watch.time()<1500:
+                robot.drive(-86.4, -62)
         robot.stop()
         posiciona_gasoduto()
         devolve_tubo(tamanho)
 
 def virada_gasoduto_esquerda():
-    robot.drive(50, -16)         #50,-16
+    # robot.drive(50, -16)         #50,-16
+    robot.drive(100, -34)
 
 def virada_gasoduto_direita():
-    robot.drive(50, 20)       #50,20
+    # robot.drive(50, 20)       #50,20
+    robot.drive(100,40)
 
 def segue_reto_gasoduto():
-    robot.drive(50,0)    #50,0
+    # robot.drive(50,0)    #50,0
+    robot.drive(100,0)
 
 def virada_ultrassom_frente():
     robot.stop()
     watch.reset()
-    while watch.time()<3000:
-        robot.drive(4, 29)   #5, 29  - 3 segundos
+    # while watch.time()<3000:
+    #     robot.drive(4, 29)   #5, 29  - 3 segundos
+    while watch.time() < 1500:
+        robot.drive(8, 59)
 
 def virada_ultrassom_frente_medindo_gap(): #Faz a virada mas continua medindo o tamanho do GAP 
     global condition
@@ -232,7 +237,7 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
     MEDIR_DENOVO = True # Só se torna False quando o Mario está com um tubo na garra, passa por um gap de tamanho diferente x, segue o gasoduto e acha um gap do tamanho do tubo e o entrega. após isso ele já vai buscar um tubo de tamanho x portanto não precisa medir o gasoduto novamente
     MboxAlphaBeta.send("PercorrimentoGasodutoEsquerda")
     le_valores_max_min()
-    valor_minimo = 41 #De manhã deu 58, 12h deu 75 --- 48
+    valor_minimo = 40 #De manhã deu 58, 12h deu 75 --- 48
     valor_maximo = 50 #De manhã deu 72, 12h deu 88 -- 58
     MboxAlphaBetaLuz.wait()
     while True:

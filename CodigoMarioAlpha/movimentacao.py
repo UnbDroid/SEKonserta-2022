@@ -28,23 +28,23 @@ def reposiciona_gasoduto(): #Se reposiciona no gasoduto para continuar seu perco
             robot.drive(70,0)
     robot.stop()
     watch.reset()
-    while watch.time()<2650:
-        robot.drive(8, 29)
+    while watch.time()<1500:
+        robot.drive(18, 58)
     robot.stop()
     return
 
 def vira_90_cuidadoso():  #Vira 90 graus sem trombar no gasoduto
     robot.straight(-45)  #Dando uma rézinha antes pra n bater no gasoduto
     watch_virada.reset()
-    while watch_virada.time() < 3000:
-        robot.drive(30,30)
+    while watch_virada.time() < 1000:
+        robot.drive(90,90)
     robot.stop()
 
 def desce_rampa_costas(): #Desce rampa de costas, já estando de costas pra rampa, e gira
     le_sensor_cor()
     while not (viu_azul()): # Descendo a rampa
         le_sensor_cor()
-        robot.drive(-70,0)
+        robot.drive(-120,0)
     while not (viu_verde_azul()):
         le_sensor_cor()
         robot.drive(70,0)
@@ -69,13 +69,13 @@ def gasoduto_ate_rampa():  #Após achar um GAP, percurso do gasoduto até encont
             robot.straight(-100)
             robot.turn(90)
         else:
-            robot.drive(70,0)
+            robot.drive(120,0)
     alinha_verde_azul()
 
 def gasoduto_ate_rampa_final():  #Volta para a rampa após o final do gasoduto
     global DistanciaUltrassomFrente
-    robot.straight(-80)
-    vira_90_cuidadoso()
+    robot.straight(-120)
+    robot.turn(90)
     le_sensor_cor()
     while not(viu_verde_azul()):
         le_sensor_cor()

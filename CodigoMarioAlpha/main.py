@@ -11,14 +11,15 @@ from movimentacao import *
 FIM_DO_PROGRAMA = False
 TUBO_ENTREGUE = False
 
+teste2()
 
 # ------------------------------------- Código Certo -> Voltando pegar o tubo após ler o primeiro GAP --------------------------------------------
 modo_do_programa = "SemVarreduraCompleta"
-sobe_empilhadeira_centro()
+#sobe_empilhadeira_centro(True, True) #Usando o centro
 #fecha_garra(20)
 #abre_garra()
 conecta_alpha_beta()
-inicio()
+#inicio()
 while not fim_programa():
     if precisa_medir(): #Só não precisa medir se já souber um tamanho que está faltando, que é quando ele passou por gap de tamanho diferente já com um tubo na garra
         percorre_gasoduto_esquerda('medir')
