@@ -11,17 +11,21 @@ def le_sensor_cor(): #TODO como que esse valor é lido? ele é um inteiro normal
 
 def valor_no_intervalo_ve_cor(min, max, valor):
     pos0_fora = min[0] <= valor[0] <= max[0]
-    pos1_fora = min[0] <= valor[0] <= max[0]
-    pos2_fora = min[0] <= valor[0] <= max[0]
-    print('borda:', pos0_fora)
-    print('borda:', pos1_fora)
-    print('borda:', pos2_fora)
+    pos1_fora = min[1] <= valor[1] <= max[1]
+    pos2_fora = min[2] <= valor[2] <= max[2]
+    # print('borda:', pos0_fora)
+    # print('borda:', pos1_fora)
+    # print('borda:', pos2_fora)
     return pos0_fora and pos1_fora and pos2_fora
 
 
 def ve_cor(eq_min, eq_max, dr_min, dr_max):
+
     valorEsquerdo = getValorCorEsquerda()
     valorDireito = getValorCorDireita()
+
+    setDr(False)
+    setEq(False)
     
     if valor_no_intervalo_ve_cor(eq_min, eq_max, valorEsquerdo):
         setEq(True)
@@ -36,29 +40,30 @@ def valor_fora_do_intervalo(min, max, val):
     pos0_fora = min[0] > val[0] or val[0] > max[0]
     pos1_fora = min[1] > val[1] or val[1] > max[1]
     pos2_fora = min[2] > val[2] or val[2] > max[2]
-    print(pos0_fora)
-    print(pos1_fora)
-    print(pos2_fora)
+    # print(pos0_fora)
+    # print(pos1_fora)
+    # print(pos2_fora)
     return pos0_fora or pos1_fora or pos2_fora
 
 def valor_no_intervalo(min, max, val):
-    pos0_fora = min[0] < val[0] < max[0]
-    pos1_fora = min[1] < val[1] < max[1]
-    pos2_fora = min[2] < val[2] < max[2] 
-    print(pos0_fora)
-    print(pos1_fora)
-    print(pos2_fora)
+    pos0_fora = min[0] <= val[0] <= max[0]
+    pos1_fora = min[1] <= val[1] <= max[1]
+    pos2_fora = min[2] <= val[2] <= max[2] 
+    # print(pos0_fora)
+    # print(pos1_fora)
+    # print(pos2_fora)
     return pos0_fora or pos1_fora or pos2_fora
 
 def alinha_robo(eq_min, eq_max, dr_min, dr_max):
     valorEsquerdo = getValorCorEsquerda()
     valorDireito = getValorCorDireita()
-    corEsquerda = luzEsquerda.rgb()
 
     # RAMPA_DIREITO_MIN_ = [2, 9, 3]
     # RAMPA_DIREITO_MAX = [15, 22, 15] 
 
     print('esta alinhando, esq: ',valorEsquerdo)
+    print('esta alinhando, dir: ',valorDireito)
+
     
     if(valor_no_intervalo(eq_min, eq_max, valorEsquerdo)):
         print("entrei no if do valor no intervalo")
@@ -130,16 +135,16 @@ def alinha_preto_frente():
     if(valor_no_intervalo(eq_min, eq_max, valorEsquerdo)):
         print("AlinhaPretoFrente entrei no if do valor no intervalo")
         while(valor_fora_do_intervalo(eq_min, eq_max, valorEsquerdo)):
-            rodas.drive(15,30) #direita
+            rodas.drive(15,-30) #direita
             setValorCorDireita(luzDireita.rgb())
             valorDireito = getValorCorDireita()
             print('em ALINHA PRETO FRENTE lendoSensorCorDireita: ',valorDireito)
 
-    if (valor_no_intervalo(eq_min, eq_max, valorDireito)):
+    if (valor_no_intervalo(dr_min, dr_max, valorDireito)):
         print("AlinhaPretoFrente entrei no if do valor no intervalo")
         #dir vendo_preto
         while valor_fora_do_intervalo(eq_min, eq_max, valorEsquerdo):
-            rodas.drive(15,-30) #esquerda
+            rodas.drive(15,30) #esquerda
             #le_sensor_cor()
             setValorCorEsquerda(luzEsquerda.rgb())
             valorEsquerdo = getValorCorEsquerda()

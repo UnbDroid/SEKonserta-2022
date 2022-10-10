@@ -66,65 +66,7 @@ def descobre_info_area():
     rodas.straight(-40)
     ev3.speaker.beep()
 
-    return getCores()
-
-def andando_por_um_tempo():
-    if watch.time() > 5000:
-        rodas.turn(90)
-        watch.reset()
-
-def esta_vendo_borda_ou_rampa():
-        valorEsquerdo = getValorCorEsquerda()
-        valorDireito = getValorCorDireita()
-        
-        print("valoresquerdo:", valorEsquerdo)
-        print("valordireito:", valorDireito)
-        if ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX):
-            print('estou na borda')
-            valorEsquerdo = getValorCorEsquerda()
-            valorDireito = getValorCorDireita()
-
-            print("valoresquerdo:", valorEsquerdo)
-            print("valordireito:", valorDireito)
-
-            atitude(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX, TURN_BORDA)
-            watch.reset()
-        elif (ve_cor(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX) or ve_cor(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX)):
-            le_sensor_cor()
-            leitura_ultrassom = valida_cores_com_ultrassom()
-            rodas.stop()
-            if leitura_ultrassom == "viu_rampa":
-                print('vi uma RAMPA')
-                atitude(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX, TURN_RAMPA)
-                watch.reset()
-            elif leitura_ultrassom == "viu_preto":
-                alinha_preto_frente() 
-                le_sensor_cor()
-                setCores(descobre_info_area())
-                if getCores() == "nada":
-                    print('na real, eh RAMPAAA')
-                    atitude(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX, TURN_RAMPA)
-                else:
-                    print('viu Preto')
-                    rodas.reset()
-                    viu_preto = True
-                    if comeco:
-                        ordem_areas.append(getCores())       
-                watch.reset()     
-        else:
-            rodas.drive(100,0)
-
-def enquanto_nao_ve_borda_segue_linha():
-    while not ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX): 
-        print('entrei no if da borda')
-        le_sensor_cor()
-        segue_linha_sensor_esquerdo_prop(100)
-
-def enquanto_nao_ve_preto_anda():
-    while not ve_cor(PRETO_ESQ_MIN,PRETO_ESQ_MAX,PRETO_DIR_MIN,PRETO_DIR_MAX):
-        le_sensor_cor()
-        rodas.drive(100,0)
-
+    return getCores()       
 
 
 def vai_pro_ponto_inicial(comeco):
@@ -136,29 +78,68 @@ def vai_pro_ponto_inicial(comeco):
     leitura_ultrassom = valida_cores_com_ultrassom()
 
     while not (viu_preto):
-        le_sensor_cor()         
-        andando_por_um_tempo()
-        esta_vendo_borda_ou_rampa()
-        print("saiu borda ou rampa")
+        le_sensor_cor()
+
+        if watch.time() > 5000:
+            rodas.turn(90)
+            watch.reset()
+
+        if ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX):
+            print("viu borda primeiro if")
+            le_sensor_cor()
+            atitude(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX, TURN_BORDA)
+            watch.reset()
+        elif (ve_cor(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX) or ve_cor(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX)):
+            print("Ou vi rampa ou vi preto")
+            le_sensor_cor()
+            leitura_ultrassom = valida_cores_com_ultrassom()
+            rodas.stop()
+            if leitura_ultrassom == "viu_rampa":
+                print("Vi rampa")
+                le_sensor_cor()
+                atitude(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX, TURN_RAMPA)
+                watch.reset()
+            elif leitura_ultrassom == "viu_preto":
+                print("vi preto")
+                alinha_robo(PRETO_ESQ_MIN,PRETO_ESQ_MAX,PRETO_DIR_MIN,PRETO_DIR_MAX) 
+                le_sensor_cor()
+                setCores(descobre_info_area())
+                if getCores() == "nada":
+                    print("primeiro vi preto e percebi rampa")
+                    le_sensor_cor()
+                    atitude(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX, TURN_RAMPA)
+                else:
+                    print('primeiro vi preto e validou preto')
+                    rodas.reset()
+                    viu_preto = True
+                    if comeco:
+                        ordem_areas.append(getCores())       
+                watch.reset()     
+        else:
+            rodas.drive(100,0)
     
+    print("sai do while vendo preto")
     rodas.straight(-40)
     rodas.turn(75)
     le_sensor_cor()
 
-    enquanto_nao_ve_borda_segue_linha()
-    print("viu borda no segue linha")
+    while not ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX):
+        print("não vi borda final") 
+        le_sensor_cor()
+        segue_linha_sensor_esquerdo_prop(100)
 
     distancia_primeira_cor_do_ponto_inicial = rodas.distance()
 
     rodas.stop()
-    print('li borda')
     le_sensor_cor()
 
     alinha_robo(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX)
     rodas.straight(-80)
     rodas.turn(-90)
     
-    enquanto_nao_ve_preto_anda()
+    while not ve_cor(PRETO_ESQ_MIN,PRETO_ESQ_MAX,PRETO_DIR_MIN,PRETO_DIR_MAX):
+        le_sensor_cor()
+        rodas.drive(100,0)
 
     alinha_preto_frente()
     rodas.stop()
