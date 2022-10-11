@@ -24,7 +24,8 @@ rodas = DriveBase(rodaEsquerda, rodaDireita, wheel_diameter= 41, axle_track=109)
 rodas.settings(130, 300) #velocidade_reto / aceleração reto / velocidade de giro / aceleração de giro
 
 distancia_chao = 210
-cor_pega_tubo = 'vermelho'
+#caixa_de_correio = []
+caixa_de_correio = ['azul','nada']
 distancia_primeira_cor_do_ponto_inicial = 0
 leitura_ultrassom = ultrassom.distance()
 tubo_esta_perto = distancia_chao - 8
@@ -44,15 +45,15 @@ alinhado_ao_tubo = False #identifica seo robô esta alinhado
 alinhado_ao_preto = False
 viu_borda = False
 
-ordem_areas = []#lista que contém distância ao ponto inicial e sua respectiva área (que ainda será identificada)
-#ordem_areas = ['amarelo','vermelho','azul']
+# ordem_areas = []#lista que contém distância ao ponto inicial e sua respectiva área (que ainda será identificada)
+ordem_areas = ['amarelo','vermelho','azul']
 
 
 BORDA_ESQ_MIN = [0,0,0]
-BORDA_ESQ_MAX = [0,0,0]
+BORDA_ESQ_MAX = [2,2,2]
 
 BORDA_DIR_MIN = [0,0,0]
-BORDA_DIR_MAX = [0,0,0]
+BORDA_DIR_MAX = [2,2,2]
 
 TURN_BORDA = -90
 
@@ -72,7 +73,7 @@ BRANCO_DIR_MAX = [100,100,100]
 AMARELO_ESQ_MIN = [60, 42, 7]
 AMARELO_ESQ_MAX = [72,50,11]
 AMARELO_DIR_MIN = [82, 49, 23]
-AMARELO_DIR_MAX = [96,54,26]
+AMARELO_DIR_MAX = [96,54,30]
 
 AZUL_ESQ_MIN = [2, 5, 6]
 AZUL_ESQ_MAX = [6,10,13]
@@ -86,8 +87,8 @@ VERMELHO_DIR_MAX = [73,13,16]
 
 PRETO_ESQ_MIN = [4, 6, 3]
 PRETO_ESQ_MAX = [8,13,8]
-PRETO_DIR_MIN = [6, 12, 13]
-PRETO_DIR_MAX = [16,22,20] 
+PRETO_DIR_MIN = [6, 11, 13]
+PRETO_DIR_MAX = [20,22,20] 
 
 
 
@@ -133,7 +134,6 @@ def getValorCorDireita():
     global ValorCorDireita
     return ValorCorDireita
 
-
 def setOrdemAreas(valor):
     global ordem_areas
     ordem_areas = valor
@@ -141,3 +141,11 @@ def setOrdemAreas(valor):
 def getOrdemAreas():
     global ordem_areas
     return ordem_areas
+
+def setCaixaDeCorreio(valor):
+    global caixa_de_correio
+    caixa_de_correio = valor
+    
+def getCaixaDeCorreio():
+    global caixa_de_correio
+    return caixa_de_correio
