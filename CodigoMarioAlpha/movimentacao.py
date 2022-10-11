@@ -209,7 +209,7 @@ def gasoduto_apos_pegar_tubo():  #Função para chegar no gasoduto após pegar u
     desce_rampa_costas()
     chega_no_gasoduto()
 
-def devolve_tubo_ao_Luigi(tamanho_do_tubo_na_garra, tamanho_do_tubo_espera):
+def devolve_tubo_ao_Luigi(tamanho_do_tubo_na_garra, tamanho_do_tubo_espera): #O primeiro argumento é o tubo a ser devolvido e o segundo argumento é o tubo a ser pego
     gasoduto_ate_rampa_final()
     sobe_rampa()
     posiciona_para_devolver_Luigi(tamanho_do_tubo_na_garra, tamanho_do_tubo_espera)

@@ -11,7 +11,7 @@ def calibra_sensor_luz():
     somador = 0
     while watch.time() < tempo:
         contador += 1
-        ValorLuzEsquerda = LuzEsquerda.reflection()
+        ValorLuzEsquerda = LuzEsquerda.ambient()
         somador = ((somador*(contador - 1)) + ValorLuzEsquerda)/contador
 
     print(somador)
@@ -26,7 +26,7 @@ def calibra_sensor_luz():
     contador = 0
     while watch.time() < tempo:
         contador += 1
-        ValorLuzEsquerda = LuzEsquerda.reflection()
+        ValorLuzEsquerda = LuzEsquerda.ambient()
         somador = ((somador*(contador - 1)) + ValorLuzEsquerda)/contador
 
     print(somador)

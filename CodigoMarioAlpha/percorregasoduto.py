@@ -134,15 +134,18 @@ def coloca_tubo(tamanho):
 
 def virada_gasoduto_esquerda():
     # robot.drive(50, -16)         #50,-16
-    robot.drive(100, -34)
+    #robot.drive(100, -34)
+    robot.drive(75, -25)
 
 def virada_gasoduto_direita():
     # robot.drive(50, 20)       #50,20
-    robot.drive(100,40)
+    #robot.drive(100,40)
+    robot.drive(75,30)
 
 def segue_reto_gasoduto():
     # robot.drive(50,0)    #50,0
-    robot.drive(100,0)
+    robot.drive(75,0)
+    #robot.drive(100,0)
 
 def virada_ultrassom_frente():
     robot.stop()
@@ -235,12 +238,15 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
     TUBO_ENTREGUE = False
     primeira_vez = True #Esse valor só deixa de ser True quando o Mario passa por um gap de um tamanho diferente do tamanho do tubo que está na garra
     MEDIR_DENOVO = True # Só se torna False quando o Mario está com um tubo na garra, passa por um gap de tamanho diferente x, segue o gasoduto e acha um gap do tamanho do tubo e o entrega. após isso ele já vai buscar um tubo de tamanho x portanto não precisa medir o gasoduto novamente
+    print('entrei no percorrimento')
     MboxAlphaBeta.send("PercorrimentoGasodutoEsquerda")
+    print('mandei')
     le_valores_max_min()
-    valor_minimo = 26 #De manhã deu 58, 12h deu 75 --- 48
-    valor_maximo = 33 #De manhã deu 72, 12h deu 88 -- 58
+    valor_minimo = 33 #De manhã deu 58, 12h deu 75 --- 48
+    valor_maximo = 41 #De manhã deu 72, 12h deu 88 -- 58
     MboxAlphaBetaLuz.wait()
     while True:
+        manda_nada_luigi()
         le_valores_percorrimento_esquerda()
         adiciona_lista_ultrassom_esquerda()
         #print('Luz Esq',ValorLuzEsquerda, 'Ult Esq', DistanciaUltrassomEsquerda, 'ult frente', DistanciaUltrassomFrente)
@@ -253,6 +259,7 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
                 print(FIM_DO_PROGRAMA)
             if modo == 'entregar': # Se ele chegar ao fim do programa com um tubo para ser entregue, devolver o tubo ao Luigi
                 alinha_beirada()
+                manda_mensagem_luigi(tamanho_do_tubo_na_garra, tamanho_do_tubo_espera)
                 devolve_tubo_ao_Luigi(tamanho_do_tubo_na_garra, tamanho_do_tubo_espera)
                 tamanho_do_tubo_na_garra = tamanho_do_tubo_espera
             break
@@ -268,7 +275,7 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
                 if modo == 'ignorar':
                     pass
                 elif modo == 'medir':
-                    manda_mensagem_Luigi(tamanho_gap, 'Nada')
+                    manda_mensagem_luigi(tamanho_gap, 'Nada')
                     busca_tubo_em_cima(tamanho_gap)
                     tamanho_do_tubo_na_garra = tamanho_gap
                     break
@@ -280,7 +287,8 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
                         tamanho_do_tubo_na_garra = 0
                         TUBO_ENTREGUE = True
                         if not primeira_vez: # Se ele já tinha passado por um gap de outro tamanho antes de entregar, ele vai buscar um tubo desse tamanho
-                            manda_mensagem_luigi(tamanho_do_tubo_espera, tamanho_gap)
+                            manda_mensagem_luigi(tamanho_do_tubo_espera, 'Nada')
+                            print('cheguei aqui')
                             busca_tubo_em_cima(tamanho_do_tubo_espera)
                             tamanho_do_tubo_na_garra = tamanho_do_tubo_espera   
                             MEDIR_DENOVO = False

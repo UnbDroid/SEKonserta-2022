@@ -6,6 +6,7 @@ MboxAlphaBetaLuz = NumericMailbox('alphabetaluz', server)
 MboxAlphaBetaUltrassom =  NumericMailbox('alphabetaultrassom', server)
 MboxAlphaLuigiConfirmacao = TextMailbox('alphaluigi', server)
 MboxAlphaLuigiCores = TextMailbox('alphaluigi2',server)
+MboxAlphaLuigiCoresDev = TextMailbox('alphaluigi3', server)
 
 def conecta_alpha_beta():
 
@@ -43,7 +44,7 @@ def conecta_nos_dois():
 
 
 
-def manda_mensagem_Luigi(tubo_para_entregar = 15, tubo_para_devolver = 'Nada'):
+def manda_mensagem_luigi(tubo_para_entregar = 15, tubo_para_devolver = 'Nada'):
     if tubo_para_entregar == 10:
         tubo_para_entregar = 'amarelo'
     elif tubo_para_entregar == 15:
@@ -59,17 +60,19 @@ def manda_mensagem_Luigi(tubo_para_entregar = 15, tubo_para_devolver = 'Nada'):
     elif tubo_para_devolver == 20:
         tubo_para_devolver = 'azul'
         
-    MboxAlphaLuigiCores.send([tubo_para_entregar, tubo_para_devolver])
+    MboxAlphaLuigiCores.send(tubo_para_entregar)
+    MboxAlphaLuigiCoresDev.send(tubo_para_devolver)
 
 
 def manda_nada_luigi():
     MboxAlphaLuigiCores.send('Nada')
+    MboxAlphaLuigiConfirmacao.send('Nada')
 
 def manda_confirmacao_luigi():
-    MboxAlphaLuigiConfirmacao.send('Tubo Pego')
+    MboxAlphaLuigiConfirmacao.send('Tubo pego')
 
 def manda_confirmacao_devolucao_luigi():
-    MboxAlphaLuigiConfirmacao.send('Tubo Devolvido')
+    MboxAlphaLuigiConfirmacao.send('Tubo devolvido')
 
 def manda_nada_confirmacao_luigi():
     MboxAlphaLuigiConfirmacao.send('Nada')

@@ -153,8 +153,10 @@ def pega2(tam):  #Outra função apenas de teste para pegar e devolver o tubo
 
 def pega_tubo(tamanho): #Função que pega o tubo já alinhado com ele previamente, com o tubo na sua frente a uma distância indefinida
     global tamanho_do_tubo_na_garra
+    robot.straight(-80)
     while not posso_pegar_tubo():
         pass
+    wait(1000)
     DistanciaUltrassomFrente = UltrassomFrente.distance()
     while DistanciaUltrassomFrente > 170:
         robot.drive(70,0)
@@ -168,4 +170,6 @@ def pega_tubo(tamanho): #Função que pega o tubo já alinhado com ele previamen
         ev3.speaker.beep(900,700)
     abre_garra(tamanho)
     sobe_empilhadeira()
+    manda_confirmacao_luigi()
+    manda_nada_luigi()
 
