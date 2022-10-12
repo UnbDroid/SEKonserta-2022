@@ -74,15 +74,17 @@ def gasoduto_ate_rampa():  #Após achar um GAP, percurso do gasoduto até encont
 
 def gasoduto_ate_rampa_final():  #Volta para a rampa após o final do gasoduto
     global DistanciaUltrassomFrente
-    robot.straight(-120)
-    robot.turn(90)
+    robot.straight(-90)
+    watch.reset()
+    while watch.time() < 1000:
+        robot.drive(-0,90)
     le_sensor_cor()
     while not(viu_verde_azul()):
         le_sensor_cor()
         if viu_beirada():
-            robot.drive(70,10)
+            robot.drive(100,30)
         else:
-            robot.drive(70,0)
+            robot.drive(100,0)
     alinha_verde_azul()
 
 

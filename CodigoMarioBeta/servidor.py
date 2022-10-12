@@ -17,6 +17,6 @@ def conecta_alpha_beta():
 
     # In this program, the client sends the first message and then waits for the
     # server to reply.
-    # MboxAlphaBeta.send('hello!')
-    # MboxAlphaBeta.wait()
-    # print(MboxAlphaBeta.read())
+    MboxAlphaBeta.send('hello!')
+    MboxAlphaBeta.wait()
+    print(MboxAlphaBeta.read())

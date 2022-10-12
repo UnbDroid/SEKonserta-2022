@@ -17,7 +17,7 @@ def le_sensor_cor():
     global ValorCorDireita
     ValorCorEsquerda = SensorCorEsquerda.rgb()
     ValorCorDireita = SensorCorDireita.rgb()
-    print("Valor na Esquerda é:", ValorCorEsquerda, "E na direita é", ValorCorDireita)
+    #print("Valor na Esquerda é:", ValorCorEsquerda, "E na direita é", ValorCorDireita)
     return
 
 def valor_dr(i = 0):
@@ -48,8 +48,6 @@ def segue_verde_branco_dr():
     print(leitura_sensor)
     
     deviation =  leitura_sensor - threshold
-    if deviation < 0:
-        PROPORTIONAL_GAIN = 1
     turn_rate = PROPORTIONAL_GAIN * deviation
     robot.drive(DRIVE_SPEED, turn_rate)
 

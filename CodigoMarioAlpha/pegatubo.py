@@ -84,7 +84,7 @@ def fecha_garra_gasoduto():
     fecha_garra(0.4)
 
 def abre_garra_gasoduto():
-    abre_garra(0.4, True)
+    abre_garra(0.4)
 
 
 
@@ -119,7 +119,7 @@ def devolve_tubo(tam =20):  #Função utilizada apenas para colocar o tubo no ga
     sobe_empilhadeira_gasoduto()
     ev3.speaker.beep(200)
     abre_garra_gasoduto()
-    ev3.speaker.beep(200)
+    ev3.speaker.beep(900)
     fecha_garra(tam, True)
 
 
@@ -153,17 +153,18 @@ def pega2(tam):  #Outra função apenas de teste para pegar e devolver o tubo
 
 def pega_tubo(tamanho): #Função que pega o tubo já alinhado com ele previamente, com o tubo na sua frente a uma distância indefinida
     global tamanho_do_tubo_na_garra
-    robot.straight(-80)
-    while not posso_pegar_tubo():
-        pass
+    #robot.straight(-50)
+    # while not posso_pegar_tubo():
+    #     pass
     wait(1000)
     DistanciaUltrassomFrente = UltrassomFrente.distance()
     while DistanciaUltrassomFrente > 170:
         robot.drive(70,0)
         DistanciaUltrassomFrente = UltrassomFrente.distance()
     robot.stop()
+    ev3.speaker.beep()
     desce_empilhadeira_centro()
-    robot.straight(100)
+    robot.straight(80)
     tamanho_do_tubo_na_garra = tamanho
     print("o tamanho é esse", tamanho_do_tubo_na_garra)
     if tamanho == 15:
