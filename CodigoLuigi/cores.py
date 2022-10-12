@@ -167,6 +167,7 @@ def segue_linha_sensor_esquerdo_prop(DRIVE_SPEED):
     rodas.drive(DRIVE_SPEED, turn_rate)
 
 def segue_linha_sensor_direito_prop(DRIVE_SPEED):
+
     PRETO = 15
     
     threshold = 75
@@ -178,6 +179,33 @@ def segue_linha_sensor_direito_prop(DRIVE_SPEED):
     deviation =  leitura_sensor - threshold
     turn_rate = PROPORTIONAL_GAIN * deviation
     rodas.drive(DRIVE_SPEED, turn_rate)
+
+def segue_linha_pid(SPEED):
+
+    integral = 0
+    derivate = 0
+    error = 0
+    last_error = 0
+    PRETO = 3
+    BRANCO = 62
+
+
+    
+    threshold = (BRANCO + PRETO)/2
+    PROPORTIONAL_GAIN = 4.2
+    INTEGRAL_GAIN = 0.008
+    DERIVATE_GAIN = 0.01
+
+
+    error = luzDireita.reflection() - threshold
+    integral = integral + error
+    derivate = error - last_error
+    #print(leitura_sensor)
+    
+    turn_rate = PROPORTIONAL_GAIN * error + INTEGRAL_GAIN*integral + DERIVATE_GAIN*derivate
+    rodaDireita.run(SPEED + turn_rate)
+    rodaEsquerda.run(SPEED - turn_rate)
+    last_error = error
 
 
 

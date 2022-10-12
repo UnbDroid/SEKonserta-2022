@@ -208,8 +208,7 @@ def verifica_tubo_reto(distancia_que_ve_tubo,velocidade_robo):
     
     while distancia_terminal < 840:   
         listUltrassom = []
-        distancia_terminal = rodas.distance()
-
+        
         while ultrassom_lateral.distance() > distancia_que_ve_tubo:
             segue_linha_sensor_direito_prop(velocidade_robo)
         rodas.stop()
@@ -235,6 +234,8 @@ def verifica_tubo_reto(distancia_que_ve_tubo,velocidade_robo):
             estado_empilhadeira = "cima"
             pegou_tubo = pega_tubo()            
             break
+
+        distancia_terminal = rodas.distance()
     rodas.stop()
     #print('{}/{}'.format(len(listaVeReto),len(listUltrassom)))
     #print(listUltrassom)

@@ -13,13 +13,14 @@ from cores import *
 #vai_pro_ponto_inicial()
 #sai_do_ponto_inicial_e_pega_tubo()
 
-vai_pro_ponto_inicial(True)
+# vai_pro_ponto_inicial(True)
 #acha_localizacao_das_cores()
 
 #le_sensor_cor()
 #identifica_cor_da_area()
+while True:
+    segue_linha_pid(100)
 
 
-
-#verifica_tubo_reto(35,50)
+verifica_tubo_reto(35,50)
 #desce_empilhadeira()
