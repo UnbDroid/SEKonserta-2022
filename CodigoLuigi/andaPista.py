@@ -45,6 +45,9 @@ def identifica_cor_da_area():
 
     elif ve_cor(AZUL_ESQ_MIN, AZUL_ESQ_MAX, AZUL_DIR_MIN, AZUL_DIR_MAX) and getDr():
         setCores("azul")
+
+    elif ve_cor(BRANCO_ESQ_MIN, BRANCO_ESQ_MAX, BRANCO_DIR_MIN, BRANCO_DIR_MAX ):
+        setCores("branco")
     
     print(getCores())
     return getCores()
@@ -80,6 +83,7 @@ def vai_pro_ponto_inicial(comeco):
             atitude(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX, TURN_BORDA)
             watch.reset()
         elif (ve_cor(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX) or ve_cor(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX)):
+            rodas.stop()
             print("Ou vi rampa ou vi preto")
             le_sensor_cor()
             leitura_ultrassom = valida_cores_com_ultrassom()
@@ -100,6 +104,9 @@ def vai_pro_ponto_inicial(comeco):
                     print("primeiro vi preto e percebi rampa")
                     le_sensor_cor()
                     atitude(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX, TURN_RAMPA)
+                elif getCores() == "branco":
+                    print('vi branco dps de alinhar')
+                    rodas.straight(40)
                 else:
                     print('primeiro vi preto e validou preto')
                     rodas.reset()
@@ -107,7 +114,7 @@ def vai_pro_ponto_inicial(comeco):
                     rodas.straight(-40)
                     rodas.turn(75)
                     if comeco:
-                        ordem_areas.append(getCores())       
+                        ordem_areas.append(getCores())
                 watch.reset()     
         else:
             rodas.drive(100,0)
@@ -116,15 +123,15 @@ def vai_pro_ponto_inicial(comeco):
 
     le_sensor_cor()
     while not ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX):
-        print("não vi borda final") 
+        #print("não vi borda final") 
         le_sensor_cor()
         segue_linha_sensor_esquerdo_prop(100)
 
     distancia_primeira_cor_do_ponto_inicial = rodas.distance()
 
     rodas.stop()
-    le_sensor_cor()
 
+    le_sensor_cor()
     alinha_robo(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX)
     rodas.straight(-80)
     rodas.turn(-90)
@@ -132,10 +139,10 @@ def vai_pro_ponto_inicial(comeco):
     while not ve_cor(PRETO_ESQ_MIN,PRETO_ESQ_MAX,PRETO_DIR_MIN,PRETO_DIR_MAX):
         le_sensor_cor()
         rodas.drive(100,0)
-
+    
+    le_sensor_cor()
     alinha_robo(PRETO_ESQ_MIN,PRETO_ESQ_MAX,PRETO_DIR_MIN,PRETO_DIR_MAX) 
     rodas.stop()
-
 
 
 def muda_de_area(distancia):
@@ -155,6 +162,7 @@ def acha_localizacao_das_cores():
 
     cores = ['vermelho','amarelo','azul']
 
+    print('a primeira cor ele achou em: ',distancia_primeira_cor_do_ponto_inicial)
     if distancia_primeira_cor_do_ponto_inicial >= 830: 
         primeira_cor = descobre_info_area()
         #print(primeira_cor)
@@ -184,6 +192,11 @@ def acha_localizacao_das_cores():
             if i not in ordem_areas:
                 ordem_areas.append(i)
     
-    #print(ordem_areas)
+    print(ordem_areas)
     return
 
+
+def calibra_settings():
+    while True:
+        rodas.turn(360)
+        wait(3000)

@@ -20,12 +20,12 @@ luzDireita = ColorSensor(Port.S4)
 
 rodaDireita = Motor(Port.D)
 rodaEsquerda = Motor(Port.C)
-rodas = DriveBase(rodaEsquerda, rodaDireita, wheel_diameter= 41, axle_track=109) #axel track >= 109.5 < 109.8 foi demais. 108 foi demais
-rodas.settings(130, 300) #velocidade_reto / aceleração reto / velocidade de giro / aceleração de giro
+rodas = DriveBase(rodaEsquerda, rodaDireita, wheel_diameter= 41, axle_track=113.5) #axel track >= 109.5 < 109.8 foi demais. 108 foi demais
+rodas.settings(100, 270, 150) #velocidade_reto / aceleração reto / velocidade de giro / aceleração de giro
 
 distancia_chao = 210
-#caixa_de_correio = []
-caixa_de_correio = ['azul','nada']
+caixa_de_correio = 'vermelho'
+#caixa_de_correio = ['vermelho','nada']
 distancia_primeira_cor_do_ponto_inicial = 0
 leitura_ultrassom = ultrassom.distance()
 tubo_esta_perto = distancia_chao - 8
@@ -45,8 +45,9 @@ alinhado_ao_tubo = False #identifica seo robô esta alinhado
 alinhado_ao_preto = False
 viu_borda = False
 
-# ordem_areas = []#lista que contém distância ao ponto inicial e sua respectiva área (que ainda será identificada)
-ordem_areas = ['amarelo','vermelho','azul']
+ordem_areas = []#lista que contém distância ao ponto inicial e sua respectiva área (que ainda será identificada)
+#ordem_areas = ['amarelo','vermelho','azul']
+#ordem_areas = ['amarelo']
 
 
 BORDA_ESQ_MIN = [0,0,0]

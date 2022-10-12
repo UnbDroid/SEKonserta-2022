@@ -64,11 +64,11 @@ def alinha_robo(eq_min, eq_max, dr_min, dr_max):
     # RAMPA_DIREITO_MIN_ = [2, 9, 3]
     # RAMPA_DIREITO_MAX = [15, 22, 15] 
 
-    print('esta alinhando, esq: ',valorEsquerdo)
-    print('esta alinhando, dir: ',valorDireito)
+    #print('esta alinhando, esq: ',valorEsquerdo)
+    #print('esta alinhando, dir: ',valorDireito)
     rodas.stop()
     if(valor_fora_do_intervalo(dr_min, dr_max, valorDireito)):
-        print("entrei no if do valor no intervalo")
+        #print("entrei no if do valor no intervalo")
         while(valor_fora_do_intervalo(dr_min, dr_max, valorDireito)):
             rodas.drive(15,-30) #direita
             setValorCorDireita(luzDireita.rgb())
@@ -192,6 +192,6 @@ def segue_linha_sensor_esquerdo_re(DRIVE_SPEED):
     leitura_sensor = luzEsquerda.rgb()
     print(leitura_sensor)
     
-    deviation =  threshold - leitura_sensor [0]
+    deviation =  threshold - leitura_sensor[0]
     turn_rate = PROPORTIONAL_GAIN * deviation
     rodas.drive(DRIVE_SPEED, -turn_rate)

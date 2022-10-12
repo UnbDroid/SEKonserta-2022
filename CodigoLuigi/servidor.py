@@ -4,6 +4,7 @@ from pybricks.messaging import *
 client = BluetoothMailboxClient()
 MboxConfirmacao = TextMailbox('alphaluigi', client)
 MboxCores = TextMailbox('alphaluigi2', client)
+MboxCoresDevolve = TextMailbox('alphaluigi3', client)
 
 def conecta_alpha_luigi():
     # This is the name of the remote EV3 or PC we are connecting to.
