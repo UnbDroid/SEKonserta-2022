@@ -10,7 +10,7 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 ev3 = EV3Brick()
 
 motorEmpilhadeira = Motor(Port.A)
-#motorUltrassom = Motor(Port.B)
+motorUltrassom = Motor(Port.B)
 
 #ultrassom = UltrasonicSensor(Port.S1)
 ultrassom = UltrasonicSensor(Port.S2)
@@ -20,7 +20,7 @@ luzDireita = ColorSensor(Port.S4)
 
 rodaDireita = Motor(Port.D)
 rodaEsquerda = Motor(Port.C)
-rodas = DriveBase(rodaEsquerda, rodaDireita, wheel_diameter= 41, axle_track=113.5) #axel track >= 109.5 < 109.8 foi demais. 108 foi demais
+rodas = DriveBase(rodaEsquerda, rodaDireita, wheel_diameter= 41, axle_track=114) #axel track >= 109.5 < 109.8 foi demais. 108 foi demais
 rodas.settings(100, 270, 150) #velocidade_reto / aceleração reto / velocidade de giro / aceleração de giro
 
 distancia_chao = 210
@@ -60,9 +60,8 @@ TURN_BORDA = -90
 
 RAMPA_ESQ_MIN = [0, 8, 0]
 RAMPA_ESQ_MAX = [4, 17, 3]
-
 RAMPA_DIREITO_MIN_ = [2, 9, 3]
-RAMPA_DIREITO_MAX = [6, 22, 10] 
+RAMPA_DIREITO_MAX = [6, 22, 11] 
 
 TURN_RAMPA = 180
 
@@ -84,10 +83,10 @@ AZUL_DIR_MAX = [11,15,36]
 VERMELHO_ESQ_MIN = [46, 6, 2]
 VERMELHO_ESQ_MAX = [55,10,5]
 VERMELHO_DIR_MIN = [64, 9, 10]
-VERMELHO_DIR_MAX = [73,13,16] 
+VERMELHO_DIR_MAX = [77,13,16] 
 
 PRETO_ESQ_MIN = [4, 6, 3]
-PRETO_ESQ_MAX = [8,13,8]
+PRETO_ESQ_MAX = [14,20,8]
 PRETO_DIR_MIN = [6, 11, 13]
 PRETO_DIR_MAX = [20,22,20] 
 

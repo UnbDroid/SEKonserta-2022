@@ -14,6 +14,12 @@ def sobe_empilhadeira():
     motorEmpilhadeira.run_until_stalled(250) #parametros: Velocidade (para subir, < 0), tempo;
     estado_empilhadeira = "cima"
 
+def lado_ultrassom():
+    motorUltrassom.run_time(-1500, 3000, then=Stop.BRAKE)
+
+def frente_ultrassom():
+    motorUltrassom.run_time(1000, 1500, then=Stop.BRAKE)
+
 def media_ponderada(lista):
     lista_aux = lista.copy()
     elementos = sorted(set(lista))
@@ -42,7 +48,7 @@ def ve_ultrassom(num_leituras,quanto_quero_que_leia):
 
     for i in range(num_leituras):
         leituras_ultrassom.append(ultrassom.distance())
-    print(leituras_ultrassom)
+    #print(leituras_ultrassom)
 
     for i in leituras_ultrassom:
         if(i <= quanto_quero_que_leia):
@@ -82,7 +88,7 @@ def posiciona_tubo_mario():
     # rodas.reset()
     # while rodas.distance() < 400:
     #     segue_linha_sensor_esquerdo_prop(-100)
-    rodas.straight(-345)
+    rodas.straight(-335)
     rodas.turn(90)
     rodas.straight(40)
     desce_empilhadeira()
@@ -107,7 +113,7 @@ def pega_tubo():
 
     #print('aqui deu {}'.format(leitura_ultrassom))
     #ve_ultrassom(100,100) == True or 
-    if ve_ultrassom(100,2550):
+    if not ve_ultrassom(100,2000):
         pegou_tubo = True
         rodas.stop()
     else:
@@ -178,7 +184,7 @@ def verifica_tubo_reto(distancia_que_ve_tubo,velocidade_robo):
     sobe_empilhadeira()
 
     
-    while distancia_terminal < 700:   
+    while distancia_terminal < 650:   
         print(ultrassom_lateral.distance())
         listUltrassom = []
         #print(distancia_terminal)
@@ -235,7 +241,7 @@ def acha_tubo():
         rodas.turn(94)
 
         rodas.reset()
-        while rodas.distance() < 700:
+        while rodas.distance() < 650:
             if ve_ultrassom(100,160):
                 rodas.stop()
                 #ev3.speaker.beep()
@@ -283,10 +289,9 @@ def acha_tubo_re(distancia_que_ve_tubo,velocidade_robo):
 
             if(porcentagem > 0.7): 
                 rodas.stop()
-                rodas.straight(90)
-                rodas.straight(30)
-                if caixa_de_correio == 'amarelo':
-                    rodas.straight(70)
+                rodas.straight(110)
+                # if caixa_de_correio == 'amarelo':
+                #     rodas.straight(70)
                 rodas.turn(90)
                 estado_empilhadeira = "cima"
                 pegou_tubo = pega_tubo()  

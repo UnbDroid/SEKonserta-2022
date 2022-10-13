@@ -5,16 +5,17 @@ def ajustes_comeco():
     global distancia_chao
     global tubo_esta_perto
     sobe_empilhadeira()
+    
 
 
 def valida_cores_com_ultrassom():
     o_que_ve = 'nada'
 
-    if ve_ultrassom(100,250):
+    if not ve_ultrassom(100,500):
         #print('entrou aqui')
-        o_que_ve = "viu_preto"
-    else:
         o_que_ve = "viu_rampa"
+    else:
+        o_que_ve = "viu_preto"
     
     return o_que_ve
 
@@ -49,14 +50,14 @@ def identifica_cor_da_area():
     elif ve_cor(BRANCO_ESQ_MIN, BRANCO_ESQ_MAX, BRANCO_DIR_MIN, BRANCO_DIR_MAX ):
         setCores("branco")
     
-    print(getCores())
+    print('eu vi a cor',getCores())
     return getCores()
 
 def descobre_info_area():
-    rodas.straight(40) #entra na área colorida    
+    rodas.straight(50) #entra na área colorida    
     le_sensor_cor()
     setCores(identifica_cor_da_area())
-    rodas.straight(-50)
+    rodas.straight(-60)
     ev3.speaker.beep()
 
     return getCores()       
@@ -113,8 +114,10 @@ def vai_pro_ponto_inicial(comeco):
                     viu_preto = True
                     rodas.straight(-40)
                     rodas.turn(75)
+                    print('antes de add, ordem ares é: ',ordem_areas)
                     if comeco:
                         ordem_areas.append(getCores())
+                        print('depois de add, ordem ares é: ',ordem_areas)
                 watch.reset()     
         else:
             rodas.drive(100,0)
@@ -182,10 +185,12 @@ def acha_localizacao_das_cores():
         ordem_areas.append(terceira_cor)
     
     else:
+        print('ordem areas1 é ',ordem_areas)
         sobe_empilhadeira()
         sai_da_area_cores()
         muda_de_area(distancia = 840)
         ordem_areas.append(descobre_info_area())
+        print('ordem areas2 é ',ordem_areas)
         vai_pro_ponto_inicial(False)
 
         for i in cores:

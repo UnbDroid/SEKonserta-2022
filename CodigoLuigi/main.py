@@ -43,6 +43,7 @@ def loop_tubo():
     MboxConfirmacao.send('Tubo entregue')
     while MboxConfirmacao.read() !='Tubo pego':
         pass
+    rodas.straight(100)
     rodas.turn(-90)
     vai_pro_ponto_inicial(False)
 
@@ -56,6 +57,39 @@ def inicio():
         loop_tubo()
 
 
+# if not verifica_tubo_reto(30,80):
+#     acha_tubo_re(60,80)
+
+
+
+# vai_pro_ponto_inicial(True)
+# acha_localizacao_das_cores()
+# sai_do_ponto_inicial_e_vai_pra_area()
+# if not verifica_tubo_reto(30,80):
+#     acha_tubo_re(60,80)
+# sai_da_area_cores()
+# posiciona_tubo_mario()
+
+vai_pro_ponto_inicial(True)
+acha_localizacao_das_cores()
+
+
+# if not verifica_tubo_reto(30,80):
+#     acha_tubo_re(60,80)
+
+# while True:
+#     le_sensor_cor()
+
+
+# if not verifica_tubo_reto(30,80):
+#     acha_tubo_re(60,80)
+
+# desce_empilhadeira()
+# while True:
+#     frente_ultrassom()
+#     lado_ultrassom()
+    
+    
 # while True:
 #     rodaEsquerda.run(-100)
 #     rodaDireita.run(-100)
@@ -65,11 +99,12 @@ def inicio():
 #rodas.straight(-950)
 
 
-if not verifica_tubo_reto(30,80):
-    acha_tubo_re(60,80)
+# if not verifica_tubo_reto(30,80):
+#     acha_tubo_re(60,80)
 
 
 
+#abre_ultrassom()
 #
 # while True:
 #     print(ultrassom_lateral.distance())
