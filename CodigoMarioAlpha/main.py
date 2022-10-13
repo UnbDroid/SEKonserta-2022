@@ -12,14 +12,13 @@ FIM_DO_PROGRAMA = False
 TUBO_ENTREGUE = False
 
 
-
 # ------------------------------------- Código Certo -> Voltando pegar o tubo após ler o primeiro GAP --------------------------------------------
 modo_do_programa = "SemVarreduraCompleta"
-#sobe_empilhadeira_centro(True, True) #Usando o centro
-#fecha_garra(20)
+sobe_empilhadeira_centro(True, True) #Usando o centro
+fecha_garra(15)
 #abre_garra()
-#conecta_nos_dois()
-conecta_alpha_beta()
+conecta_nos_dois()
+#conecta_alpha_beta()
 manda_nada_luigi()
 #inicio()
 print('oi')

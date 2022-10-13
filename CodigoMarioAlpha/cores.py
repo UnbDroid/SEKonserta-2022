@@ -39,7 +39,6 @@ def valor_eq(i = 0):
         return ValorCorEsquerda[2]
 
 def segue_verde_branco_dr():
-    global ValorCorDireita
     threshold = 20
     PROPORTIONAL_GAIN = 1
     DRIVE_SPEED = 100
@@ -71,6 +70,18 @@ def segue_verde_azul_eq():
     threshold = 7
     PROPORTIONAL_GAIN = 5
     DRIVE_SPEED = 110
+
+    leitura_sensor = valor_eq(2)
+    print(leitura_sensor)
+    
+    deviation =  -leitura_sensor + threshold
+    turn_rate = PROPORTIONAL_GAIN * deviation
+    robot.drive(DRIVE_SPEED, turn_rate)
+
+def segue_azul_beirada_eq():
+    threshold = 5
+    PROPORTIONAL_GAIN = 3
+    DRIVE_SPEED = 90
 
     leitura_sensor = valor_eq(2)
     print(leitura_sensor)

@@ -11,7 +11,7 @@ from pybricks.nxtdevices import UltrasonicSensor as us
 # Motores e Sensores
 ev3 = EV3Brick()
 #UltrassomDireita = UltrasonicSensor(Port.S1)
-#UltrassomEsquerda = UltrasonicSensor(Port.S2)
+UltrassomEsquerda = us(Port.S3)
 #LuzDireita = LightSensor(Port.S3)
 #SensorToque = TouchSensor(Port.S3)
 

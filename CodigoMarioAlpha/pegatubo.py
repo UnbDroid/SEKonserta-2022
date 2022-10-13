@@ -48,7 +48,7 @@ def sobe_empilhadeira_gasoduto():
 def fecha_garra(i = 1, continuar = False):  #Função utilizada para fechar a garra da empilhadeira - Retorna TRUE quando um tubo foi pego e False quando não foi pego
     if i == 10:
         i = 1
-        tempo = tempo_garra/3
+        tempo = 1500
     elif i == 15:
         i = 1
         tempo = 5000
@@ -65,7 +65,7 @@ def fecha_garra(i = 1, continuar = False):  #Função utilizada para fechar a ga
 def abre_garra(i =1, continuar = False): #Função utilizada para abrir a garra da empilhadeira - if continue = True, abrir e continuar o programa
     if i == 10:
         i = 1
-        tempo = tempo_garra/3
+        tempo = 1500
     elif i == 15:
         i = 1
         tempo = 5000
@@ -91,7 +91,7 @@ def abre_garra_gasoduto():
 def checa_tubo(tamanho):  #Função utilizada para checar se o robô está alinhado ao tubo (de tamanho definido no parâmetro da função) antes de pegá-lo - se não está alinhado ela alinha - 
     distancia = UltrassomFrente.distance()
     if tamanho == 10:
-        angulo = 15
+        angulo = 30
     elif tamanho == 15:
         angulo = 22 #falta testar
     elif tamanho == 20:
@@ -154,8 +154,8 @@ def pega2(tam):  #Outra função apenas de teste para pegar e devolver o tubo
 def pega_tubo(tamanho): #Função que pega o tubo já alinhado com ele previamente, com o tubo na sua frente a uma distância indefinida
     global tamanho_do_tubo_na_garra
     #robot.straight(-50)
-    # while not posso_pegar_tubo():
-    #     pass
+    while not posso_pegar_tubo():
+        pass
     wait(1000)
     DistanciaUltrassomFrente = UltrassomFrente.distance()
     while DistanciaUltrassomFrente > 170:
@@ -163,6 +163,9 @@ def pega_tubo(tamanho): #Função que pega o tubo já alinhado com ele previamen
         DistanciaUltrassomFrente = UltrassomFrente.distance()
     robot.stop()
     ev3.speaker.beep()
+    #robot.straight(45)
+    #checa_tubo(tamanho)
+    #robot.straight(-45)
     desce_empilhadeira_centro()
     robot.straight(80)
     tamanho_do_tubo_na_garra = tamanho

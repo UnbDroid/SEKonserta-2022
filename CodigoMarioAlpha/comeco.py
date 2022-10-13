@@ -81,10 +81,7 @@ def chega_no_gasoduto(): # Função para chegar no gasoduto após descer a rampa
     while DistanciaUltrassomFrente > 160:
         DistanciaUltrassomFrente = UltrassomFrente.distance()
         le_sensor_cor()
-        if viu_beirada():
-            robot.drive(20,40)
-        else:
-            robot.drive(70,0)
+        segue_azul_beirada_eq()
     robot.stop()
     watch.reset()
     while watch.time()<1400:

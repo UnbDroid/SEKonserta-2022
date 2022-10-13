@@ -90,11 +90,11 @@ def define_tamanho_gap():
     global distancia_percorrida
     if distancia_percorrida <= 60: #Não é GAP, só um buraquinho do gasoduto msm
         return False
-    elif distancia_percorrida <= 125: # GAP - 10 cm 110
+    elif distancia_percorrida <= 110: # GAP - 10 cm 110
         print("É um buraco de 10 cm!, Foi Medido:", distancia_percorrida)
         ev3.speaker.beep(200, 700)
         return 10
-    elif distancia_percorrida <= 175: #GAP - 15 cm  160
+    elif distancia_percorrida <= 160: #GAP - 15 cm  160
         print("É um buraco de 15 cm!, Foi Medido:", distancia_percorrida)
         ev3.speaker.beep(500, 700)
         wait(300)
@@ -124,7 +124,7 @@ def coloca_tubo(tamanho):
                 robot.drive(-44, -60)     #-44, -64
         elif tamanho == 15:
             while watch.time()<1500:
-                robot.drive(-78, -60)      # -78, -62
+                robot.drive(-75, -60)      # -78, -62
         elif tamanho == 20:
             while watch.time()<1500:
                 robot.drive(-89, -60)    # -86.4, -62
@@ -245,9 +245,39 @@ def mede_tamanho_gap():
         #ev3.speaker.beep(200)
         distancia_percorrida = robot.distance()
         robot.stop()
-    #if define_tamanho_gap():
-        #coloca_tubo(define_tamanho_gap())
 
+def mede_tamanho_gap_com_re():
+    global distancia_percorrida
+    global distancia_na_curva
+    global condition
+    global MEDINDO
+    condition = False # Essa condição só se torna verdadeira quando o robô para de ler a ausência de tubo durante a curva
+    MEDINDO = True
+    distancia_auxiliar = 0
+    distancia_na_curva = 0 # Se a maior parte da distancia lida foi em uma curva, significa q n era um gap mas sim um joelho mal colocado
+    anda_re_gasoduto()
+    robot.reset()
+    robot.straight(50)
+    while checa_distancia_ultrassom_esquerda():
+        le_valores_percorrimento_esquerda()
+        adiciona_lista_ultrassom_esquerda()
+        if checa_luz_esquerda('max'): # Modo Luz Ambient -> max     Reflection -> min
+            distancia_auxiliar = robot.distance()
+            virada_gasoduto_esquerda()
+            #segue_reto_gasoduto()
+            distancia_na_curva += robot.distance() - distancia_auxiliar
+        elif checa_distancia_ultrassom_frente():
+            virada_ultrassom_frente_medindo_gap()
+        elif checa_luz_esquerda('min'): # Modo Luz Ambient -> min        Reflection -> max
+            virada_gasoduto_direita()
+            #segue_reto_gasoduto()
+        else:
+            segue_reto_gasoduto()
+    if not condition:
+        print("Distancia: ",robot.distance(), "Distancia na curva:", distancia_na_curva)
+        #ev3.speaker.beep(200)
+        distancia_percorrida = robot.distance()
+        robot.stop()
 
 def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo sem varredura completa
 
@@ -273,12 +303,13 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
     TUBO_ENTREGUE = False
     primeira_vez = True #Esse valor só deixa de ser True quando o Mario passa por um gap de um tamanho diferente do tamanho do tubo que está na garra
     MEDIR_DENOVO = True # Só se torna False quando o Mario está com um tubo na garra, passa por um gap de tamanho diferente x, segue o gasoduto e acha um gap do tamanho do tubo e o entrega. após isso ele já vai buscar um tubo de tamanho x portanto não precisa medir o gasoduto novamente
+    DEU_RE = False # Robô dar ré uma vez quando ve um tubo, e depois que der a ré muda para True, para não dar ré infinita
     print('entrei no percorrimento')
     MboxAlphaBeta.send("PercorrimentoGasodutoEsquerda")
     print('mandei')
     le_valores_max_min()
-    valor_minimo = 16 #De manhã deu 58, 12h deu 75 --- 48
-    valor_maximo = 19 #De manhã deu 72, 12h deu 88 -- 58
+    valor_minimo = 8 #De manhã deu 58, 12h deu 75 --- 48
+    valor_maximo = 12   #De manhã deu 72, 12h deu 88 -- 58
     MboxAlphaBetaLuz.wait()
     while True:
         MEDINDO = False
@@ -306,7 +337,7 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
             virada_ultrassom_frente()
         elif checa_distancia_ultrassom_esquerda():
             ev3.speaker.beep(50)
-            anda_re_gasoduto()
+            #anda_re_gasoduto()
             mede_tamanho_gap()
             tamanho_gap = define_tamanho_gap()
             if tamanho_gap: #Se foi realmente visto um gap, ou era só uma aberturazinha
