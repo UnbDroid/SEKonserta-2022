@@ -38,6 +38,8 @@ def desvia_mario():
         rodas.turn(90)
 
 def identifica_cor_da_area():
+    setCores("nada")
+    
     if ve_cor(AMARELO_ESQ_MIN, AMARELO_ESQ_MAX, AMARELO_DIR_MIN, AMARELO_DIR_MAX) and getDr(): 
         setCores("amarelo")
 
@@ -50,6 +52,8 @@ def identifica_cor_da_area():
     elif ve_cor(BRANCO_ESQ_MIN, BRANCO_ESQ_MAX, BRANCO_DIR_MIN, BRANCO_DIR_MAX ):
         setCores("branco")
     
+    ev3.speaker.beep()
+    ev3.speaker.beep()
     print('eu vi a cor',getCores())
     return getCores()
 
@@ -58,7 +62,6 @@ def descobre_info_area():
     le_sensor_cor()
     setCores(identifica_cor_da_area())
     rodas.straight(-60)
-    ev3.speaker.beep()
 
     return getCores()       
 
