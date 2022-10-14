@@ -76,11 +76,10 @@ def inicio():
 # vai_pro_ponto_inicial(True)
 # acha_localizacao_das_cores()
 
+# if not verifica_tubo_reto(30,80):
+#     acha_tubo_re(60,80)
 
-if not verifica_tubo_reto(30,80):
-    acha_tubo_re(60,80)
-
-
+verifica_tubo_reto(30,80)
 
 #acha_tubo_re(60,80)
 

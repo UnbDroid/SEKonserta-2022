@@ -15,10 +15,11 @@ def sobe_empilhadeira():
     estado_empilhadeira = "cima"
 
 def lado_ultrassom():
-    motorUltrassom.run_time(-1500, 3000, then=Stop.BRAKE)
+    motorUltrassom.run_time(500, 2500, then=Stop.BRAKE)
+    #motorUltrassom.run_until_stalled(500)
 
 def frente_ultrassom():
-    motorUltrassom.run_time(1000, 1500, then=Stop.BRAKE)
+    motorUltrassom.run_time(-500, 2500, then=Stop.BRAKE)
 
 def media_ponderada(lista):
     lista_aux = lista.copy()
@@ -55,8 +56,8 @@ def ve_ultrassom(num_leituras,quanto_quero_que_leia):
             leu_certo.append(i)
 
     porcentagem = len(leu_certo)/len(leituras_ultrassom)
-    #print('aqui: ',porcentagem)
-    #print(leituras_ultrassom)
+    print('O ULTRASSOM SUPERIOR LEU')
+    print(leituras_ultrassom)
 
     if porcentagem > 0.7:
         viu = True
@@ -104,7 +105,6 @@ def pega_tubo():
     if estado_empilhadeira == "cima":
         desce_empilhadeira()
     
-    
     while not ve_ultrassom(100,120):
         le_sensor_cor()
         if ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX):
@@ -121,16 +121,15 @@ def pega_tubo():
     # rodas.turn(60)
     # rodas.turn(-60)
 
-    rodas.straight(150)
+    rodas.straight(75)
     
     sobe_empilhadeira()
     estado_empilhadeira = "cima"
 
     #print('aqui deu {}'.format(leitura_ultrassom))
     #ve_ultrassom(100,100) == True or 
-    if ve_ultrassom(100,30):
+    if not ve_ultrassom(100,2000):
         pegou_tubo = True
-        print('entrou aqui, vi o tubo')
         rodas.stop()
     else:
         pegou_tubo = False
@@ -147,7 +146,7 @@ def entra_na_area_e_pega_tubo():
         leitura_ultrassom = ve_ultrassom(100)
         le_sensor_cor()
         if ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX) :
-            atitude(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX,TURN_BORDA)
+            atitude(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX,TUpeRN_BORDA)
 
         elif leitura_ultrassom < 130: 
             pegou_tubo = pega_tubo()
@@ -199,11 +198,11 @@ def verifica_tubo_reto(distancia_que_ve_tubo,velocidade_robo):
     distancia_que_percorreu = 0
 
     
-    while distancia_terminal < 660:   
-        #print(ultrassom_lateral.distance())
+    while distancia_terminal < 640:   
         listUltrassom = []
+        listaVeReto = []
         distancia_terminal = distancia_que_percorreu + rodas.distance()
-        #print('dist terminal é: ',distancia_terminal)
+        print('dist terminal é: ',distancia_terminal)
 
         if ultrassom_lateral.distance() > distancia_que_ve_tubo:
             #print(ultrassom_lateral.distance())
@@ -211,29 +210,33 @@ def verifica_tubo_reto(distancia_que_ve_tubo,velocidade_robo):
             segue_linha_sensor_direito_prop(velocidade_robo)
 
         else: 
+            ev3.speaker.beep()
             rodas.stop()        
-            while len(listUltrassom) < 300:
+            #rodas.reset()
+            while len(listUltrassom) < 400:
                 #print('tamanho da lista é:',len(listUltrassom))
                 le_sensor_cor()
-                segue_linha_sensor_direito_prop(velocidade_robo)
+                segue_linha_sensor_direito_prop(velocidade_robo-20)
                 listUltrassom.append(ultrassom_lateral.distance())          
             rodas.stop()
+            ev3.speaker.beep()
+            #print('ele mediu {} mm'.format(rodas.distance()))
 
-            print(listUltrassom)
+            #print(listUltrassom)
             for i in listUltrassom:
-                if(i <= distancia_que_ve_tubo - 10):
+                if(i <= distancia_que_ve_tubo - 5):
                     listaVeReto.append(i)
             
-            print(listaVeReto)
+            print(listUltrassom)
+            #print(listaVeReto)
             porcentagem = len(listaVeReto)/len(listUltrassom)
-            #print(porcentagem)
+            print('ele leu {}/{} = {} '.format(len(listaVeReto),len(listUltrassom),porcentagem))
 
             if(porcentagem > 0.7): 
                 # while(ultrassom.distance() <= 25):
                 #     ve_tubo_reto = True
                 rodas.stop()
                 rodas.straight(80)
-                rodas.straight(-30)
                 if caixa_de_correio == 'amarelo':
                     rodas.straight(-70)
                 rodas.turn(90)
@@ -303,7 +306,7 @@ def acha_tubo_re(distancia_que_ve_tubo,velocidade_robo):
             rodas.drive(-velocidade_robo,0)
             
         else:
-            while len(listUltrassom) < 200:
+            while len(listUltrassom) < 300:
                 #print('tamanho da lista é:',len(listUltrassom))
                 distancia_terminal = rodas.distance()
                 rodas.drive(-velocidade_robo,0)
@@ -317,7 +320,7 @@ def acha_tubo_re(distancia_que_ve_tubo,velocidade_robo):
             
             print(listaVeReto)
             porcentagem = len(listaVeReto)/len(listUltrassom)
-            #print(porcentagem)
+            
 
             if(porcentagem > 0.7): 
                 rodas.stop()
