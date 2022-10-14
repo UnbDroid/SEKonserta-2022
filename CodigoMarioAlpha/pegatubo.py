@@ -4,8 +4,25 @@ from servidor import *
 tempo_empilhadeira = 5500
 tempo_garra = 8800
 tamanho_do_tubo_na_garra = 0
-
+tamanho_lista_frente = 15
+lista_ultrassom_frente = tamanho_lista_frente * [100000]
 porcentagem_centro = 1 #qt por cento a empilhadeira tem q subir do seu máximo para estar no centro
+
+def le_distancia_frente():
+    global lista_ultrassom_frente
+    distancia = UltrassomFrente.distance()
+    lista_ultrassom_frente.pop(0)
+    lista_ultrassom_frente.append(distancia)
+
+def checa_distancia_frente_devolucao():
+    global lista_ultrassom_frente
+    global tamanho_lista_frente
+    if (sum(lista_ultrassom_frente)/tamanho_lista_frente) <= 80:
+        return True
+    else:
+        return False
+
+
 
 
 def sobe_empilhadeira(i = 1, continuar = False): #Função utilizada para subir a empilhadeira
@@ -124,9 +141,9 @@ def devolve_tubo(tam =20):  #Função utilizada apenas para colocar o tubo no ga
 
 
 def posiciona_gasoduto(): #Função que posiciona o robô de forma correta para colocar o tubo no gasoduto
-    distancia = UltrassomFrente.distance()
-    while distancia > 80:
-        distancia = UltrassomFrente.distance()
+    le_distancia_frente()
+    while not checa_distancia_frente_devolucao():
+        le_distancia_frente()
         robot.drive(30,0)
     robot.stop()
     robot.straight(20)

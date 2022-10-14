@@ -11,11 +11,13 @@ from movimentacao import *
 FIM_DO_PROGRAMA = False
 TUBO_ENTREGUE = False
 
-
+conecta_alpha_beta()
+while True:
+    percorre_gasoduto_esquerda()
 # ------------------------------------- Código Certo -> Voltando pegar o tubo após ler o primeiro GAP --------------------------------------------
 modo_do_programa = "SemVarreduraCompleta"
-sobe_empilhadeira_centro(True, True) #Usando o centro
-fecha_garra(20)
+#sobe_empilhadeira_centro(True, True) #Usando o centro
+#fecha_garra(10)
 #abre_garra()
 #conecta_nos_dois()
 conecta_alpha_beta()

@@ -11,7 +11,7 @@ DistanciaUltrassomEsquerda = 0
 DistanciaUltrassomFrente = 0
 valor_minimo = 5
 valor_maximo = 65
-tamanho_do_tubo_na_garra = 0  #Mudar para 0
+tamanho_do_tubo_na_garra = 15  #Mudar para 0
 lista_de_gaps = []
 FIM_DO_PROGRAMA = False
 TUBO_ENTREGUE = False
@@ -115,7 +115,7 @@ def coloca_tubo(tamanho):
     global distancia_percorrida
     global condition
     robot.stop()
-    if condition:  #Se a condição é verdadeira, ele parou de ler o buraco durante a curva
+    if False: #condition:  #Se a condição é verdadeira, ele parou de ler o buraco durante a curva
             pass
 
     else:
@@ -130,11 +130,7 @@ def coloca_tubo(tamanho):
             while watch.time()<1500:
                 robot.drive(-89, -60)    # -86.4, -62
         robot.stop()
-        ev3.speaker.beep(900)
-        wait(2000)
         posiciona_gasoduto()
-        ev3.speaker.beep(900)
-        wait(2000)
         devolve_tubo(tamanho)
 
 def anda_re_gasoduto():
@@ -222,7 +218,7 @@ def virada_ultrassom_frente_medindo_gap(): #Faz a virada mas continua medindo o 
     robot.straight(distancia_auxiliar)
     robot.stop()
     ev3.speaker.beep(50,500)
-    virada_ultrassom_frente()
+    #virada_ultrassom_frente()
     robot.stop()
     le_valores_percorrimento_esquerda()
     #watch.reset()
@@ -332,8 +328,8 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
     MboxAlphaBeta.send("PercorrimentoGasodutoEsquerda")
     print('mandei')
     le_valores_max_min()
-    valor_minimo = 31 #De manhã deu 58, 12h deu 75 --- 48
-    valor_maximo = 38   #De manhã deu 72, 12h deu 88 -- 58
+    valor_minimo = 13 #De manhã deu 58, 12h deu 75 --- 48
+    valor_maximo = 23  #De manhã deu 72, 12h deu 88 -- 58
     MboxAlphaBetaLuz.wait()
     watch_re.reset()
     while True:
@@ -353,7 +349,7 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
                 print(FIM_DO_PROGRAMA)
             if modo == 'entregar': # Se ele chegar ao fim do programa com um tubo para ser entregue, devolver o tubo ao Luigi
                 alinha_beirada()
-                manda_mensagem_luigi(tamanho_do_tubo_na_garra, tamanho_do_tubo_espera)
+                manda_mensagem_luigi(tamanho_do_tubo_espera, tamanho_do_tubo_na_garra)
                 devolve_tubo_ao_Luigi(tamanho_do_tubo_na_garra, tamanho_do_tubo_espera)
                 tamanho_do_tubo_na_garra = tamanho_do_tubo_espera
             break
@@ -400,6 +396,9 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
                             tamanho_do_tubo_espera = tamanho_gap # Esse vai ser o tamanho do próximo tubo a ser pego pelo Mario
                             primeira_vez = False
                         pass # Se o tamanho do GAP encontrada for diferente ao do tubo que está na garra
+            
+            if condition: #girar os 90° caso ele termine de ver o gap na curva
+                virada_ultrassom_frente()
         elif checa_luz_esquerda('min'):# Modo Luz Ambient -> min        Reflection -> max
             virada_gasoduto_direita()
             #segue_reto_gasoduto()
@@ -432,8 +431,8 @@ def percorre_gasoduto_esquerda_com_varredura_completa(modo = 'varredura'):  #Per
     MboxAlphaBeta.send("PercorrimentoGasodutoEsquerda")
     print('mandei')
     le_valores_max_min()
-    valor_minimo = 60 #De manhã deu 58, 12h deu 75 --- 48
-    valor_maximo = 68 #De manhã deu 72, 12h deu 88 -- 58
+    valor_minimo = 7 #De manhã deu 58, 12h deu 75 --- 48
+    valor_maximo = 11 #De manhã deu 72, 12h deu 88 -- 58
     MboxAlphaBetaLuz.wait()
     while True:
         manda_nada_luigi()
