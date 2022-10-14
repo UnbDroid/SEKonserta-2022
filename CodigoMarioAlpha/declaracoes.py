@@ -24,6 +24,7 @@ robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=41, axle_track=115.2
 watch = StopWatch()
 watch2 = StopWatch()
 watch_virada = StopWatch()
+watch_re = StopWatch() # Relógio que não permite ele dar ré no gasoduto duas vezes dentro de um certo período de tempo
 
 FIM_DO_PROGRAMA = False
 TUBO_ENTREGUE = False
