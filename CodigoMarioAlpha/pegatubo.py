@@ -2,9 +2,9 @@ from declaracoes import *
 from servidor import *
 
 tempo_empilhadeira = 5500
-tempo_garra = 8800
+tempo_garra = 8600
 tamanho_do_tubo_na_garra = 0
-tamanho_lista_frente = 15
+tamanho_lista_frente = 2
 lista_ultrassom_frente = tamanho_lista_frente * [100000]
 porcentagem_centro = 1 #qt por cento a empilhadeira tem q subir do seu máximo para estar no centro
 
@@ -68,7 +68,7 @@ def fecha_garra(i = 1, continuar = False):  #Função utilizada para fechar a ga
         tempo = 1500
     elif i == 15:
         i = 1
-        tempo = 5000
+        tempo = 4700
     elif i == 20:
         i = 1
         tempo = tempo_garra
@@ -85,7 +85,7 @@ def abre_garra(i =1, continuar = False): #Função utilizada para abrir a garra 
         tempo = 1500
     elif i == 15:
         i = 1
-        tempo = 5000
+        tempo = 4700
     elif i == 20:
         i = 1
         tempo = tempo_garra
@@ -141,12 +141,13 @@ def devolve_tubo(tam =20):  #Função utilizada apenas para colocar o tubo no ga
 
 
 def posiciona_gasoduto(): #Função que posiciona o robô de forma correta para colocar o tubo no gasoduto
-    le_distancia_frente()
-    while not checa_distancia_frente_devolucao():
-        le_distancia_frente()
+    distancia = UltrassomFrente.distance()
+    while distancia > 80:
+        distancia = UltrassomFrente.distance()
         robot.drive(30,0)
     robot.stop()
     robot.straight(20)
+
 
 def pega(): # Função feita apenas para testar a captura de um tubo na frente do robô, e a sua devolução no gasoduto a sua frente também
     robot.drive(70,0)
@@ -170,9 +171,9 @@ def pega2(tam):  #Outra função apenas de teste para pegar e devolver o tubo
 
 def pega_tubo(tamanho): #Função que pega o tubo já alinhado com ele previamente, com o tubo na sua frente a uma distância indefinida
     global tamanho_do_tubo_na_garra
-    #robot.straight(-50)
-    # while not posso_pegar_tubo():
-    #     pass
+    robot.straight(-50)
+    while not posso_pegar_tubo():
+        pass
     wait(1000)
     DistanciaUltrassomFrente = UltrassomFrente.distance()
     while DistanciaUltrassomFrente > 170:
@@ -184,7 +185,7 @@ def pega_tubo(tamanho): #Função que pega o tubo já alinhado com ele previamen
     #checa_tubo(tamanho)
     #robot.straight(-45)
     desce_empilhadeira_centro()
-    robot.straight(80)
+    robot.straight(90)
     tamanho_do_tubo_na_garra = tamanho
     print("o tamanho é esse", tamanho_do_tubo_na_garra)
     if tamanho == 15:
@@ -192,5 +193,5 @@ def pega_tubo(tamanho): #Função que pega o tubo já alinhado com ele previamen
     abre_garra(tamanho)
     sobe_empilhadeira()
     manda_confirmacao_luigi()
-    manda_nada_luigi()
+    manda_nada_cores_luigi()
 
