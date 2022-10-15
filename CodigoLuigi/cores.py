@@ -195,3 +195,17 @@ def segue_linha_sensor_esquerdo_re(DRIVE_SPEED):
     deviation =  threshold - leitura_sensor[0]
     turn_rate = PROPORTIONAL_GAIN * deviation
     rodas.drive(DRIVE_SPEED, -turn_rate)
+
+def segue_linha_sensor_direito_re(DRIVE_SPEED):
+    PRETO = 12 #15
+    
+    threshold = 70 #75
+    PROPORTIONAL_GAIN = 1
+
+    #leitura_sensor = luzDireita.reflection()
+    #print(leitura_sensor)
+    leitura_sensor = getValorCorDireita()
+
+    deviation =  leitura_sensor[0] - threshold
+    turn_rate = PROPORTIONAL_GAIN * deviation
+    rodas.drive(DRIVE_SPEED, -turn_rate)

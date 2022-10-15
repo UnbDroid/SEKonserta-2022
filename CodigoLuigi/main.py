@@ -79,7 +79,7 @@ def inicio():
 # if not verifica_tubo_reto(30,80):
 #     acha_tubo_re(60,80)
 
-verifica_tubo_reto(30,80)
+#verifica_tubo_reto(30,80)
 
 #acha_tubo_re(60,80)
 
@@ -109,6 +109,9 @@ verifica_tubo_reto(30,80)
 #     acha_tubo_re(60,80)
 
 
+if not verifica_tubo_reto(35,25,80):
+    volta_pro_comeco_area(600)
+    verifica_tubo_reto(60,50,80)
 
 #abre_ultrassom()
 #

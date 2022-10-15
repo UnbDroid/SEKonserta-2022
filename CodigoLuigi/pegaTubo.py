@@ -108,6 +108,7 @@ def pega_tubo():
     while not ve_ultrassom(100,120):
         le_sensor_cor()
         if ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX):
+            alinha_robo(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX)
             rodas.stop()
             sai_da_area_cores()
             print('sai da area cores')
@@ -128,7 +129,7 @@ def pega_tubo():
 
     #print('aqui deu {}'.format(leitura_ultrassom))
     #ve_ultrassom(100,100) == True or 
-    if not ve_ultrassom(100,2000):
+    if not ve_ultrassom(200,2000):
         pegou_tubo = True
         rodas.stop()
     else:
@@ -181,7 +182,7 @@ def sai_do_ponto_inicial_e_vai_pra_area():
         le_sensor_cor()
         segue_linha_sensor_direito_prop(100)
 
-def verifica_tubo_reto(distancia_que_ve_tubo,velocidade_robo):
+def verifica_tubo_reto(distancia_que_ve_tubo,distancia_que_valida_tubo,velocidade_robo):
     listaVeReto = []
     distancia_andada = []
     distancia_terminal = 0
@@ -191,14 +192,21 @@ def verifica_tubo_reto(distancia_que_ve_tubo,velocidade_robo):
     global pegou_tubo
     global estado_empilhadeira
     pegou = False
+    cores = ['amarelo','vermelho','azul']
+    numero_de_leituras = [500,]
 
     caixa_de_correio = getCaixaDeCorreio()
     rodas.reset()
     sobe_empilhadeira()
     distancia_que_percorreu = 0
+    
+    # for i in cores:
+    #     if i == caixa_de_correio:
+    #         index = cores.index(i)
+    # leituras_ultrassom = numero_de_leituras[index]
 
     
-    while distancia_terminal < 640:   
+    while distancia_terminal < 600:   
         listUltrassom = []
         listaVeReto = []
         distancia_terminal = distancia_que_percorreu + rodas.distance()
@@ -211,9 +219,9 @@ def verifica_tubo_reto(distancia_que_ve_tubo,velocidade_robo):
 
         else: 
             ev3.speaker.beep()
-            rodas.stop()        
-            #rodas.reset()
-            while len(listUltrassom) < 400:
+            rodas.stop()                
+            
+            while len(listUltrassom) < 550:
                 #print('tamanho da lista é:',len(listUltrassom))
                 le_sensor_cor()
                 segue_linha_sensor_direito_prop(velocidade_robo-20)
@@ -221,10 +229,12 @@ def verifica_tubo_reto(distancia_que_ve_tubo,velocidade_robo):
             rodas.stop()
             ev3.speaker.beep()
             #print('ele mediu {} mm'.format(rodas.distance()))
+            #print(f'ele mediu {rodas.distance()} mm')
+            
 
             #print(listUltrassom)
             for i in listUltrassom:
-                if(i <= distancia_que_ve_tubo - 5):
+                if(i <= distancia_que_valida_tubo):
                     listaVeReto.append(i)
             
             print(listUltrassom)
@@ -232,13 +242,14 @@ def verifica_tubo_reto(distancia_que_ve_tubo,velocidade_robo):
             porcentagem = len(listaVeReto)/len(listUltrassom)
             print('ele leu {}/{} = {} '.format(len(listaVeReto),len(listUltrassom),porcentagem))
 
-            if(porcentagem > 0.7): 
+            if(porcentagem > 0.8): 
                 # while(ultrassom.distance() <= 25):
                 #     ve_tubo_reto = True
                 rodas.stop()
-                rodas.straight(80)
-                if caixa_de_correio == 'amarelo':
-                    rodas.straight(-70)
+                if caixa_de_correio == 'azul':
+                    rodas.straight(60)
+                if caixa_de_correio == 'vermelho':
+                    rodas.straight(50)
                 rodas.turn(90)
                 estado_empilhadeira = "cima"
                 distancia_que_percorreu = rodas.distance()
@@ -252,7 +263,8 @@ def verifica_tubo_reto(distancia_que_ve_tubo,velocidade_robo):
                         while not ve_cor(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX):
                             le_sensor_cor()
                             rodas.drive(80,0)
-                            alinha_robo(PRETO_ESQ_MIN,PRETO_ESQ_MAX,PRETO_DIR_MIN,PRETO_DIR_MAX) 
+                        rodas.stop()
+                        alinha_robo(PRETO_ESQ_MIN,PRETO_ESQ_MAX,PRETO_DIR_MIN,PRETO_DIR_MAX) 
                         rodas.straight(-60)    
                     else:
                         #print('entrou aqui2')
@@ -268,6 +280,22 @@ def verifica_tubo_reto(distancia_que_ve_tubo,velocidade_robo):
     #print('{}/{}'.format(len(listaVeReto),len(listUltrassom)))
     #print(listUltrassom)
     #print(porcentagem)
+
+
+def volta_pro_comeco_area(distancia):
+    rodas.turn(90)
+    rodas.straight(-10)
+    rodas.turn(75)
+    rodas.reset()
+    while rodas.distance() < distancia or ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX):
+        le_sensor_cor()
+        segue_linha_sensor_esquerdo_prop(120)
+    rodas.stop()
+    if ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX):
+        le_sensor_cor()
+        alinha_robo(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX)
+        rodas.straight(-80)
+    rodas.turn(180)
 
    
 def acha_tubo():    
@@ -296,13 +324,16 @@ def acha_tubo_re(distancia_que_ve_tubo,velocidade_robo):
     global estado_empilhadeira
     distancia_que_percorreu = 0
 
+    #falhou uma
     rodas.reset()
-    while distancia_terminal > -590:   
+    while distancia_terminal > -530:   
         listUltrassom = []
-        distancia_terminal = distancia_que_percorreu + rodas.distance()
+        listaVeReto = []
         print('distancia_terminal é = ',distancia_terminal)
+        distancia_terminal = distancia_que_percorreu + rodas.distance()
+        
 
-        if ultrassom_lateral.distance() > distancia_que_ve_tubo:  
+        if ultrassom_lateral.distance() > distancia_que_valida_tubo:  
             rodas.drive(-velocidade_robo,0)
             
         else:
@@ -324,7 +355,7 @@ def acha_tubo_re(distancia_que_ve_tubo,velocidade_robo):
 
             if(porcentagem > 0.7): 
                 rodas.stop()
-                rodas.straight(10)
+                rodas.straight(95)
                 if caixa_de_correio == 'amarelo':
                     rodas.straight(120)
                 rodas.turn(90)
