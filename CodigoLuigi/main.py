@@ -30,14 +30,20 @@ from cores import *
 
 def loop_tubo():
     MboxConfirmacao.send('Nada')
-    print('mailbox antes deu: ',MboxCores.read())
+    print('mailbox cores recebe antes deu: ',MboxCores.read())
+    print('mailbox cores devolve antes deu: ',MboxCoresDevolve.read()) 
     while MboxCores.read() =='Nada' or MboxCores.read() == None:
+        ev3.speaker.beep()
+        wait(300)
         pass
     setCaixaDeCorreio(MboxCores.read())
-    print('mailbox depois deu: ',MboxCores.read())
+    print('mailbox cores recebe depois deu: ',MboxCores.read())
     print('caixa de correio entrou: ',getCaixaDeCorreio())
+    print('mailbox cores devolve depois deu: ',MboxCoresDevolve.read()) 
     sai_do_ponto_inicial_e_vai_pra_area()
-    verifica_tubo_reto(30,80)
+    if not verifica_tubo_reto(35,80):
+        volta_pro_comeco_area(600)
+        verifica_tubo_reto(55,80)
     sai_da_area_cores()
     posiciona_tubo_mario()
     MboxConfirmacao.send('Tubo entregue')
@@ -45,11 +51,11 @@ def loop_tubo():
         pass
     rodas.straight(100)
     rodas.turn(-90)
+    le_sensor_cor()
     while not ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX): 
         le_sensor_cor()
         segue_linha_sensor_esquerdo_prop(100)
     atitude(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX,TURN_BORDA)
-
 
 
 def inicio():
@@ -59,19 +65,33 @@ def inicio():
     while True:
         loop_tubo()
 
+inicio()
+
+# if not verifica_tubo_reto(35,80):
+#     volta_pro_comeco_area(600)
+#     verifica_tubo_reto(55,80)
 
 # if not verifica_tubo_reto(30,80):
 #     acha_tubo_re(60,80)
 
 
+# while True:
+#     le_sensor_cor()
 
-# vai_pro_ponto_inicial(True)
+
+#vai_pro_ponto_inicial(True)
 # acha_localizacao_das_cores()
 # sai_do_ponto_inicial_e_vai_pra_area()
 # if not verifica_tubo_reto(30,80):
 #     acha_tubo_re(60,80)
+# if not verifica_tubo_reto(35,80):
+#     volta_pro_comeco_area(600)
+#     verifica_tubo_reto(55,80)
 # sai_da_area_cores()
-# posiciona_tubo_mario()\
+# posiciona_tubo_mario()
+
+
+
 
 # vai_pro_ponto_inicial(True)
 # acha_localizacao_das_cores()
@@ -109,12 +129,10 @@ def inicio():
 #     acha_tubo_re(60,80)
 
 
-if not verifica_tubo_reto(35,25,80):
-    volta_pro_comeco_area(600)
-    verifica_tubo_reto(60,50,80)
+
 
 #abre_ultrassom()
-#
+# #
 # while True:
 #     print(ultrassom_lateral.distance())
 

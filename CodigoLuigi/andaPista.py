@@ -11,11 +11,11 @@ def ajustes_comeco():
 def valida_cores_com_ultrassom():
     o_que_ve = 'nada'
 
-    if not ve_ultrassom(100,500):
+    if ve_ultrassom(100,150):
         #print('entrou aqui')
-        o_que_ve = "viu_rampa"
-    else:
         o_que_ve = "viu_preto"
+    else:
+        o_que_ve = "viu_rampa"
     
     return o_que_ve
 
@@ -53,15 +53,14 @@ def identifica_cor_da_area():
         setCores("branco")
     
     ev3.speaker.beep()
-    ev3.speaker.beep()
     print('eu vi a cor',getCores())
     return getCores()
 
 def descobre_info_area():
-    rodas.straight(50) #entra na área colorida    
+    rodas.straight(40) #entra na área colorida    
     le_sensor_cor()
     setCores(identifica_cor_da_area())
-    rodas.straight(-60)
+    rodas.straight(-50)
 
     return getCores()       
 
@@ -86,42 +85,45 @@ def vai_pro_ponto_inicial(comeco):
             le_sensor_cor()
             atitude(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX, TURN_BORDA)
             watch.reset()
-        elif (ve_cor(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX) or ve_cor(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX)):
-            rodas.stop()
-            print("Ou vi rampa ou vi preto")
+
+        elif ve_cor(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX):
             le_sensor_cor()
-            leitura_ultrassom = valida_cores_com_ultrassom()
-            print(leitura_ultrassom)
-            rodas.stop()
-            if leitura_ultrassom == "viu_rampa":
-                print("Vi rampa")
+            alinha_robo(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX)
+            setCores(descobre_info_area())
+            print(getCores())
+            if getCores() == 'nada':
                 le_sensor_cor()
                 atitude(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX, TURN_RAMPA)
                 watch.reset()
-            elif leitura_ultrassom == "viu_preto":
-                print("vi preto")
-                le_sensor_cor()
-                alinha_robo(PRETO_ESQ_MIN,PRETO_ESQ_MAX,PRETO_DIR_MIN,PRETO_DIR_MAX) 
-                setCores(descobre_info_area())
-                print(getCores())
-                if getCores() == "nada":
-                    print("primeiro vi preto e percebi rampa")
-                    le_sensor_cor()
-                    atitude(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX, TURN_RAMPA)
-                elif getCores() == "branco":
-                    print('vi branco dps de alinhar')
-                    rodas.straight(40)
-                else:
-                    print('primeiro vi preto e validou preto')
-                    rodas.reset()
-                    viu_preto = True
-                    rodas.straight(-40)
-                    rodas.turn(75)
-                    print('antes de add, ordem ares é: ',ordem_areas)
-                    if comeco:
-                        ordem_areas.append(getCores())
-                        print('depois de add, ordem ares é: ',ordem_areas)
-                watch.reset()     
+            else:
+                atitude(PRETO_ESQ_MIN,PRETO_ESQ_MAX,PRETO_DIR_MIN,PRETO_DIR_MAX)
+                watch.reset()
+
+        elif ve_cor(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX):
+            rodas.stop()
+            le_sensor_cor()
+            alinha_robo(PRETO_ESQ_MIN,PRETO_ESQ_MAX,PRETO_DIR_MIN,PRETO_DIR_MAX) 
+            setCores(descobre_info_area())
+            print(getCores())
+
+            if getCores() == "nada":
+                print("primeiro vi preto e percebi rampa")
+                atitude(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX, TURN_RAMPA)
+                watch.reset()
+            # elif getCores() == "branco":
+            #     print('vi branco dps de alinhar')
+            #     rodas.straight(40)
+            else:
+                print('primeiro vi preto e validou preto')
+                rodas.reset()
+                viu_preto = True
+                rodas.straight(-30)
+                rodas.turn(75)
+                print('antes de add, ordem ares é: ',ordem_areas)
+                if comeco:
+                    ordem_areas.append(getCores())
+                    print('depois de add, ordem ares é: ',ordem_areas)
+            watch.reset()     
         else:
             rodas.drive(100,0)
     
@@ -188,19 +190,20 @@ def acha_localizacao_das_cores():
         ordem_areas.append(terceira_cor)
     
     else:
-        print('ordem areas1 é ',ordem_areas)
+        #print('ordem areas1 é ',ordem_areas)
         sobe_empilhadeira()
         sai_da_area_cores()
         muda_de_area(distancia = 840)
         ordem_areas.append(descobre_info_area())
-        print('ordem areas2 é ',ordem_areas)
+        #print('ordem areas2 é ',ordem_areas)
         vai_pro_ponto_inicial(False)
 
         for i in cores:
             if i not in ordem_areas:
                 ordem_areas.append(i)
-    
-    print(ordem_areas)
+
+    setOrdemAreas(ordem_areas)
+    print(getOrdemAreas())
     return
 
 

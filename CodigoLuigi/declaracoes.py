@@ -24,7 +24,7 @@ rodas = DriveBase(rodaEsquerda, rodaDireita, wheel_diameter= 41, axle_track=114)
 rodas.settings(100, 270, 150) #velocidade_reto / aceleração reto / velocidade de giro / aceleração de giro
 
 distancia_chao = 210
-caixa_de_correio = 'azul'
+caixa_de_correio = ''
 #caixa_de_correio = ['vermelho','nada']
 distancia_primeira_cor_do_ponto_inicial = 0
 leitura_ultrassom = ultrassom.distance()
@@ -59,7 +59,7 @@ BORDA_DIR_MAX = [2,2,2]
 TURN_BORDA = -90
 
 RAMPA_ESQ_MIN = [0, 8, 0]
-RAMPA_ESQ_MAX = [4, 17, 3]
+RAMPA_ESQ_MAX = [10, 20, 5]
 RAMPA_DIREITO_MIN_ = [2, 9, 3]
 RAMPA_DIREITO_MAX = [6, 22, 11] 
 
@@ -70,23 +70,23 @@ BRANCO_ESQ_MAX = [100,100,100]
 BRANCO_DIR_MIN = [82, 76, 100]
 BRANCO_DIR_MAX = [100,100,100]
 
-AMARELO_ESQ_MIN = [60, 42, 7]
-AMARELO_ESQ_MAX = [72,50,11]
-AMARELO_DIR_MIN = [82, 49, 23]
-AMARELO_DIR_MAX = [100,58,30]
+AMARELO_ESQ_MIN = [60, 40, 7]
+AMARELO_ESQ_MAX = [74,50,13]
+AMARELO_DIR_MIN = [82, 40, 23]
+AMARELO_DIR_MAX = [100,60,30]
 
 AZUL_ESQ_MIN = [2, 5, 6]
-AZUL_ESQ_MAX = [6,10,13]
-AZUL_DIR_MIN = [6, 9, 28]
-AZUL_DIR_MAX = [11,15,36]
+AZUL_ESQ_MAX = [7,10,15]
+AZUL_DIR_MIN = [6, 9, 25]
+AZUL_DIR_MAX = [11,15,40]
 
-VERMELHO_ESQ_MIN = [46, 6, 2]
-VERMELHO_ESQ_MAX = [55,10,5]
+VERMELHO_ESQ_MIN = [45, 5, 2]
+VERMELHO_ESQ_MAX = [60,10,5]
 VERMELHO_DIR_MIN = [64, 9, 10]
-VERMELHO_DIR_MAX = [77,13,16] 
+VERMELHO_DIR_MAX = [85,15,17] 
 
-PRETO_ESQ_MIN = [4, 6, 3]
-PRETO_ESQ_MAX = [14,20,8]
+PRETO_ESQ_MIN = [4, 5, 3]
+PRETO_ESQ_MAX = [20,20,10]
 PRETO_DIR_MIN = [6, 11, 13]
 PRETO_DIR_MAX = [20,22,20] 
 

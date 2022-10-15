@@ -21,26 +21,6 @@ def lado_ultrassom():
 def frente_ultrassom():
     motorUltrassom.run_time(-500, 2500, then=Stop.BRAKE)
 
-def media_ponderada(lista):
-    lista_aux = lista.copy()
-    elementos = sorted(set(lista))
-    pesos = []
-    vezes_que_aparece  = 0
-    numerador = 0
-    denominador = 0
-
-    for i in elementos:
-        while i in lista_aux:
-            vezes_que_aparece  += 1
-            lista_aux.remove(i)
-        pesos.append(vezes_que_aparece)
-        vezes_que_aparece  = 0
-
-    for i in range(len(elementos)):
-        numerador += elementos[i]*pesos[i]
-        denominador += pesos[i]
-
-    return numerador/denominador
 
 def ve_ultrassom(num_leituras,quanto_quero_que_leia):
     leituras_ultrassom = []
@@ -56,7 +36,7 @@ def ve_ultrassom(num_leituras,quanto_quero_que_leia):
             leu_certo.append(i)
 
     porcentagem = len(leu_certo)/len(leituras_ultrassom)
-    print('O ULTRASSOM SUPERIOR LEU')
+    #print('O ULTRASSOM SUPERIOR LEU')
     print(leituras_ultrassom)
 
     if porcentagem > 0.7:
@@ -94,7 +74,7 @@ def posiciona_tubo_mario():
     rodas.turn(90)
     rodas.straight(40)
     desce_empilhadeira()
-    rodas.straight(-100)
+    rodas.straight(-120)
 
 def pega_tubo():
     global estado_empilhadeira
@@ -160,8 +140,9 @@ def sai_do_ponto_inicial_e_vai_pra_area():
     distancia = 0
     index = 0
     
-    distancias_comeco_areas = [0,750,1500]
+    print(ordem_areas)
 
+    distancias_comeco_areas = [0,750,1500]
     for i in ordem_areas:
         print('a cor que o mario pediu é: ',caixa_de_correio)
         if i == caixa_de_correio:
@@ -182,18 +163,15 @@ def sai_do_ponto_inicial_e_vai_pra_area():
         le_sensor_cor()
         segue_linha_sensor_direito_prop(100)
 
-def verifica_tubo_reto(distancia_que_ve_tubo,distancia_que_valida_tubo,velocidade_robo):
+def verifica_tubo_reto(distancia_que_ve_tubo,velocidade_robo):
     listaVeReto = []
     distancia_andada = []
     distancia_terminal = 0
-    semValoresRepetidos = 0
-    tubos_distancia = {}
     porcentagem = 0
     global pegou_tubo
     global estado_empilhadeira
     pegou = False
-    cores = ['amarelo','vermelho','azul']
-    numero_de_leituras = [500,]
+    largura_tubo = 0
 
     caixa_de_correio = getCaixaDeCorreio()
     rodas.reset()
@@ -205,15 +183,19 @@ def verifica_tubo_reto(distancia_que_ve_tubo,distancia_que_valida_tubo,velocidad
     #         index = cores.index(i)
     # leituras_ultrassom = numero_de_leituras[index]
 
+    if caixa_de_correio == 'amarelo':
+        tamanho_tubo = 100
+    if caixa_de_correio == 'vermelho':
+        tamanho_tubo = 150
+    if caixa_de_correio == 'azul':
+        tamanho_tubo = 200
     
     while distancia_terminal < 600:   
-        listUltrassom = []
-        listaVeReto = []
+        largura_tubo = 0
         distancia_terminal = distancia_que_percorreu + rodas.distance()
-        print('dist terminal é: ',distancia_terminal)
-
+        #print('dist terminal é: ',distancia_terminal
+        #print(ultrassom_lateral.distance())
         if ultrassom_lateral.distance() > distancia_que_ve_tubo:
-            #print(ultrassom_lateral.distance())
             le_sensor_cor()
             segue_linha_sensor_direito_prop(velocidade_robo)
 
@@ -221,37 +203,29 @@ def verifica_tubo_reto(distancia_que_ve_tubo,distancia_que_valida_tubo,velocidad
             ev3.speaker.beep()
             rodas.stop()                
             
-            while len(listUltrassom) < 550:
-                #print('tamanho da lista é:',len(listUltrassom))
+            largura_tubo = rodas.distance()
+            #300 é 5 cm, 600 é 10 cm, 1000 é 20 cm
+            #while distancia_que_ve_tubo_min < ultrassom_lateral.distance() < distancia_que_ve_tubo_max:
+            while ultrassom_lateral.distance() < distancia_que_ve_tubo:
+                #print(ultrassom_lateral.distance())
                 le_sensor_cor()
                 segue_linha_sensor_direito_prop(velocidade_robo-20)
-                listUltrassom.append(ultrassom_lateral.distance())          
-            rodas.stop()
+            
             ev3.speaker.beep()
-            #print('ele mediu {} mm'.format(rodas.distance()))
-            #print(f'ele mediu {rodas.distance()} mm')
-            
+            largura_tubo = rodas.distance() - largura_tubo
+            print('a largura_tubo q ele leu é: ',largura_tubo)
 
-            #print(listUltrassom)
-            for i in listUltrassom:
-                if(i <= distancia_que_valida_tubo):
-                    listaVeReto.append(i)
-            
-            print(listUltrassom)
-            #print(listaVeReto)
-            porcentagem = len(listaVeReto)/len(listUltrassom)
-            print('ele leu {}/{} = {} '.format(len(listaVeReto),len(listUltrassom),porcentagem))
-
-            if(porcentagem > 0.8): 
-                # while(ultrassom.distance() <= 25):
-                #     ve_tubo_reto = True
+            if largura_tubo < tamanho_tubo - 3:
+                pass
+            else:
                 rodas.stop()
                 if caixa_de_correio == 'azul':
-                    rodas.straight(60)
+                    rodas.straight(-80)
                 if caixa_de_correio == 'vermelho':
-                    rodas.straight(50)
+                    rodas.straight(-50)
                 rodas.turn(90)
                 estado_empilhadeira = "cima"
+
                 distancia_que_percorreu = rodas.distance()
                 if pega_tubo():
                     break
