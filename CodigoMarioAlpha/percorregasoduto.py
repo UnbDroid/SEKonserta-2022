@@ -59,7 +59,7 @@ def checa_distancia_ultrassom_esquerda():  # Retorna True se não foi visto tubo
 def checa_distancia_ultrassom_frente():
     global DistanciaUltrassomFrente
     # if DistanciaUltrassomFrente <= 140:
-    if DistanciaUltrassomFrente <= 120:
+    if DistanciaUltrassomFrente <= 130:
         return True
     else:
         return False
@@ -91,11 +91,11 @@ def define_tamanho_gap():
     global distancia_percorrida
     if distancia_percorrida <= 60: #Não é GAP, só um buraquinho do gasoduto msm
         return False
-    elif distancia_percorrida <= 110: # GAP - 10 cm 110
+    elif distancia_percorrida <= 113: # GAP - 10 cm 110
         print("É um buraco de 10 cm!, Foi Medido:", distancia_percorrida)
         ev3.speaker.beep(200, 700)
         return 10
-    elif distancia_percorrida <= 160: #GAP - 15 cm  160
+    elif distancia_percorrida <= 163: #GAP - 15 cm  160
         print("É um buraco de 15 cm!, Foi Medido:", distancia_percorrida)
         ev3.speaker.beep(500, 700)
         wait(300)
@@ -122,13 +122,13 @@ def coloca_tubo(tamanho):
         watch.reset()
         if tamanho == 10:
             while watch.time()<1500:
-                robot.drive(-44, -60)     #-44, -64
+                robot.drive(-48, -60)     #-44, -64
         elif tamanho == 15:
             while watch.time()<1500:
-                robot.drive(-72, -60)      # -78, -62
+                robot.drive(-71, -60)      # -78, -62
         elif tamanho == 20:
             while watch.time()<1500:
-                robot.drive(-89, -60)    # -86.4, -62
+                robot.drive(-88, -60)    # -86.4, -62
         robot.stop()
         posiciona_gasoduto()
         devolve_tubo(tamanho)
@@ -157,26 +157,26 @@ def virada_gasoduto_esquerda():
     if MEDINDO:
         robot.drive(40, -14)
     else:
-        # robot.drive(50, -16)         #50,-16
+        robot.drive(50, -16)         #50,-16
         #robot.drive(100, -34)
-        robot.drive(75, -25)
+        # robot.drive(75, -25)
 
 def virada_gasoduto_direita():
     global MEDINDO
     if MEDINDO:
         robot.drive(40,16)
     else:
-        # robot.drive(50, 20)       #50,20
+        robot.drive(50, 20)       #50,20
         #robot.drive(100,40)
-        robot.drive(75,30)
+        # robot.drive(75,30)
 
 def segue_reto_gasoduto():
     global MEDINDO
     if MEDINDO:
         robot.drive(40,0)
     else:
-        # robot.drive(50,0)    #50,0
-        robot.drive(75,0)
+        robot.drive(50,0)    #50,0
+        # robot.drive(75,0)
         #robot.drive(100,0)
     
 
@@ -195,6 +195,7 @@ def virada_ultrassom_frente_medindo_gap(): #Faz a virada mas continua medindo o 
     global condition
     global distancia_percorrida
     global distancia_na_curva
+    global distancia_da_re
     robot.stop()
     print("Distância (parou na curva):", robot.distance(), "Distancia na curva:", distancia_na_curva)
     ev3.speaker.beep(50,100)
@@ -215,7 +216,8 @@ def virada_ultrassom_frente_medindo_gap(): #Faz a virada mas continua medindo o 
     distancia_percorrida = robot.distance()
     condition = True
     distancia_auxiliar -= robot.distance()
-    robot.straight(distancia_auxiliar)
+    distancia_da_re = distancia_auxiliar # ele só vai dar essa ré depois que devolver o tubo, caso ele precise
+    #robot.straight(distancia_auxiliar)
     robot.stop()
     ev3.speaker.beep(50,500)
     #virada_ultrassom_frente()
@@ -316,6 +318,7 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
     global condition
     global tamanho_do_tubo_na_garra
     global tamanho_do_tubo_espera
+    global distancia_da_re
     global FIM_DO_PROGRAMA
     global TUBO_ENTREGUE
     global MEDIR_DENOVO
@@ -327,8 +330,9 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
     print('entrei no percorrimento')
     MboxAlphaBeta.send("PercorrimentoGasodutoEsquerda")
     print('mandei')
+    tamanho_do_tubo_espera = 0 ############################# teste ################################
     le_valores_max_min()
-    valor_minimo = 31 #De manhã deu 58, 12h deu 75 --- 48
+    valor_minimo = 33 #De manhã deu 58, 12h deu 75 --- 48
     valor_maximo = 40  #De manhã deu 72, 12h deu 88 -- 58
     MboxAlphaBetaLuz.wait()
     watch_re.reset()
@@ -344,7 +348,7 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
             robot.stop()
             ev3.speaker.beep(900, 1000)
             robot.stop()
-            if modo == 'medir':
+            if modo == 'medir' or (modo == 'entregar' and not tamanho_do_tubo_espera):
                 FIM_DO_PROGRAMA = True  #Se ele estiver medindo e chegar até o fim do gasoduto, finalizar o programa
                 print(FIM_DO_PROGRAMA)
             if modo == 'entregar': # Se ele chegar ao fim do programa com um tubo para ser entregue, devolver o tubo ao Luigi
@@ -397,8 +401,9 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
                             primeira_vez = False
                         pass # Se o tamanho do GAP encontrada for diferente ao do tubo que está na garra
             
-            if condition: #girar os 90° caso ele termine de ver o gap na curva
-                virada_ultrassom_frente()
+            if condition: #girar os 90° caso ele termine de ver o gap na curva/dar a ré depois
+                robot.straight(distancia_da_re)
+                # virada_ultrassom_frente()
         elif checa_luz_esquerda('min'):# Modo Luz Ambient -> min        Reflection -> max
             virada_gasoduto_direita()
             #segue_reto_gasoduto()
@@ -431,8 +436,8 @@ def percorre_gasoduto_esquerda_com_varredura_completa(modo = 'varredura'):  #Per
     MboxAlphaBeta.send("PercorrimentoGasodutoEsquerda")
     print('mandei')
     le_valores_max_min()
-    valor_minimo = 7 #De manhã deu 58, 12h deu 75 --- 48
-    valor_maximo = 11 #De manhã deu 72, 12h deu 88 -- 58
+    valor_minimo = 777 #De manhã deu 58, 12h deu 75 --- 48
+    valor_maximo = 1111 #De manhã deu 72, 12h deu 88 -- 58
     MboxAlphaBetaLuz.wait()
     while True:
         manda_nada_luigi()

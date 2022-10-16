@@ -19,7 +19,7 @@ def le_ultrassom_frente_cores():
 
 def reposiciona_gasoduto(): #Se reposiciona no gasoduto para continuar seu percorrimnto após a entrega de um tubo
     DistanciaUltrassomFrente = UltrassomFrente.distance()
-    while DistanciaUltrassomFrente > 160:
+    while DistanciaUltrassomFrente > 170:
         DistanciaUltrassomFrente = UltrassomFrente.distance()
         le_sensor_cor()
         if viu_beirada():
@@ -29,7 +29,7 @@ def reposiciona_gasoduto(): #Se reposiciona no gasoduto para continuar seu perco
     robot.stop()
     watch.reset()
     while watch.time()<1500:
-        robot.drive(18, 58)
+        robot.drive(20, 58)
     robot.stop()
     return
 
@@ -66,8 +66,8 @@ def gasoduto_ate_rampa():  #Após achar um GAP, percurso do gasoduto até encont
             vira_90_cuidadoso()
         elif viu_beirada():
             alinha_beirada()
-            robot.straight(-100)
-            robot.turn(90)
+            robot.straight(-300)
+            robot.turn(-93)
         else:
             robot.drive(120,0)
     alinha_verde_azul()
@@ -106,8 +106,8 @@ def anda_ate_direita_rampa():   #Alinhado no verde em baixo, vira a direita e ch
         robot.drive(120,0)
     alinha_verde_azul()
 
-def anda_ate_direita_branco():   #Alinhado no branco em cima, vira a direita e chega até o fim da arena na direita, pra pegar o tubo
-    robot.straight(50)
+def anda_ate_direita_branco(i = 400):   #Alinhado no branco em cima, vira a direita e chega até o fim da arena na direita, pra pegar o tubo
+    robot.straight(120)
     robot.turn(180)
     while not viu_verde_branco():
         le_sensor_cor()
@@ -124,7 +124,7 @@ def anda_ate_direita_branco():   #Alinhado no branco em cima, vira a direita e c
         #     robot.drive(90,0)
         segue_verde_branco_dr()
     alinha_beirada()
-    robot.straight(-400) #VALOR COMBINADO COM O LUIGI
+    robot.straight(-i) #VALOR COMBINADO COM O LUIGI
     robot.turn(-90)
 
 def anda_ate_fim_direita_branco(): #vai até o outro lado da arena buscar o tubo depois de devolver o tubo do lado esquerdo
@@ -175,10 +175,10 @@ def posiciona_para_devolver_Luigi(tamanho_do_tubo_na_garra, tamanho_do_tubo_espe
     alinha_beirada()
     robot.straight(-400) #Valor combinado
     robot.turn(90)
-    robot.straight(120) # Valor combinado
+    robot.straight(40) # Valor combinado
     desce_empilhadeira()
     fecha_garra(tamanho_do_tubo_na_garra)
-    robot.straight(-120)
+    robot.straight(-40)
     sobe_empilhadeira_centro()
     tamanho_do_tubo_na_garra = 0
     robot.turn(90)

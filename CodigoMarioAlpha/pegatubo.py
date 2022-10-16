@@ -1,8 +1,8 @@
 from declaracoes import *
 from servidor import *
 
-tempo_empilhadeira = 5500
-tempo_garra = 8600
+tempo_empilhadeira = 5400
+tempo_garra = 8100 #8100
 tamanho_do_tubo_na_garra = 0
 tamanho_lista_frente = 2
 lista_ultrassom_frente = tamanho_lista_frente * [100000]
@@ -46,7 +46,7 @@ def desce_empilhadeira_centro(i = True):
     else:
         desce_empilhadeira(1 - porcentagem_centro)
 
-def sobe_empilhadeira_centro(i = True, continuar = True):
+def sobe_empilhadeira_centro(i = True, continuar = False):
     global porcentagem_centro
     if i:
         if continuar:
@@ -65,37 +65,50 @@ def sobe_empilhadeira_gasoduto():
 def fecha_garra(i = 1, continuar = False):  #Função utilizada para fechar a garra da empilhadeira - Retorna TRUE quando um tubo foi pego e False quando não foi pego
     if i == 10:
         i = 1
-        tempo = 1500
+        tempo = 2900
     elif i == 15:
         i = 1
-        tempo = 4700
+        tempo = 4200 #4700
     elif i == 20:
         i = 1
         tempo = tempo_garra
     else:
         tempo = tempo_garra
+    tempo *= 0.4
     if not continuar:
-        MotorGarra.run_time(-400,1*i* tempo)
+        MotorGarra.run_time(-1000,1*i* tempo)
     else:
-        MotorGarra.run_time(-400, i*tempo, then=Stop.HOLD, wait = False)
+        MotorGarra.run_time(-1000, i*tempo, then=Stop.HOLD, wait = False)
 
 def abre_garra(i =1, continuar = False): #Função utilizada para abrir a garra da empilhadeira - if continue = True, abrir e continuar o programa
     if i == 10:
         i = 1
-        tempo = 1500
+        tempo = 2900
     elif i == 15:
         i = 1
-        tempo = 4700
+        tempo = 4200 #4700
     elif i == 20:
         i = 1
         tempo = tempo_garra
     else:
         tempo = tempo_garra
+    tempo *= 0.4
     if not continuar:
-        MotorGarra.run_time(400, i*tempo)
+        MotorGarra.run_time(1000, i*tempo)
+        MotorGarra.run_time(1000, tempo * 0.4)
+        MotorGarra.run_time(-1000,tempo * 0.4)
     else:
-        MotorGarra.run_time(400, i*tempo, then=Stop.HOLD, wait = False) #Continuar o código enquanto abre a garra
+        MotorGarra.run_time(800, i*tempo, then=Stop.HOLD, wait = False) #Continuar o código enquanto abre a garra
     return
+
+def fecha_garra_alinhar(i = 10, condition = True): # i [e o tamanho]
+    tempo10 = 0.7
+    if i == 10:
+        if condition:
+            MotorGarra.run_time(-1000, 5000 * tempo10)
+        else:
+            MotorGarra.run_time(-1000, 5000 * tempo10)
+
 
 def fecha_garra_gasoduto():
     fecha_garra(0.4)
@@ -144,9 +157,9 @@ def posiciona_gasoduto(): #Função que posiciona o robô de forma correta para 
     distancia = UltrassomFrente.distance()
     while distancia > 80:
         distancia = UltrassomFrente.distance()
-        robot.drive(30,0)
+        robot.drive(70,0)
     robot.stop()
-    robot.straight(20)
+    robot.straight(10)
 
 
 def pega(): # Função feita apenas para testar a captura de um tubo na frente do robô, e a sua devolução no gasoduto a sua frente também
@@ -169,22 +182,31 @@ def pega2(tam):  #Outra função apenas de teste para pegar e devolver o tubo
     posiciona_gasoduto()
     devolve_tubo(tam)
 
+def alinha_tubo(tamanho):
+    MotorGarra.run_time(1000, 5000) # abriu
+    robot.straight(105)
+    fecha_garra_alinhar(tamanho)
+    MotorGarra.run_time(1000, 1500)
+    robot.straight(-70)
+    MotorGarra.run_time(-1000, 1500)
+    fecha_garra_alinhar(tamanho, False)
+
+
+
 def pega_tubo(tamanho): #Função que pega o tubo já alinhado com ele previamente, com o tubo na sua frente a uma distância indefinida
     global tamanho_do_tubo_na_garra
     robot.straight(-50)
-    while not posso_pegar_tubo():
-        pass
-    wait(1000)
+    # while not posso_pegar_tubo():
+    #     pass
     DistanciaUltrassomFrente = UltrassomFrente.distance()
     while DistanciaUltrassomFrente > 170:
         robot.drive(70,0)
         DistanciaUltrassomFrente = UltrassomFrente.distance()
     robot.stop()
     ev3.speaker.beep()
-    #robot.straight(45)
-    #checa_tubo(tamanho)
-    #robot.straight(-45)
     desce_empilhadeira_centro()
+    if tamanho == 10:
+        alinha_tubo(tamanho)
     robot.straight(90)
     tamanho_do_tubo_na_garra = tamanho
     print("o tamanho é esse", tamanho_do_tubo_na_garra)
