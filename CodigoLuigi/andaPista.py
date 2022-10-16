@@ -32,11 +32,6 @@ def atitude_preto():
     rodas.straight(-60)
     rodas.turn(90)
 
-def desvia_mario():
-    if ultrassom.distance() < 20:
-        rodas.straight(-60)
-        rodas.turn(90)
-
 def identifica_cor_da_area():
     setCores("nada")
     
@@ -82,47 +77,35 @@ def vai_pro_ponto_inicial(comeco):
             watch.reset()
 
         if ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX):
+            print('estou vendo borda')
             le_sensor_cor()
             atitude(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX, TURN_BORDA)
             watch.reset()
 
         elif ve_cor(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX):
+            print('estou vendo rampa')
             le_sensor_cor()
-            alinha_robo(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX)
-            setCores(descobre_info_area())
-            print(getCores())
-            if getCores() == 'nada':
-                le_sensor_cor()
-                atitude(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX, TURN_RAMPA)
-                watch.reset()
-            else:
-                atitude(PRETO_ESQ_MIN,PRETO_ESQ_MAX,PRETO_DIR_MIN,PRETO_DIR_MAX)
-                watch.reset()
+            atitude(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX, TURN_RAMPA)
+            watch.reset()
 
-        elif ve_cor(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX):
+        elif ve_cor(AMARELO_ESQ_MIN, AMARELO_ESQ_MAX, AMARELO_DIR_MIN, AMARELO_DIR_MAX) or ve_cor(VERMELHO_ESQ_MIN, VERMELHO_ESQ_MAX, VERMELHO_DIR_MIN, VERMELHO_DIR_MAX) or ve_cor(AZUL_ESQ_MIN, AZUL_ESQ_MAX, AZUL_DIR_MIN, AZUL_DIR_MAX):
             rodas.stop()
+            rodas.straight(20)
+            rodas.straight(-40)
             le_sensor_cor()
-            alinha_robo(PRETO_ESQ_MIN,PRETO_ESQ_MAX,PRETO_DIR_MIN,PRETO_DIR_MAX) 
+            alinha_robo(PRETO_ESQ_MIN,PRETO_ESQ_MAX,PRETO_DIR_MIN,PRETO_DIR_MAX)             
             setCores(descobre_info_area())
             print(getCores())
-
-            if getCores() == "nada":
-                print("primeiro vi preto e percebi rampa")
-                atitude(RAMPA_ESQ_MIN, RAMPA_ESQ_MAX, RAMPA_DIREITO_MIN_, RAMPA_DIREITO_MAX, TURN_RAMPA)
-                watch.reset()
-            # elif getCores() == "branco":
-            #     print('vi branco dps de alinhar')
-            #     rodas.straight(40)
-            else:
-                print('primeiro vi preto e validou preto')
-                rodas.reset()
-                viu_preto = True
-                rodas.straight(-30)
-                rodas.turn(75)
-                print('antes de add, ordem ares é: ',ordem_areas)
-                if comeco:
-                    ordem_areas.append(getCores())
-                    print('depois de add, ordem ares é: ',ordem_areas)
+            
+            viu_preto = True
+            rodas.straight(-30)
+            rodas.turn(80)
+            rodas.reset()
+            
+            print('antes de add, ordem ares é: ',ordem_areas)
+            if comeco:
+                ordem_areas.append(getCores())
+                print('depois de add, ordem ares é: ',ordem_areas)
             watch.reset()     
         else:
             rodas.drive(100,0)
@@ -154,7 +137,8 @@ def vai_pro_ponto_inicial(comeco):
 
 
 def muda_de_area(distancia):
-    rodas.turn(-75) #vira 90 graus para andar até a area 2
+    rodas.straight(-40)
+    rodas.turn(-80) #vira 90 graus para andar até a area 2
     rodas.reset()
     while rodas.distance() < distancia:
         le_sensor_cor()

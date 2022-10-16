@@ -66,7 +66,7 @@ def alinha_robo(eq_min, eq_max, dr_min, dr_max):
 
     #print('esta alinhando, esq: ',valorEsquerdo)
     #print('esta alinhando, dir: ',valorDireito)
-    rodas.stop()
+#    rodas.stop()
     le_sensor_cor()
     if(valor_fora_do_intervalo(dr_min, dr_max, valorDireito)):
         #print("entrei no if do valor no intervalo")
@@ -94,6 +94,32 @@ def alinha_robo(eq_min, eq_max, dr_min, dr_max):
     #         print('corEsquerda: ',corEsquerda)
     #         print('lendoSensorCorEsq: ',valorEsquerdo)
 
+    rodas.stop()
+    return True
+
+
+def alinha_robo(eq_min, eq_max, dr_min, dr_max):
+    valorEsquerdo = getValorCorEsquerda()
+    valorDireito = getValorCorDireita()
+    
+    le_sensor_cor()
+    if(valor_fora_do_intervalo(dr_min, dr_max, valorDireito)):
+        #print("entrei no if do valor no intervalo")
+        while(valor_fora_do_intervalo(dr_min, dr_max, valorDireito)):
+            rodas.drive(15,-30) #direita
+            setValorCorDireita(luzDireita.rgb())
+            valorDireito = getValorCorDireita()
+            #print('lendoSensorCorDir: ',valorDireito)
+
+    elif (valor_fora_do_intervalo(eq_min, eq_max, valorEsquerdo)):
+        #print("entrei no if do valor no intervalo")
+        #dir vendo_preto
+        while valor_fora_do_intervalo(eq_min, eq_max, valorEsquerdo):
+            rodas.drive(15,30) #esquerda
+            #le_sensor_cor()
+            setValorCorEsquerda(luzEsquerda.rgb())
+            valorEsquerdo = getValorCorEsquerda()
+            #print('lendoSensorCorEsq: ',valorEsquerdo
     rodas.stop()
     return True
 

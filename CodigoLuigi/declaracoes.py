@@ -24,8 +24,8 @@ rodas = DriveBase(rodaEsquerda, rodaDireita, wheel_diameter= 41, axle_track=114)
 rodas.settings(100, 270, 150) #velocidade_reto / aceleração reto / velocidade de giro / aceleração de giro
 
 distancia_chao = 210
-caixa_de_correio = ''
-#caixa_de_correio = ['vermelho','nada']
+caixa_de_correio = 'azul'
+tubo_pra_devolver = 'azul'
 distancia_primeira_cor_do_ponto_inicial = 0
 leitura_ultrassom = ultrassom.distance()
 tubo_esta_perto = distancia_chao - 8
@@ -59,9 +59,9 @@ BORDA_DIR_MAX = [2,2,2]
 TURN_BORDA = -90
 
 RAMPA_ESQ_MIN = [0, 8, 0]
-RAMPA_ESQ_MAX = [10, 20, 5]
-RAMPA_DIREITO_MIN_ = [2, 9, 3]
-RAMPA_DIREITO_MAX = [6, 22, 11] 
+RAMPA_ESQ_MAX = [4, 16, 2]
+RAMPA_DIREITO_MIN_ = [2, 6, 2]
+RAMPA_DIREITO_MAX = [6, 23, 12] 
 
 TURN_RAMPA = 180
 
@@ -149,3 +149,11 @@ def setCaixaDeCorreio(valor):
 def getCaixaDeCorreio():
     global caixa_de_correio
     return caixa_de_correio
+
+def setTuboPraDevolver(valor):
+    global tubo_pra_devolver
+    tubo_pra_devolver = valor
+    
+def getTuboPraDevolver():
+    global tubo_pra_devolver
+    return tubo_pra_devolver
