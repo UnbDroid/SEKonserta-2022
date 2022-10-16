@@ -65,8 +65,7 @@ def inicio():
     while True:
         loop_tubo()
 
-inicio()
-
+    
 # if not verifica_tubo_reto(35,80):
 #     volta_pro_comeco_area(600)
 #     verifica_tubo_reto(55,80)
@@ -79,16 +78,72 @@ inicio()
 #     le_sensor_cor()
 
 
-#vai_pro_ponto_inicial(True)
+# vai_pro_ponto_inicial(True)
 # acha_localizacao_das_cores()
 # sai_do_ponto_inicial_e_vai_pra_area()
-# if not verifica_tubo_reto(30,80):
-#     acha_tubo_re(60,80)
 # if not verifica_tubo_reto(35,80):
 #     volta_pro_comeco_area(600)
-#     verifica_tubo_reto(55,80)
+
+
+#tubo de 15 cm
+# verifica_tubo_reto(35,80)
+#verifica_tubo_reto(50,80)
+
+
+
+# -----------------------------------------------------------------------------------
+# cores_teste = ['azul','vermelho','amarelo']
+
+
+# comeco = True
+# for i in cores_teste:
+#     setCaixaDeCorreio(i)
+
+#     if comeco:
+#         vai_pro_ponto_inicial(True)
+#         acha_localizacao_das_cores()
+#         comeco = False
+#     else:
+#         vai_pro_ponto_inicial(False)
+#     sai_do_ponto_inicial_e_vai_pra_area()
+
+#     pegou_tubo = verifica_tubo_reto(35,80)
+#     if not pegou_tubo:
+#         while not pegou_tubo:
+#             volta_pro_comeco_area(680)
+#             pegou_tubo = verifica_tubo_reto(50,80)
+#     sai_da_area_cores()
+#     posiciona_tubo_mario()
+#     rodas.straight(100)
+#     rodas.turn(-90)
+#     le_sensor_cor()
+#     while not ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX): 
+#         le_sensor_cor()
+#         segue_linha_sensor_esquerdo_prop(100)
+#     atitude(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX,TURN_BORDA)
+
+# ----------------------------------------------------------------------------------------------------    
+
+
+pegou_tubo = verifica_tubo_reto(35,80)
+
+if not pegou_tubo:
+    volta_pro_comeco_area(680)
+    pegou_tubo = verifica_tubo_reto(50,80)
+    if not pegou_tubo:
+        
+        
+
+
+# if not verifica_tubo_reto(35,80):
+#     volta_pro_comeco_area(680)
+#     verifica_tubo_reto(60,80)
+
+# while True:
+#     print(ultrassom_lateral.distance())
+
 # sai_da_area_cores()
-# posiciona_tubo_mario()
+#posiciona_tubo_mario()
 
 
 

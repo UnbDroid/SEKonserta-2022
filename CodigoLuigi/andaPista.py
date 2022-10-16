@@ -72,7 +72,7 @@ def vai_pro_ponto_inicial(comeco):
 
     ajustes_comeco()
     viu_preto = False
-    leitura_ultrassom = valida_cores_com_ultrassom()
+    # leitura_ultrassom = valida_cores_com_ultrassom()
 
     while not (viu_preto):
         le_sensor_cor()

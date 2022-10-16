@@ -67,6 +67,7 @@ def alinha_robo(eq_min, eq_max, dr_min, dr_max):
     #print('esta alinhando, esq: ',valorEsquerdo)
     #print('esta alinhando, dir: ',valorDireito)
     rodas.stop()
+    le_sensor_cor()
     if(valor_fora_do_intervalo(dr_min, dr_max, valorDireito)):
         #print("entrei no if do valor no intervalo")
         while(valor_fora_do_intervalo(dr_min, dr_max, valorDireito)):
