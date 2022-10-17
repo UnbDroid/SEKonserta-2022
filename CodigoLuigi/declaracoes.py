@@ -10,7 +10,7 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 ev3 = EV3Brick()
 
 motorEmpilhadeira = Motor(Port.A)
-motorUltrassom = Motor(Port.B)
+#motorUltrassom = Motor(Port.B)
 
 #ultrassom = UltrasonicSensor(Port.S1)
 ultrassom = UltrasonicSensor(Port.S2)
@@ -20,12 +20,12 @@ luzDireita = ColorSensor(Port.S4)
 
 rodaDireita = Motor(Port.D)
 rodaEsquerda = Motor(Port.C)
-rodas = DriveBase(rodaEsquerda, rodaDireita, wheel_diameter= 41, axle_track=114) #axel track >= 109.5 < 109.8 foi demais. 108 foi demais
+rodas = DriveBase(rodaEsquerda, rodaDireita, wheel_diameter= 41, axle_track=110.5) #axel track >= 109.5 < 109.8 foi demais. 108 foi demais
 rodas.settings(100, 270, 150) #velocidade_reto / aceleração reto / velocidade de giro / aceleração de giro
 
 distancia_chao = 210
 caixa_de_correio = 'azul'
-tubo_pra_devolver = 'azul'
+tubo_pra_devolver = ''
 distancia_primeira_cor_do_ponto_inicial = 0
 leitura_ultrassom = ultrassom.distance()
 tubo_esta_perto = distancia_chao - 8
@@ -157,3 +157,11 @@ def setTuboPraDevolver(valor):
 def getTuboPraDevolver():
     global tubo_pra_devolver
     return tubo_pra_devolver
+
+# def setPontoInicial(valor):
+#     global ponto_inicial
+#     ponto_inicial = valor
+    
+# def setPontoInicial():
+#     global ponto_inicial
+#     return ponto_inicial

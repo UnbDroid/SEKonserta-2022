@@ -38,6 +38,24 @@ def ve_cor(eq_min, eq_max, dr_min, dr_max):
     return getEq() or getDr()
 
 
+def ve_cor_dois_sensores(eq_min, eq_max, dr_min, dr_max):
+
+    valorEsquerdo = getValorCorEsquerda()
+    valorDireito = getValorCorDireita()
+
+    setDr(False)
+    setEq(False)
+    #print('entrou aq')
+    #print(valorDireito)
+    if valor_no_intervalo_ve_cor(eq_min, eq_max, valorEsquerdo):
+        setEq(True)
+    if valor_no_intervalo_ve_cor(dr_min, dr_max, valorDireito):
+        setDr(True)
+    
+    #print('dr eh: ',getDr())    
+    return getEq() and getDr()
+
+
 
 def valor_fora_do_intervalo(min, max, val):
     pos0_fora = min[0] > val[0] or val[0] > max[0]
@@ -236,3 +254,20 @@ def segue_linha_sensor_direito_re(DRIVE_SPEED):
     deviation =  leitura_sensor[0] - threshold
     turn_rate = PROPORTIONAL_GAIN * deviation
     rodas.drive(DRIVE_SPEED, -turn_rate)
+
+def identifica_cor_da_area_dois_sensores():
+    setCores("nada")
+    
+    le_sensor_cor()
+    if ve_cor(AMARELO_ESQ_MIN, AMARELO_ESQ_MAX, AMARELO_DIR_MIN, AMARELO_DIR_MAX) and getDr() and getEq(): 
+        setCores("amarelo")
+
+    elif ve_cor(VERMELHO_ESQ_MIN, VERMELHO_ESQ_MAX, VERMELHO_DIR_MIN, VERMELHO_DIR_MAX) and getDr() and getEq():
+        setCores("vermelho")
+
+    elif ve_cor(AZUL_ESQ_MIN, AZUL_ESQ_MAX, AZUL_DIR_MIN, AZUL_DIR_MAX) and getDr() and getEq():
+        setCores("azul")
+
+    ev3.speaker.beep()
+    print('eu vi a cor',getCores())
+    return getCores()

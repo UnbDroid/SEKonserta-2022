@@ -25,6 +25,7 @@ def desvia(turn):
 
 def atitude(eq_min, eq_max, dr_min, dr_max, turn): 
     alinha_robo(eq_min, eq_max, dr_min, dr_max)
+    rodas.straight(-60)
     desvia(turn)
 
 def atitude_preto():
@@ -50,6 +51,9 @@ def identifica_cor_da_area():
     ev3.speaker.beep()
     print('eu vi a cor',getCores())
     return getCores()
+
+
+
 
 def descobre_info_area():
     rodas.straight(40) #entra na área colorida    
@@ -137,7 +141,7 @@ def vai_pro_ponto_inicial(comeco):
 
 
 def muda_de_area(distancia):
-    rodas.straight(-40)
+    #rodas.straight(-40)
     rodas.turn(-80) #vira 90 graus para andar até a area 2
     rodas.reset()
     while rodas.distance() < distancia:
@@ -177,7 +181,8 @@ def acha_localizacao_das_cores():
         #print('ordem areas1 é ',ordem_areas)
         sobe_empilhadeira()
         sai_da_area_cores()
-        muda_de_area(distancia = 840)
+        distancia = 833
+        muda_de_area(distancia)
         ordem_areas.append(descobre_info_area())
         #print('ordem areas2 é ',ordem_areas)
         vai_pro_ponto_inicial(False)
