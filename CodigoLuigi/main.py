@@ -43,13 +43,13 @@ def loop_tubo():
     print('mailbox cores devolve depois deu: ',getTuboPraDevolver()) 
     sai_do_ponto_inicial_e_vai_pra_area()
 
-    pegou_tubo = verifica_tubo_reto(35,80)
-    if not pegou_tubo:
+    setPegouTubo(verifica_tubo_reto(35,80,680))
+    if not getPegouTubo():
         volta_pro_comeco_area(680)
-        pegou_tubo = verifica_tubo_reto(50,80)
-        if not pegou_tubo:
+        setPegouTubo(verifica_tubo_reto(50,80,600))
+        if not getPegouTubo():
             volta_pro_comeco_area(680)
-            pegou_tubo = verifica_tubo_90(50,80)
+            setPegouTubo(verifica_tubo_reto(50,80,600))
 
     posiciona_tubo_mario()
     MboxConfirmacao.send('Tubo entregue')
@@ -76,45 +76,8 @@ def inicio():
 inicio()
 
 
-# pegou_tubo = verifica_tubo_reto(35,80,680)
-# if not pegou_tubo:
-#     volta_pro_comeco_area(680)
-#     pegou_tubo = verifica_tubo_reto(50,80,600)
-#     if not pegou_tubo:
-#         volta_pro_comeco_area(680)
-#         pegou_tubo = verifica_tubo_90(50,80,600)
-
-
-
-# devolve_tubo()
-#volta_pro_comeco_area(840)
-#inicio()
-
-# while True:
-#     rodas.straight(1220)
-#     wait(300)
-# pegou_tubo = verifica_tubo_reto(35,80)
-# if not pegou_tubo:
-#     volta_pro_comeco_area(680)
-#     pegou_tubo = verifica_tubo_reto(50,80)
-#     if not pegou_tubo:
-#         volta_pro_comeco_area(680)
-#         pegou_tubo = verifica_tubo_90(50,80)
-
-#verifica_tubo_90(45,80)
-#posiciona_tubo_mario()
-
-# while True:
-#     print(ultrassom_lateral.distance())
-
-# devolve_tubo()
-# volta_pro_ponto_inicial(False)
-# while True:
-#     rodas.turn(360)
-
-
-# -----------------------------------------------------------------------------------
-# cores_teste = ['azul','vermelho','amarelo']
+# ----------------------------------------------------------------------------------
+# cores_teste = ['amarelo','azul','vermelho','amarelo']
 # devolve_teste = ['Nada','azul','Nada']
 
 # comeco = True
@@ -135,13 +98,13 @@ inicio()
 #         vai_pro_ponto_inicial(False)
 
 #     sai_do_ponto_inicial_e_vai_pra_area()
-#     pegou_tubo = verifica_tubo_reto(35,80)
+#     pegou_tubo = verifica_tubo_reto(35,80,680)
 #     if not pegou_tubo:
 #         volta_pro_comeco_area(680)
-#         pegou_tubo = verifica_tubo_reto(53,80)   
+#         pegou_tubo = verifica_tubo_reto(50,80,600)
 #         if not pegou_tubo:
 #             volta_pro_comeco_area(680)
-#             pegou_tubo = verifica_tubo_90(50,80)
+#             pegou_tubo = verifica_tubo_90(50,80,600)
 
 #     posiciona_tubo_mario()
 #     rodas.straight(85)
