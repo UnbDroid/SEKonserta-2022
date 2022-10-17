@@ -11,8 +11,7 @@ from movimentacao import *
 FIM_DO_PROGRAMA = False
 TUBO_ENTREGUE = False
 
-sobe_empilhadeira()
-gasoduto_ate_rampa()
+
 
 #-------------- Código Certo -> Voltando pegar o tubo após ler o primeiro GAP --------------------------------------------
 modo_do_programa = "SemVarreduraCompleta"

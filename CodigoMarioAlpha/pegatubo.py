@@ -65,10 +65,10 @@ def sobe_empilhadeira_gasoduto():
 def fecha_garra(i = 1, continuar = False):  #Função utilizada para fechar a garra da empilhadeira - Retorna TRUE quando um tubo foi pego e False quando não foi pego
     if i == 10:
         i = 1
-        tempo = 2900
+        tempo = 3200
     elif i == 15:
         i = 1
-        tempo = 4200 #4700
+        tempo = 4600 #4700
     elif i == 20:
         i = 1
         tempo = tempo_garra
@@ -83,10 +83,10 @@ def fecha_garra(i = 1, continuar = False):  #Função utilizada para fechar a ga
 def abre_garra(i =1, continuar = False): #Função utilizada para abrir a garra da empilhadeira - if continue = True, abrir e continuar o programa
     if i == 10:
         i = 1
-        tempo = 2900
+        tempo = 3200
     elif i == 15:
         i = 1
-        tempo = 4200 #4700
+        tempo = 4600 #4700
     elif i == 20:
         i = 1
         tempo = tempo_garra
@@ -159,7 +159,7 @@ def posiciona_gasoduto(): #Função que posiciona o robô de forma correta para 
         distancia = UltrassomFrente.distance()
         robot.drive(70,0)
     robot.stop()
-    robot.straight(10)
+    robot.straight(20)
 
 
 def pega(): # Função feita apenas para testar a captura de um tubo na frente do robô, e a sua devolução no gasoduto a sua frente também
@@ -195,9 +195,9 @@ def alinha_tubo(tamanho):
 
 def pega_tubo(tamanho): #Função que pega o tubo já alinhado com ele previamente, com o tubo na sua frente a uma distância indefinida
     global tamanho_do_tubo_na_garra
-    robot.straight(-50)
-    # while not posso_pegar_tubo():
-    #     pass
+    robot.straight(-25)
+    while not posso_pegar_tubo():
+        pass
     DistanciaUltrassomFrente = UltrassomFrente.distance()
     while DistanciaUltrassomFrente > 170:
         robot.drive(70,0)

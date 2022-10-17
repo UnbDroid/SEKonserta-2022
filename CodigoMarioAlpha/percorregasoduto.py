@@ -89,13 +89,13 @@ def le_valores_max_min():
 
 def define_tamanho_gap():
     global distancia_percorrida
-    if distancia_percorrida <= 60: #Não é GAP, só um buraquinho do gasoduto msm
+    if distancia_percorrida <= 54: #Não é GAP, só um buraquinho do gasoduto msm
         return False
-    elif distancia_percorrida <= 113: # GAP - 10 cm 110
+    elif distancia_percorrida <= 109: # GAP - 10 cm 110
         print("É um buraco de 10 cm!, Foi Medido:", distancia_percorrida)
         ev3.speaker.beep(200, 700)
         return 10
-    elif distancia_percorrida <= 163: #GAP - 15 cm  160
+    elif distancia_percorrida <= 159: #GAP - 15 cm  160
         print("É um buraco de 15 cm!, Foi Medido:", distancia_percorrida)
         ev3.speaker.beep(500, 700)
         wait(300)
@@ -330,10 +330,10 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
     print('entrei no percorrimento')
     MboxAlphaBeta.send("PercorrimentoGasodutoEsquerda")
     print('mandei')
-    tamanho_do_tubo_espera = 0 ############################# teste ################################
+    #tamanho_do_tubo_espera = 0 ############################# teste ################################
     le_valores_max_min()
-    valor_minimo = 33 #De manhã deu 58, 12h deu 75 --- 48
-    valor_maximo = 40  #De manhã deu 72, 12h deu 88 -- 58
+    valor_minimo = 19 #De manhã deu 58, 12h deu 75 --- 48
+    valor_maximo = 27  #De manhã deu 72, 12h deu 88 -- 58
     MboxAlphaBetaLuz.wait()
     watch_re.reset()
     while True:
@@ -402,7 +402,7 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
                         pass # Se o tamanho do GAP encontrada for diferente ao do tubo que está na garra
             
             if condition: #girar os 90° caso ele termine de ver o gap na curva/dar a ré depois
-                robot.straight(distancia_da_re)
+                robot.straight(2*distancia_da_re)
                 # virada_ultrassom_frente()
         elif checa_luz_esquerda('min'):# Modo Luz Ambient -> min        Reflection -> max
             virada_gasoduto_direita()

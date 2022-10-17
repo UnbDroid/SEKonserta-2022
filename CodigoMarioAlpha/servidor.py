@@ -59,9 +59,9 @@ def manda_mensagem_luigi(tubo_para_entregar = 15, tubo_para_devolver = 'Nada'):
         tubo_para_devolver = 'vermelho'
     elif tubo_para_devolver == 20:
         tubo_para_devolver = 'azul'
-        
+
+    MboxAlphaLuigiCoresDev.send(tubo_para_devolver)    
     MboxAlphaLuigiCores.send(tubo_para_entregar)
-    MboxAlphaLuigiCoresDev.send(tubo_para_devolver)
     if not tubo_para_devolver == 'Nada':
         ev3.speaker.beep(200,300)
         ev3.speaker.beep(900,500)
@@ -69,10 +69,13 @@ def manda_mensagem_luigi(tubo_para_entregar = 15, tubo_para_devolver = 'Nada'):
 
 def manda_nada_luigi():
     MboxAlphaLuigiCores.send('Nada')
+    MboxAlphaLuigiCoresDev.send('Nada')
     MboxAlphaLuigiConfirmacao.send('Nada')
+
 
 def manda_nada_cores_luigi():
     MboxAlphaLuigiCores.send('Nada')
+    MboxAlphaLuigiCoresDev.send('Nada')
 
 
 def manda_confirmacao_luigi():
