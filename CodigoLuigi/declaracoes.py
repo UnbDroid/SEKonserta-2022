@@ -24,7 +24,7 @@ rodas = DriveBase(rodaEsquerda, rodaDireita, wheel_diameter= 41, axle_track=109)
 rodas.settings(100, 270, 150) #velocidade_reto / aceleração reto / velocidade de giro / aceleração de giro
 
 distancia_chao = 210
-caixa_de_correio = 'amarelo'
+caixa_de_correio = 'vermelho'
 tubo_pra_devolver = ''
 pegou_tubo = False
 distancia_primeira_cor_do_ponto_inicial = 0
@@ -81,7 +81,7 @@ AZUL_ESQ_MAX = [12,38,58]
 AZUL_DIR_MIN = [13, 36, 99]
 AZUL_DIR_MAX = [18,46,100]
 
-VERMELHO_ESQ_MIN = [45, 5, 2]
+VERMELHO_ESQ_MIN = [40, 5, 2]
 VERMELHO_ESQ_MAX = [52,10,7]
 VERMELHO_DIR_MIN = [64, 9, 15]
 VERMELHO_DIR_MAX = [77,15,19] 
@@ -169,10 +169,10 @@ def getPegouTubo():
     global pegou_tubo
     return pegou_tubo
 
-# def setPontoInicial(valor):
-#     global ponto_inicial
-#     ponto_inicial = valor
+def setPontoInicial(valor):
+    global ponto_inicial
+    ponto_inicial = valor
     
-# def setPontoInicial():
-#     global ponto_inicial
-#     return ponto_inicial
+def setPontoInicial():
+    global ponto_inicial
+    return ponto_inicial

@@ -43,19 +43,18 @@ def loop_tubo():
     print('mailbox cores devolve depois deu: ',getTuboPraDevolver()) 
     sai_do_ponto_inicial_e_vai_pra_area()
 
-    setPegouTubo(verifica_tubo_reto(35,80,680))
+    verifica_tubo_reto(35,80,780)
     if not getPegouTubo():
-        volta_pro_comeco_area(680)
-        setPegouTubo(verifica_tubo_reto(50,80,600))
+        volta_pro_comeco_area(720)
+        verifica_tubo_reto(50,80,690)
+        print('pegar tubo no main deu',getPegouTubo())
         if not getPegouTubo():
-            volta_pro_comeco_area(680)
-            setPegouTubo(verifica_tubo_reto(50,80,600))
+            volta_pro_comeco_area(720)
+            verifica_tubo_90(50,80,690)
+            print('pegar tubo no main deu',getPegouTubo())   
 
     posiciona_tubo_mario()
-    MboxConfirmacao.send('Tubo entregue')
-    while MboxConfirmacao.read() !='Tubo pego':
-        pass
-    rodas.straight(100)
+    rodas.straight(80)
     rodas.turn(-90)
     le_sensor_cor()
     while not ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX): 
@@ -63,17 +62,37 @@ def loop_tubo():
         segue_linha_sensor_esquerdo_prop(100)
     atitude(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX,TURN_BORDA)
 
+    MboxConfirmacao.send('Tubo entregue')
+    while MboxConfirmacao.read() !='Tubo pego':
+        pass
+    # rodas.straight(80)
+    # rodas.turn(-90)
+    # le_sensor_cor()
+    # while not ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX): 
+    #     le_sensor_cor()
+    #     segue_linha_sensor_esquerdo_prop(100)
+    # atitude(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX,TURN_BORDA)
+
 
 def inicio():
     conecta_alpha_luigi()
+    wait(5000)
     vai_pro_ponto_inicial(True)
     acha_localizacao_das_cores()
     setTuboPraDevolver('Nada')
     while True:
         loop_tubo()
 
-# vai_pro_ponto_inicial(True)
-# acha_localizacao_das_cores()
+#inicio()
+
+
+    
+vai_pro_ponto_inicial(True)
+acha_localizacao_das_cores()
+sai_do_ponto_inicial_e_vai_pra_area()
+rodas.stop()
+verifica_tubo_reto(35,80,780)
+    
 
 # while True:
 #     le_sensor_cor()
@@ -83,22 +102,18 @@ def inicio():
 
 # while True:
 #     le_sensor_cor()
+#     rodas.drive(20,0)
 
 
-# verifica_tubo_reto(35,80,680)
-# if not getPegouTubo():
-#     volta_pro_comeco_area(680)
-#     verifica_tubo_reto(50,80,600)
-#     print('pegar tubo no main deu',getPegouTubo())
-#     if not getPegouTubo():
-#         volta_pro_comeco_area(680)
-#         verifica_tubo_90(50,80,600)
-#         print('pegar tubo no main deu',getPegouTubo())    
+
+ 
 
 
-vai_pro_ponto_inicial(True)
-acha_localizacao_das_cores()
-sai_do_ponto_inicial_e_vai_pra_area()
+# vai_pro_ponto_inicial(True)
+# acha_localizacao_das_cores()
+# wait(500)
+# sai_do_ponto_inicial_e_vai_pra_area()
+# rodas.stop()
 
 # ----------------------------------------------------------------------------------
 # cores_teste = ['amarelo','azul','vermelho']

@@ -6,6 +6,7 @@ def ajustes_comeco():
     global tubo_esta_perto
     sobe_empilhadeira()
     
+    
 
 
 def valida_cores_com_ultrassom():
@@ -25,7 +26,7 @@ def desvia(turn):
 
 def atitude(eq_min, eq_max, dr_min, dr_max, turn): 
     alinha_robo(eq_min, eq_max, dr_min, dr_max)
-    rodas.straight(-60)
+    #rodas.straight(-60)
     desvia(turn)
 
 def atitude_preto():
@@ -117,10 +118,12 @@ def vai_pro_ponto_inicial(comeco):
     print("sai do while vendo preto")
 
     le_sensor_cor()
+    
     while not ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX):
         #print("não vi borda final") 
         le_sensor_cor()
         segue_linha_sensor_esquerdo_prop(100)
+    
 
     distancia_primeira_cor_do_ponto_inicial = rodas.distance()
 

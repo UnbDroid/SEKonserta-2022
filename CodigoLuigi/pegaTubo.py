@@ -82,17 +82,15 @@ def posiciona_tubo_mario():
     rodas.straight(-365)
     rodas.turn(90)
     desce_empilhadeira()
-    rodas.straight(-50)
-    sobe_empilhadeira()
-    #motorEmpilhadeira.run_time(250,1000)
-    rodas.straight(120) #20
+    rodas.straight(-40)
+    motorEmpilhadeira.run_time(250,1000)
+    rodas.straight(20)
     if getCaixaDeCorreio() == 'amarelo': #ir mais pra frente se for um de 10!
         rodas.straight(20)
-        rodas.straight(-100)
+        rodas.straight(-80)
     else:
-        rodas.straight(-40)
-    #sobe_empilhadeira()
-
+        rodas.straight(-60)
+    sobe_empilhadeira()
     setPegouTubo(False)
 
 
@@ -165,7 +163,8 @@ def sai_do_ponto_inicial_e_vai_pra_area():
     
     print(ordem_areas)
 
-    distancias_comeco_areas = [0,750,1500]
+    #distancias_comeco_areas = [0,750,1500]
+    distancias_comeco_areas = [0,720,1470]
 
     for i in ordem_areas:
         print('a cor que o mario pediu é: ',caixa_de_correio)
@@ -187,6 +186,8 @@ def sai_do_ponto_inicial_e_vai_pra_area():
         while rodas.distance() < distancia:
             le_sensor_cor()
             segue_linha_sensor_direito_prop(100)
+    else:
+        rodas.turn(-15)
 
 def verifica_tubo_reto(distancia_que_ve_tubo,velocidade_robo,dist_area):
     distancia_terminal = 0
@@ -194,7 +195,10 @@ def verifica_tubo_reto(distancia_que_ve_tubo,velocidade_robo,dist_area):
     global estado_empilhadeira
     global viu_borda_pegando_tubo
     largura_tubo = 0
+    ordem_areas = getOrde
 
+    if caixa_de_correio == 
+    distancia_que_ve_tubo =
     rodas.reset()
     caixa_de_correio = getCaixaDeCorreio()
     sobe_empilhadeira()
@@ -410,16 +414,17 @@ def volta_pro_comeco_area(distancia):
         if ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX):
             rodas.stop()
             alinha_robo(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX)
+            rodas.stop()    
+            rodas.straight(-80)
             break
         else:
             segue_linha_sensor_esquerdo_prop(120)
-    rodas.stop()
-    
-    rodas.straight(-80)
+    rodas.stop()    
     rodas.turn(180)
 
 
 def devolve_tubo():
+    tem_tubo_pra_pegar = True
     ordem_areas = getOrdemAreas()
     ordem_areas = list(reversed(ordem_areas))
     print(ordem_areas)
@@ -444,67 +449,72 @@ def devolve_tubo():
 
     rodas.straight(-80)
     rodas.turn(180)
-    
-
     dist_ultrassom_lateral = ultrassom_lateral.distance()
+
+    watch.reset()
     while dist_ultrassom_lateral > 40:
-        dist_ultrassom_lateral = ultrassom_lateral.distance()
-        le_sensor_cor()
-        segue_linha_sensor_esquerdo_prop(100)
-    ev3.speaker.beep()
-
-    largura_tubo = rodas.distance()
-    dist_ultrassom_lateral = ultrassom_lateral.distance()
-    while dist_ultrassom_lateral < 40:
-        dist_ultrassom_lateral = ultrassom_lateral.distance()
-        le_sensor_cor()
-        segue_linha_sensor_esquerdo_prop(100)
-
-    largura_tubo = fabs(rodas.distance() - largura_tubo)
-    if tubo_pra_devolver == 'azul':
-        rodas.straight(-(fabs(largura_tubo - tamanho_tubo)+20))
-    if tubo_pra_devolver == 'vermelho':
-        rodas.straight(-(fabs(largura_tubo - tamanho_tubo)+20))
-    if caixa_de_correio == 'amarelo':
-        tubo_pra_devolver.straight(-(fabs(largura_tubo - tamanho_tubo)+2))
-
-    print(ultrassom_lateral.distance())
-    
-    sobe_empilhadeira()
-    rodas.reset()
-    rodas.turn(90)
-    pega_tubo()
-
-    while not ve_cor(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX):
-        le_sensor_cor()
-        rodas.drive(-80,0)
-    rodas.stop()
-    rodas.straight(110)
-    rodas.turn(-90)
-
-    distancia = fabs(rodas.distance())
-
-    index = 0
-    for i in ordem_areas:
-        if i == tubo_pra_devolver:
-            index = ordem_areas.index(i)
-
-    distancia = distancias_comeco_areas[index] - distancia
-    
-    rodas.reset()
-
-    if distancia > 0:
-        while rodas.distance() < distancia:
+        if watch.time() > 6000:
+           tem_tubo_pra_pegar = False
+           rodas.turn(-90)
+        else:
+            dist_ultrassom_lateral = ultrassom_lateral.distance()
             le_sensor_cor()
             segue_linha_sensor_esquerdo_prop(100)
-    rodas.stop()
-    rodas.turn(-90)
-    rodas.straight(-50)
-    desce_empilhadeira()
-    rodas.straight(-50)
-    sobe_empilhadeira()
-    rodas.straight(150)
-    rodas.straight(-60)
+    ev3.speaker.beep()
+
+    if tem_tubo-pra_pegar:
+        largura_tubo = rodas.distance()
+        dist_ultrassom_lateral = ultrassom_lateral.distance()
+        while dist_ultrassom_lateral < 40:
+            dist_ultrassom_lateral = ultrassom_lateral.distance()
+            le_sensor_cor()
+            segue_linha_sensor_esquerdo_prop(100)
+
+        largura_tubo = fabs(rodas.distance() - largura_tubo)
+        if tubo_pra_devolver == 'azul':
+            rodas.straight(-(fabs(largura_tubo - tamanho_tubo)+20))
+        if tubo_pra_devolver == 'vermelho':
+            rodas.straight(-(fabs(largura_tubo - tamanho_tubo)+20))
+        if caixa_de_correio == 'amarelo':
+            rodas.straight(-(fabs(largura_tubo - tamanho_tubo)+2))
+
+        print(ultrassom_lateral.distance())
+        
+        sobe_empilhadeira()
+        rodas.reset()
+        rodas.turn(90)
+        pega_tubo()
+
+        while not ve_cor(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX):
+            le_sensor_cor()
+            rodas.drive(-80,0)
+        rodas.stop()
+        rodas.straight(110)
+        rodas.turn(-90)
+
+        distancia = fabs(rodas.distance())
+
+        index = 0
+        for i in ordem_areas:
+            if i == tubo_pra_devolver:
+                index = ordem_areas.index(i)
+
+        distancia = distancias_comeco_areas[index] - distancia
+        
+        rodas.reset()
+
+        if distancia > 0:
+            while rodas.distance() < distancia:
+                le_sensor_cor()
+                segue_linha_sensor_esquerdo_prop(100)
+        rodas.stop()
+        rodas.turn(-90)
+        rodas.straight(-50)
+        desce_empilhadeira()
+        rodas.straight(-50)
+        sobe_empilhadeira()
+        rodas.straight(150)
+        rodas.straight(-60)
     
 
     
