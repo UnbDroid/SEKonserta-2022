@@ -24,7 +24,7 @@ rodas = DriveBase(rodaEsquerda, rodaDireita, wheel_diameter= 41, axle_track=109)
 rodas.settings(100, 270, 150) #velocidade_reto / aceleração reto / velocidade de giro / aceleração de giro
 
 distancia_chao = 210
-caixa_de_correio = ''
+caixa_de_correio = 'amarelo'
 tubo_pra_devolver = ''
 pegou_tubo = False
 distancia_primeira_cor_do_ponto_inicial = 0
@@ -77,14 +77,14 @@ AMARELO_DIR_MIN = [81, 47, 35]
 AMARELO_DIR_MAX = [93,56,41]
 
 AZUL_ESQ_MIN = [9, 30, 6]
-AZUL_ESQ_MAX = [12,37,56]
+AZUL_ESQ_MAX = [12,38,58]
 AZUL_DIR_MIN = [13, 36, 99]
-AZUL_DIR_MAX = [17,42,100]
+AZUL_DIR_MAX = [18,46,100]
 
 VERMELHO_ESQ_MIN = [45, 5, 2]
 VERMELHO_ESQ_MAX = [52,10,7]
 VERMELHO_DIR_MIN = [64, 9, 15]
-VERMELHO_DIR_MAX = [69,15,18] 
+VERMELHO_DIR_MAX = [77,15,19] 
 
 PRETO_ESQ_MIN = [5, 8, 3]
 PRETO_ESQ_MAX = [8,11,6]

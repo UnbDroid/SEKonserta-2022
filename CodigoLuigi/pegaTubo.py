@@ -1,5 +1,7 @@
 from cores import *
 
+viu_borda_pegando_tubo = False
+
 def desce_empilhadeira(): #TODO Ele vai descer até forçar o motor?? E depois ele vai subir por 800ms?
     global estado_empilhadeira
 
@@ -37,7 +39,7 @@ def ve_ultrassom(num_leituras,quanto_quero_que_leia):
 
     porcentagem = len(leu_certo)/len(leituras_ultrassom)
     #print('O ULTRASSOM SUPERIOR LEU')
-    print(leituras_ultrassom)
+    #print(leituras_ultrassom)
 
     if porcentagem > 0.7:
         viu = True
@@ -48,6 +50,7 @@ def sai_da_area_cores():
     while not ve_cor(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX):
         le_sensor_cor()
         rodas.drive(-80,0)
+    #alinha_robo(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX)
     rodas.straight(-40)
     rodas.stop()
     
@@ -70,7 +73,6 @@ def ve_tubo(): #Identifica se o ultrassom está lendo algo a frente
 
 def posiciona_tubo_mario():
     pegou_tubo = getPegouTubo()
-
     print('entrou no posicina_tubo_mario')
     #rodas.straight(30)
     rodas.turn(75)
@@ -86,19 +88,20 @@ def posiciona_tubo_mario():
     rodas.straight(120) #20
     if getCaixaDeCorreio() == 'amarelo': #ir mais pra frente se for um de 10!
         rodas.straight(20)
-        rodas.straight(-60)
+        rodas.straight(-100)
     else:
         rodas.straight(-40)
     #sobe_empilhadeira()
 
-    pegou_tubo = False
+    setPegouTubo(False)
 
 
 def pega_tubo():
     global estado_empilhadeira
     global estado_ultrassom
+    global viu_borda_pegando_tubo
     pegou_tubo = getPegouTubo()
-    viu_borda = False
+    
 
     rodas.straight(-50)
     if estado_empilhadeira == "cima":
@@ -107,39 +110,33 @@ def pega_tubo():
     while not ve_ultrassom(100,120):
         le_sensor_cor()
         if ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX):
+            rodas.reset()
             le_sensor_cor()
             alinha_robo(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX)
             rodas.stop()
             sai_da_area_cores()
             rodas.turn(-90)
             print('sai da area cores')
-            viu_borda = True
+            viu_borda_pegando_tubo = True
             break
         else:
             rodas.drive(80,0)
     rodas.stop()
 
-    if not viu_borda:
+    if not viu_borda_pegando_tubo:
         rodas.straight(80)
+        sobe_empilhadeira()
+        estado_empilhadeira = "cima"
 
-    # motorEmpilhadeira.run_time(-250,100)
-    # rodas.turn(60)
-    # rodas.turn(-60)
-
-    sobe_empilhadeira()
-    estado_empilhadeira = "cima"
-
-    #print('aqui deu {}'.format(leitura_ultrassom))
-    #ve_ultrassom(100,100) == True or 
-    if not ve_ultrassom(200,2000):
-        pegou_tubo = True
-        rodas.stop()
-    else:
-        pegou_tubo = False
-        
+        if not ve_ultrassom(200,2000):
+            pegou_tubo = True
+            rodas.stop()
+        else:
+            pegou_tubo = False
+            
     
     setPegouTubo(pegou_tubo)
-    print('printtei o tubo aq',pegou_tubo)
+    print('printtei o tubo aq',getPegouTubo())
     return pegou_tubo
 
 def entra_na_area_e_pega_tubo():
@@ -195,10 +192,11 @@ def verifica_tubo_reto(distancia_que_ve_tubo,velocidade_robo,dist_area):
     distancia_terminal = 0
     pegou_tubo = getPegouTubo()
     global estado_empilhadeira
+    global viu_borda_pegando_tubo
     largura_tubo = 0
 
-    caixa_de_correio = getCaixaDeCorreio()
     rodas.reset()
+    caixa_de_correio = getCaixaDeCorreio()
     sobe_empilhadeira()
     distancia_que_percorreu = 0
 
@@ -221,15 +219,21 @@ def verifica_tubo_reto(distancia_que_ve_tubo,velocidade_robo,dist_area):
             segue_linha_sensor_direito_prop(velocidade_robo)
 
         else: 
+            distancia_terminal = distancia_que_percorreu + rodas.distance()
             print('cheguei a ler o comeco do tubo')
             ev3.speaker.beep()
             rodas.stop()                
-            
             largura_tubo = rodas.distance()
+
             while ultrassom_lateral.distance() < distancia_que_ve_tubo:
+                distancia_terminal = distancia_que_percorreu + rodas.distance()
                 #print(ultrassom_lateral.distance())
                 le_sensor_cor()
-                segue_linha_sensor_direito_prop(velocidade_robo-20)
+                if ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX):
+                    rodas.stop()
+                    distancia_terminal = 10000
+                else:
+                    segue_linha_sensor_direito_prop(velocidade_robo-20)
             rodas.stop()            
             ev3.speaker.beep()
             largura_tubo = rodas.distance() - largura_tubo
@@ -240,33 +244,42 @@ def verifica_tubo_reto(distancia_que_ve_tubo,velocidade_robo,dist_area):
                 pass
             else:
                 print('terminei de ler o comeco do tubo')
-                rodas.stop()
+                # rodas.stop()
                 if caixa_de_correio == 'azul':
                     rodas.straight(-(fabs(largura_tubo - tamanho_tubo)+20))
-                    print('a re q ele vai dar é de: ',-(fabs(largura_tubo - tamanho_tubo)+25))
+                    #print('a re q ele vai dar é de: ',-(fabs(largura_tubo - tamanho_tubo)+25))
                 if caixa_de_correio == 'vermelho':
                     rodas.straight(-(fabs(largura_tubo - tamanho_tubo)+20))
                 if caixa_de_correio == 'amarelo':
                     rodas.straight(-(fabs(largura_tubo - tamanho_tubo)+2))
+                
+                
+                distancia_que_percorreu = rodas.distance()
+                rodas.reset()
+                distancia_terminal = distancia_que_percorreu + rodas.distance()
+                print('dist terminal é {} e dist q percorreu é {}'.format(distancia_terminal,distancia_que_percorreu))
+                
+
                 rodas.turn(90)
                 rodas.straight(40)
-                estado_empilhadeira = "cima"
-                distancia_que_percorreu = rodas.distance()
 
-                pegou_tubo = pega_tubo()
-                if pegou_tubo:
+                pega_tubo()
+                if getPegouTubo():
                     sai_da_area_cores()
+                    break
                     #rodas.turn(75)
                 else:
-                    print('nao consegui pegar tubo')
-                    rodas.reset()
-                    desce_empilhadeira()
-                    sai_da_area_cores()
-                    rodas.turn(-90)
-                    rodas.reset()
+                    if not viu_borda_pegando_tubo:
+                        print('nao consegui pegar tubo')
+                        rodas.reset()
+                        desce_empilhadeira()
+                        sai_da_area_cores()
+                        sobe_empilhadeira()
+                        rodas.turn(-90)
+                        rodas.reset()
 
     rodas.stop()
-    setPegouTubo(pegou_tubo)
+    #setPegouTubo(pegou_tubo)
     print('pegar tubo deu: ',pegou_tubo)
 
     return pegou_tubo
@@ -323,8 +336,6 @@ def verifica_tubo_90(distancia_que_ve_tubo,velocidade_robo,dist_area):
                 rodas.stop()            
                 largura_tubo = rodas.distance() - largura_tubo
                 print('a largura_tubo q ele leu é: ',largura_tubo)
-
-
 
                 if  largura_tubo > 30:
                     rodas.reset()

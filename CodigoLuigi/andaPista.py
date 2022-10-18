@@ -56,10 +56,10 @@ def identifica_cor_da_area():
 
 
 def descobre_info_area():
-    rodas.straight(40) #entra na área colorida    
+    rodas.straight(60) #entra na área colorida    
     le_sensor_cor()
     setCores(identifica_cor_da_area())
-    rodas.straight(-50)
+    rodas.straight(-60)
 
     return getCores()       
 
