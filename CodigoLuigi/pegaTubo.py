@@ -48,7 +48,7 @@ def sai_da_area_cores():
     while not ve_cor(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX):
         le_sensor_cor()
         rodas.drive(-80,0)
-    rodas.straight(-50)
+    rodas.straight(-40)
     rodas.stop()
     
     #alinha_robo(BRANCO_ESQ_MIN, BRANCO_ESQ_MAX, BRANCO_DIR_MIN, BRANCO_DIR_MAX)
@@ -71,21 +71,25 @@ def ve_tubo(): #Identifica se o ultrassom está lendo algo a frente
 def posiciona_tubo_mario():
     pegou_tubo = getPegouTubo()
 
-    rodas.straight(30)
-    rodas.turn(80)
+    print('entrou no posicina_tubo_mario')
+    #rodas.straight(30)
+    rodas.turn(75)
     while not ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX): 
         le_sensor_cor()
         segue_linha_sensor_esquerdo_prop(100)
     rodas.straight(-365)
     rodas.turn(90)
     desce_empilhadeira()
-    rodas.straight(-40)
-    motorEmpilhadeira.run_time(250,1000)
-    rodas.straight(20)
+    rodas.straight(-50)
+    sobe_empilhadeira()
+    #motorEmpilhadeira.run_time(250,1000)
+    rodas.straight(120) #20
     if getCaixaDeCorreio() == 'amarelo': #ir mais pra frente se for um de 10!
         rodas.straight(20)
-    rodas.straight(-40)
-    sobe_empilhadeira()
+        rodas.straight(-60)
+    else:
+        rodas.straight(-40)
+    #sobe_empilhadeira()
 
     pegou_tubo = False
 
@@ -112,7 +116,6 @@ def pega_tubo():
             viu_borda = True
             break
         else:
-            le_sensor_cor()
             rodas.drive(80,0)
     rodas.stop()
 
@@ -134,7 +137,9 @@ def pega_tubo():
     else:
         pegou_tubo = False
         
+    
     setPegouTubo(pegou_tubo)
+    print('printtei o tubo aq',pegou_tubo)
     return pegou_tubo
 
 def entra_na_area_e_pega_tubo():
@@ -250,9 +255,14 @@ def verifica_tubo_reto(distancia_que_ve_tubo,velocidade_robo,dist_area):
 
                 pegou_tubo = pega_tubo()
                 if pegou_tubo:
-                    break
+                    sai_da_area_cores()
+                    #rodas.turn(75)
                 else:
                     print('nao consegui pegar tubo')
+                    rodas.reset()
+                    desce_empilhadeira()
+                    sai_da_area_cores()
+                    rodas.turn(-90)
                     rodas.reset()
 
     rodas.stop()
@@ -480,7 +490,7 @@ def devolve_tubo():
     rodas.turn(-90)
     rodas.straight(-50)
     desce_empilhadeira()
-    rodas.straight(-40)
+    rodas.straight(-50)
     sobe_empilhadeira()
     rodas.straight(150)
     rodas.straight(-60)

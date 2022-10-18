@@ -203,7 +203,7 @@ def alinha_preto_frente():
 def segue_linha_sensor_esquerdo_prop(DRIVE_SPEED):
     PRETO = 5#8
     
-    threshold = 40 #50
+    threshold = 35 #50
     PROPORTIONAL_GAIN = 1.5
 
     #leitura_sensor = luzEsquerda.reflection()
@@ -217,7 +217,7 @@ def segue_linha_sensor_esquerdo_prop(DRIVE_SPEED):
 def segue_linha_sensor_direito_prop(DRIVE_SPEED):
     PRETO = 12 #15
     
-    threshold = 70 #75
+    threshold = 72 #75
     PROPORTIONAL_GAIN = 1
 
     #leitura_sensor = luzDireita.reflection()

@@ -20,7 +20,7 @@ luzDireita = ColorSensor(Port.S4)
 
 rodaDireita = Motor(Port.D)
 rodaEsquerda = Motor(Port.C)
-rodas = DriveBase(rodaEsquerda, rodaDireita, wheel_diameter= 41, axle_track=110.5) #axel track >= 109.5 < 109.8 foi demais. 108 foi demais
+rodas = DriveBase(rodaEsquerda, rodaDireita, wheel_diameter= 41, axle_track=109) #axel track >= 109.5 < 109.8 foi demais. 108 foi demais
 rodas.settings(100, 270, 150) #velocidade_reto / aceleração reto / velocidade de giro / aceleração de giro
 
 distancia_chao = 210
@@ -59,37 +59,39 @@ BORDA_DIR_MAX = [2,2,2]
 
 TURN_BORDA = -90
 
-RAMPA_ESQ_MIN = [0, 8, 0]
-RAMPA_ESQ_MAX = [4, 16, 2]
-RAMPA_DIREITO_MIN_ = [2, 6, 2]
-RAMPA_DIREITO_MAX = [6, 23, 12] 
+RAMPA_ESQ_MIN = [5, 35, 13]
+RAMPA_ESQ_MAX = [10, 40, 16]
+RAMPA_DIREITO_MIN_ = [7, 31,39]
+RAMPA_DIREITO_MAX = [11, 48, 44] 
 
 TURN_RAMPA = 180
 
-BRANCO_ESQ_MIN = [59, 68, 64]
-BRANCO_ESQ_MAX = [100,100,100]
-BRANCO_DIR_MIN = [82, 76, 100]
-BRANCO_DIR_MAX = [100,100,100]
+BRANCO_ESQ_MIN = [65, 75, 78]
+BRANCO_ESQ_MAX = [70,82,82]
+BRANCO_DIR_MIN = [87, 87, 99]
+BRANCO_DIR_MAX = [94,94,100]
 
-AMARELO_ESQ_MIN = [60, 40, 7]
-AMARELO_ESQ_MAX = [74,50,13]
-AMARELO_DIR_MIN = [82, 40, 23]
-AMARELO_DIR_MAX = [100,60,30]
+AMARELO_ESQ_MIN = [60, 40, 10]
+AMARELO_ESQ_MAX = [67,50,16]
+AMARELO_DIR_MIN = [81, 47, 35]
+AMARELO_DIR_MAX = [93,56,41]
 
-AZUL_ESQ_MIN = [2, 5, 6]
-AZUL_ESQ_MAX = [7,10,15]
-AZUL_DIR_MIN = [6, 9, 25]
-AZUL_DIR_MAX = [11,15,40]
+AZUL_ESQ_MIN = [9, 30, 6]
+AZUL_ESQ_MAX = [12,37,56]
+AZUL_DIR_MIN = [13, 36, 99]
+AZUL_DIR_MAX = [17,42,100]
 
 VERMELHO_ESQ_MIN = [45, 5, 2]
-VERMELHO_ESQ_MAX = [60,10,5]
-VERMELHO_DIR_MIN = [64, 9, 10]
-VERMELHO_DIR_MAX = [85,15,17] 
+VERMELHO_ESQ_MAX = [52,10,7]
+VERMELHO_DIR_MIN = [64, 9, 15]
+VERMELHO_DIR_MAX = [69,15,18] 
 
-PRETO_ESQ_MIN = [4, 5, 3]
-PRETO_ESQ_MAX = [20,20,10]
-PRETO_DIR_MIN = [6, 11, 13]
-PRETO_DIR_MAX = [20,22,20] 
+PRETO_ESQ_MIN = [5, 8, 3]
+PRETO_ESQ_MAX = [8,11,6]
+PRETO_DIR_MIN = [9, 11, 11]
+PRETO_DIR_MAX = [10,13,15] 
+
+
 
 
 

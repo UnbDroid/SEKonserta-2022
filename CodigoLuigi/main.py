@@ -72,48 +72,60 @@ def inicio():
     while True:
         loop_tubo()
 
+# vai_pro_ponto_inicial(True)
+# acha_localizacao_das_cores()
 
-inicio()
+# while True:
+#     le_sensor_cor()
+
+#sai_da_area_cores()
+
+
+# while True:
+#     le_sensor_cor()
 
 
 # ----------------------------------------------------------------------------------
-# cores_teste = ['amarelo','azul','vermelho','amarelo']
-# devolve_teste = ['Nada','azul','Nada']
+cores_teste = ['amarelo','azul','vermelho']
+devolve_teste = ['Nada','azul','amarelo']
 
-# comeco = True
-# for i in range(3):
-#     setCaixaDeCorreio(cores_teste[i])
-#     setTuboPraDevolver(devolve_teste[i])
-#     if comeco:
-#         vai_pro_ponto_inicial(True)
-#         acha_localizacao_das_cores()
-#         comeco = False
-#     else:
-#         vai_pro_ponto_inicial(False)
+comeco = True
+for i in range(3):
+    setCaixaDeCorreio(cores_teste[i])
+    setTuboPraDevolver(devolve_teste[i])
+    if comeco:
+        vai_pro_ponto_inicial(True)
+        acha_localizacao_das_cores()
+        comeco = False
+    else:
+        vai_pro_ponto_inicial(False)
     
-#     if getTuboPraDevolver() == 'Nada':
-#         wait(800)
-#     else:
-#         devolve_tubo()
-#         vai_pro_ponto_inicial(False)
+    if getTuboPraDevolver() == 'Nada':
+        wait(800)
+    else:
+        devolve_tubo()
+        vai_pro_ponto_inicial(False)
 
-#     sai_do_ponto_inicial_e_vai_pra_area()
-#     pegou_tubo = verifica_tubo_reto(35,80,680)
-#     if not pegou_tubo:
-#         volta_pro_comeco_area(680)
-#         pegou_tubo = verifica_tubo_reto(50,80,600)
-#         if not pegou_tubo:
-#             volta_pro_comeco_area(680)
-#             pegou_tubo = verifica_tubo_90(50,80,600)
-
-#     posiciona_tubo_mario()
-#     rodas.straight(85)
-#     rodas.turn(-90)
-#     le_sensor_cor()
-#     while not ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX): 
-#         le_sensor_cor()
-#         segue_linha_sensor_esquerdo_prop(100)
-#     atitude(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX,TURN_BORDA)
+    sai_do_ponto_inicial_e_vai_pra_area()
+    pegou_tubo = verifica_tubo_reto(35,80,680)
+    print('sai do primeiro pegou_tubo()')
+    if not pegou_tubo:
+        volta_pro_comeco_area(680)
+        pegou_tubo = verifica_tubo_reto(50,80,600)
+        print('pegar tubo no main deu',getPegouTubo())
+        if not pegou_tubo:
+            volta_pro_comeco_area(680)
+            pegou_tubo = verifica_tubo_90(50,80,600)
+            print('pegar tubo no main deu',getPegouTubo())    
+    
+    posiciona_tubo_mario()
+    rodas.straight(85)
+    rodas.turn(-90)
+    le_sensor_cor()
+    while not ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX): 
+        le_sensor_cor()
+        segue_linha_sensor_esquerdo_prop(100)
+    atitude(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX,TURN_BORDA)
 
 # ----------------------------------------------------------------------------------------------------    
 
