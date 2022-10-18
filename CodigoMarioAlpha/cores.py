@@ -17,7 +17,7 @@ def le_sensor_cor():
     global ValorCorDireita
     ValorCorEsquerda = SensorCorEsquerda.rgb()
     ValorCorDireita = SensorCorDireita.rgb()
-    #print("Valor na Esquerda é:", ValorCorEsquerda, "E na direita é", ValorCorDireita)
+    print("Valor na Esquerda é:", ValorCorEsquerda, "E na direita é", ValorCorDireita)
     return
 
 def valor_dr(i = 0):
@@ -39,9 +39,9 @@ def valor_eq(i = 0):
         return ValorCorEsquerda[2]
 
 def segue_verde_branco_dr():
-    threshold = 20
+    threshold = 30
     PROPORTIONAL_GAIN = 1
-    DRIVE_SPEED = 100
+    DRIVE_SPEED = 120
 
     leitura_sensor = valor_dr(2)
     print(leitura_sensor)
@@ -52,9 +52,9 @@ def segue_verde_branco_dr():
 
 def segue_verde_branco_eq():
     global ValorCorDireita
-    threshold = 35
+    threshold = 32
     PROPORTIONAL_GAIN = 1
-    DRIVE_SPEED = 100
+    DRIVE_SPEED = 120
 
     leitura_sensor = valor_eq(2)
     print(leitura_sensor)
@@ -67,20 +67,20 @@ def segue_verde_branco_eq():
 
 def segue_verde_azul_eq():
     global ValorCorDireita
-    threshold = 7
-    PROPORTIONAL_GAIN = 5
-    DRIVE_SPEED = 110
+    threshold = 27
+    PROPORTIONAL_GAIN = 0.9
+    DRIVE_SPEED = 120
 
-    leitura_sensor = valor_eq(2)
+    leitura_sensor = valor_eq(1)
     print(leitura_sensor)
     
-    deviation =  -leitura_sensor + threshold
+    deviation =  leitura_sensor - threshold
     turn_rate = PROPORTIONAL_GAIN * deviation
     robot.drive(DRIVE_SPEED, turn_rate)
 
 def segue_azul_beirada_eq():
-    threshold = 5
-    PROPORTIONAL_GAIN = 3
+    threshold = 18
+    PROPORTIONAL_GAIN = 1
     DRIVE_SPEED = 90
 
     leitura_sensor = valor_eq(2)
@@ -95,9 +95,9 @@ def viu_branco():    # Se está vendo branco com os dois sensores retorna True, 
     global ValorCorDireita
     global eq
     global dr
-    eq_min =[20,20,20] # eq_min = [31,40,40]
+    eq_min =[30,40,40] # eq_min = [31,40,40]
     eq_max = [100,100,100]# eq_max = [37,45,43]
-    dr_min = [15,20,30]# dr_min = [18,28,38]
+    dr_min = [15,25,30]# dr_min = [18,28,38]
     dr_max = [100,100,100] # dr_max = [21,31,42]
     eq = False
     dr = False
@@ -122,10 +122,10 @@ def viu_verde_branco():          #Retorna True se Viu verde saindo do branco, em
     global ValorCorDireita
     global eq
     global dr
-    eq_min = [0,5,0]
-    eq_max = [2,9,2]
-    dr_min = [0,4,0]
-    dr_max = [1,6,1]
+    eq_min = [0,10,3]
+    eq_max = [7,30,15]
+    dr_min = [0,6,2]
+    dr_max = [3,19,10]
     eq = False
     dr = False
     if eq_min[0] <= ValorCorEsquerda[0] <= eq_max[0] and eq_min[1] <= ValorCorEsquerda[1] <= eq_max[1] and eq_min[2] <= ValorCorEsquerda[2] <= eq_max[2]:
@@ -140,9 +140,9 @@ def viu_preto():          #Viu verde saindo do branco
     global eq
     global dr
     eq_min = [3,3,1]
-    eq_max = [4,4,2]
-    dr_min = [3,2,1]
-    dr_max = [4,7,2]
+    eq_max = [7,6,3]
+    dr_min = [2,2,1]
+    dr_max = [5,6,4]
     eq = False
     dr = False
     if eq_min[0] <= ValorCorEsquerda[0] <= eq_max[0] and eq_min[1] <= ValorCorEsquerda[1] <= eq_max[1] and eq_min[2] <= ValorCorEsquerda[2] <= eq_max[2]:
@@ -157,9 +157,9 @@ def viu_beirada():          #Viu beirada em algum dos dois sensores
     global eq
     global dr
     eq_min = [0,0,0]
-    eq_max = [0,0,0]
+    eq_max = [1,1,1]
     dr_min = [0,0,0]
-    dr_max = [0,0,0]
+    dr_max = [1,1,1]
     eq = False
     dr = False
     if eq_min[0] <= ValorCorEsquerda[0] <= eq_max[0] and eq_min[1] <= ValorCorEsquerda[1] <= eq_max[1] and eq_min[2] <= ValorCorEsquerda[2] <= eq_max[2]:
@@ -181,10 +181,10 @@ def viu_azul():          #Viu azul
     global ValorCorDireita
     global eq
     global dr
-    eq_min = [1,3,4]
-    eq_max = [3,5,9]
-    dr_min = [0,2,4]
-    dr_max = [1,3,10]
+    eq_min = [6,19,29]
+    eq_max = [9,26,37]
+    dr_min = [2,11,25]
+    dr_max = [5,16,32]
     eq = False
     dr = False
     if eq_min[0] <= ValorCorEsquerda[0] <= eq_max[0] and eq_min[1] <= ValorCorEsquerda[1] <= eq_max[1] and eq_min[2] <= ValorCorEsquerda[2] <= eq_max[2]:
@@ -198,10 +198,10 @@ def viu_verde_azul():          #Viu verde saindo do azul
     global ValorCorDireita
     global eq
     global dr
-    eq_min = [2,9,0]
-    eq_max = [4,20,6]
-    dr_min = [0,6,0]
-    dr_max = [4,20,4]
+    eq_min = [5,30,15]
+    eq_max = [12,60,30]
+    dr_min = [2,20,10]
+    dr_max = [9,50,24]
     eq = False
     dr = False
     if eq_min[0] <= ValorCorEsquerda[0] <= eq_max[0] and eq_min[1] <= ValorCorEsquerda[1] <= eq_max[1] and eq_min[2] <= ValorCorEsquerda[2] <= eq_max[2]:
@@ -215,10 +215,10 @@ def viu_amarelo():          #Viu amarelo
     global ValorCorDireita
     global eq
     global dr
-    eq_min = [35,25,3]
-    eq_max = [40,30,6]
-    dr_min = [20,16,2]
-    dr_max = [23,21,5]
+    eq_min = [33,25,4]
+    eq_max = [38,30,9]
+    dr_min = [18,15,4]
+    dr_max = [23,21,8]
     eq = False
     dr = False
     if eq_min[0] <= ValorCorEsquerda[0] <= eq_max[0] and eq_min[1] <= ValorCorEsquerda[1] <= eq_max[1] and eq_min[2] <= ValorCorEsquerda[2] <= eq_max[2]:
@@ -233,8 +233,8 @@ def viu_vermelho():          #Viu vermelho
     global eq
     global dr
     eq_min = [27,3,0]
-    eq_max = [30,5,2]
-    dr_min = [14,1,0]
+    eq_max = [30,5,4]
+    dr_min = [13,1,0]
     dr_max = [18,4,2]
     eq = False
     dr = False
@@ -367,6 +367,18 @@ def alinha_verde_azul():
 
 
 def alinha_beirada():
+    global eq
+    global dr
+    watch_virada.reset()
+    while watch_virada.time()<450:
+        robot.drive(-200,0)
+    le_sensor_cor()
+    while not viu_beirada():
+        le_sensor_cor()
+        robot.drive(40,0)
+    alinha_beirada2()
+
+def alinha_beirada2():
     global eq
     global dr
     if eq and dr:

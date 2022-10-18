@@ -89,13 +89,13 @@ def le_valores_max_min():
 
 def define_tamanho_gap():
     global distancia_percorrida
-    if distancia_percorrida <= 54: #Não é GAP, só um buraquinho do gasoduto msm
+    if distancia_percorrida <= 50: #Não é GAP, só um buraquinho do gasoduto msm
         return False
-    elif distancia_percorrida <= 109: # GAP - 10 cm 110
+    elif distancia_percorrida <= 106: # GAP - 10 cm 110
         print("É um buraco de 10 cm!, Foi Medido:", distancia_percorrida)
         ev3.speaker.beep(200, 700)
         return 10
-    elif distancia_percorrida <= 159: #GAP - 15 cm  160
+    elif distancia_percorrida <= 156: #GAP - 15 cm  160
         print("É um buraco de 15 cm!, Foi Medido:", distancia_percorrida)
         ev3.speaker.beep(500, 700)
         wait(300)
@@ -158,7 +158,7 @@ def virada_gasoduto_esquerda():
         robot.drive(40, -14)
     else:
         robot.drive(50, -16)         #50,-16
-        #robot.drive(100, -34)
+        # robot.drive(100, -34)
         # robot.drive(75, -25)
 
 def virada_gasoduto_direita():
@@ -167,7 +167,7 @@ def virada_gasoduto_direita():
         robot.drive(40,16)
     else:
         robot.drive(50, 20)       #50,20
-        #robot.drive(100,40)
+        # robot.drive(100,40)
         # robot.drive(75,30)
 
 def segue_reto_gasoduto():
@@ -177,7 +177,7 @@ def segue_reto_gasoduto():
     else:
         robot.drive(50,0)    #50,0
         # robot.drive(75,0)
-        #robot.drive(100,0)
+        # robot.drive(100,0)
     
 
 def virada_ultrassom_frente():
@@ -332,10 +332,11 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
     print('mandei')
     #tamanho_do_tubo_espera = 0 ############################# teste ################################
     le_valores_max_min()
-    valor_minimo = 19 #De manhã deu 58, 12h deu 75 --- 48
-    valor_maximo = 27  #De manhã deu 72, 12h deu 88 -- 58
+    valor_minimo = 13 #De manhã deu 58, 12h deu 75 --- 48
+    valor_maximo = 20  #De manhã deu 72, 12h deu 88 -- 58
     MboxAlphaBetaLuz.wait()
-    watch_re.reset()
+    #watch_re.reset()
+    watch_medida.reset()
     while True:
         MEDINDO = False
         manda_nada_luigi()
@@ -363,7 +364,7 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
            # segue_reto_gasoduto()
         elif checa_distancia_ultrassom_frente():
             virada_ultrassom_frente()
-        elif checa_distancia_ultrassom_esquerda():
+        elif checa_distancia_ultrassom_esquerda() and watch_medida.time() > 3000:
             ev3.speaker.beep(50)
             # if watch_re.time() > 3000: # Ele só da ré se não tiver dado ré nos últimos x milisegundos
             #     anda_re_gasoduto()
@@ -439,7 +440,9 @@ def percorre_gasoduto_esquerda_com_varredura_completa(modo = 'varredura'):  #Per
     valor_minimo = 777 #De manhã deu 58, 12h deu 75 --- 48
     valor_maximo = 1111 #De manhã deu 72, 12h deu 88 -- 58
     MboxAlphaBetaLuz.wait()
+
     while True:
+        MEDINDO = True
         manda_nada_luigi()
         le_valores_percorrimento_esquerda()
         adiciona_lista_ultrassom_esquerda()

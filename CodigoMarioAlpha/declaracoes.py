@@ -9,6 +9,7 @@ from pybricks.messaging import *
 import time
 #from pybricks.nxtdevices import *
 
+
 ev3 = EV3Brick()
 
 SensorCorDireita = ColorSensor(Port.S1)
@@ -20,11 +21,12 @@ RodaEsquerda = Motor(Port.D)
 RodaDireita = Motor(Port.A)
 MotorEmpilhadeira = Motor(Port.C)
 MotorGarra = Motor(Port.B)
-robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=41, axle_track=115.2) #axle_track antigo -> 118 , 109.4
+robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=41, axle_track=114.05) #axle_track antigo -> 118 , 109.4
 watch = StopWatch()
 watch2 = StopWatch()
 watch_virada = StopWatch()
 watch_re = StopWatch() # Relógio que não permite ele dar ré no gasoduto duas vezes dentro de um certo período de tempo
+watch_medida = StopWatch()
 
 FIM_DO_PROGRAMA = False
 TUBO_ENTREGUE = False

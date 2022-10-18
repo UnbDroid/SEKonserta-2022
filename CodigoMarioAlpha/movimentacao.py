@@ -29,7 +29,7 @@ def reposiciona_gasoduto(): #Se reposiciona no gasoduto para continuar seu perco
     robot.stop()
     watch.reset()
     while watch.time()<1500:
-        robot.drive(20, 58)
+        robot.drive(19, 58)
     robot.stop()
     return
 
@@ -107,7 +107,7 @@ def anda_ate_direita_rampa():   #Alinhado no verde em baixo, vira a direita e ch
     alinha_verde_azul()
 
 def anda_ate_direita_branco(i = 400):   #Alinhado no branco em cima, vira a direita e chega até o fim da arena na direita, pra pegar o tubo
-    robot.straight(120)
+    robot.straight(50)
     robot.turn(180)
     while not viu_verde_branco():
         le_sensor_cor()
@@ -162,7 +162,7 @@ def sobe_rampa():   # Sobe rampa de frente já alinhado
     robot.stop()
 
 def posiciona_para_devolver_Luigi(tamanho_do_tubo_na_garra, tamanho_do_tubo_espera): # Já em cima da rampa, se posiciona e coloca o tubo no lugar para o Luigi devolver
-    robot.straight(100)
+    robot.straight(50)
     robot.turn(-90)
     while not viu_beirada():
         le_sensor_cor()
@@ -178,7 +178,7 @@ def posiciona_para_devolver_Luigi(tamanho_do_tubo_na_garra, tamanho_do_tubo_espe
     robot.straight(40) # Valor combinado
     desce_empilhadeira()
     fecha_garra(tamanho_do_tubo_na_garra)
-    robot.straight(-40)
+    robot.straight(-50)
     sobe_empilhadeira_centro()
     tamanho_do_tubo_na_garra = 0
     robot.turn(90)

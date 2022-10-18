@@ -42,7 +42,7 @@ def percorre_gasoduto_esquerda():
     while True:
         wait(100)
         ValorLuzEsquerda = LuzEsquerda.ambient() # Usar quando está claro (De dia e fora da sala)
-        #ValorLuzEsquerda = LuzEsquerda.reflection() #Usar quando está escuro (Dentro da sala ou de noite)
+        # ValorLuzEsquerda = LuzEsquerda.reflection() #Usar quando está escuro (Dentro da sala ou de noite)
         MboxAlphaBetaLuz.send(ValorLuzEsquerda)
         #ValorUltrassomEsquerda = UltrassomEsquerda.distance()
         #MboxAlphaBetaUltrassom.send(ValorUltrassomEsquerda)

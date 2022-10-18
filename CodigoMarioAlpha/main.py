@@ -11,16 +11,23 @@ from movimentacao import *
 FIM_DO_PROGRAMA = False
 TUBO_ENTREGUE = False
 
+while True:
+    sobe_empilhadeira()
+    pega_tubo(20)
+    desce_empilhadeira()
+    fecha_garra(20)
+    robot.straight(-100)
+    wait(2000)
 
 
 #-------------- Código Certo -> Voltando pegar o tubo após ler o primeiro GAP --------------------------------------------
 modo_do_programa = "SemVarreduraCompleta"
 conecta_nos_dois()
 sobe_empilhadeira_centro(True, True) #Usando o centro
-#fecha_garra(20)
+#fecha_garra()
 #abre_garra()
 #conecta_nos_dois()
-#conecta_alpha_beta()
+# conecta_alpha_beta()
 manda_nada_luigi()
 inicio()
 print('oi')
