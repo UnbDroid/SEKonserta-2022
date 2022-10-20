@@ -311,10 +311,10 @@ def verifica_tubo_reto(distancia_que_ve_tubo,velocidade_robo,dist_area,interno):
                 print('terminei de ler o comeco do tubo')
                 # rodas.stop()
                 if caixa_de_correio == 'azul':
-                    rodas.straight(-(fabs(largura_tubo - tamanho_tubo)+20))
+                    rodas.straight(-(fabs(largura_tubo - tamanho_tubo)+55))
                     #print('a re q ele vai dar é de: ',-(fabs(largura_tubo - tamanho_tubo)+25))
                 if caixa_de_correio == 'vermelho':
-                    rodas.straight(-(fabs(largura_tubo - tamanho_tubo)+20))
+                    rodas.straight(-(fabs(largura_tubo - tamanho_tubo)+25))
                 if caixa_de_correio == 'amarelo':
                     rodas.straight(-(fabs(largura_tubo - tamanho_tubo)+2))
                 
@@ -330,7 +330,7 @@ def verifica_tubo_reto(distancia_que_ve_tubo,velocidade_robo,dist_area,interno):
 
                 pega_tubo(interno)
                 if getPegouTubo():
-                    sai_da_area_cores(interno)
+                    sai_da_area_cores(False)
                     break
                     #rodas.turn(75)
                 else:
@@ -347,7 +347,7 @@ def verifica_tubo_reto(distancia_que_ve_tubo,velocidade_robo,dist_area,interno):
 
     rodas.stop()
     #setPegouTubo(pegou_tubo)
-    print('pegar tubo deu: ',pegou_tubo)
+    print('pegar tubo deu: ',getPegouTubo())
 
     return pegou_tubo
 
@@ -398,7 +398,8 @@ def verifica_tubo_90(distancia_que_ve_tubo,velocidade_robo,dist_area):
             else: 
                 print('cheguei a ler o comeco do tubo')
                 ev3.speaker.beep()
-                rodas.stop()                
+                rodas.stop()  
+                rodas.straight(5)              
                 
                 largura_tubo = rodas.distance()
                 while ve_ultrassom_lateral(50,distancia_que_ve_tubo): #ultrassom_lateral.distance() < distancia_que_ve_tubo:
@@ -554,10 +555,11 @@ def devolve_tubo():
     dist_ultrassom_lateral = ultrassom_lateral.distance()
 
     watch.reset()
-    while dist_ultrassom_lateral > 40:
+    while not ve_ultrassom_lateral(50,40): # dist_ultrassom_lateral > 40:
         if watch.time() > 6000:
            tem_tubo_pra_pegar = False
            rodas.turn(-90)
+           break
         else:
             dist_ultrassom_lateral = ultrassom_lateral.distance()
             le_sensor_cor()
@@ -617,8 +619,6 @@ def devolve_tubo():
         sobe_empilhadeira()
         rodas.straight(150)
         rodas.straight(-60)
-    else:
-        vai_pro_ponto_inicial()
     
 
     

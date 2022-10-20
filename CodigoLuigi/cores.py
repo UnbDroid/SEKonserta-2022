@@ -279,6 +279,7 @@ def identifica_cor_da_area():
 def valida_identificacao_cor():
     if getCores() == "nada":
         rodas.straight(20)
+        rodas.turn(5)
         le_sensor_cor()
         setCores(identifica_cor_da_area())
         rodas.straight(-20)
@@ -291,7 +292,7 @@ def segue_linha_sensor_esquerdo_interno(DRIVE_SPEED):
     PROPORTIONAL_GAIN = 1.2
 
     leitura_sensor = luzEsquerda.rgb()
-    print(leitura_sensor)
+    # print(leitura_sensor)
     
     deviation =  threshold - leitura_sensor[0]
     turn_rate = PROPORTIONAL_GAIN * deviation

@@ -80,17 +80,22 @@ def vai_pro_ponto_inicial(comeco):
             alinha_robo(PRETO_ESQ_MIN,PRETO_ESQ_MAX,PRETO_DIR_MIN,PRETO_DIR_MAX)             
             setCores(descobre_info_area())
             print(getCores())
-            
-            viu_preto = True
-            rodas.straight(-30)
-            rodas.turn(80)
-            rodas.reset()
-            
-            print('antes de add, ordem ares é: ',ordem_areas)
-            if comeco:
-                ordem_areas.append(getCores())
-                print('depois de add, ordem ares é: ',ordem_areas)
-            watch.reset()     
+            if getCores() == 'branco':
+                rodas.straight(30)
+            # if getCores() == 'nada' and comeco == True:
+            #     while getCores() == 'nada':
+            #         setCores(descobre_info_area())
+            else:    
+                viu_preto = True
+                rodas.straight(-30)
+                rodas.turn(80)
+                rodas.reset()
+                
+                print('antes de add, ordem ares é: ',ordem_areas)
+                if comeco:
+                    ordem_areas.append(getCores())
+                    print('depois de add, ordem ares é: ',ordem_areas)
+                watch.reset()     
         else:
             rodas.drive(100,0)
     
@@ -185,5 +190,10 @@ def calibra_settings():
 
 def entra_na_na_area():
     rodas.turn(90)
+    rodas.straight(110)
+    rodas.turn(-90)
+
+def sai_da_area():
+    rodas.turn(-90)
     rodas.straight(110)
     rodas.turn(-90)
