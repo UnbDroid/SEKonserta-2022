@@ -181,7 +181,7 @@ def viu_azul():          #Viu azul
     global ValorCorDireita
     global eq
     global dr
-    eq_min = [6,19,29]
+    eq_min = [4,16,25]
     eq_max = [9,26,37]
     dr_min = [2,11,25]
     dr_max = [5,16,32]

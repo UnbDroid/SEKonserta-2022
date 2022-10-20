@@ -11,20 +11,12 @@ from movimentacao import *
 FIM_DO_PROGRAMA = False
 TUBO_ENTREGUE = False
 
-while True:
-    sobe_empilhadeira()
-    pega_tubo(20)
-    desce_empilhadeira()
-    fecha_garra(20)
-    robot.straight(-100)
-    wait(2000)
-
 
 #-------------- Código Certo -> Voltando pegar o tubo após ler o primeiro GAP --------------------------------------------
 modo_do_programa = "SemVarreduraCompleta"
 conecta_nos_dois()
-sobe_empilhadeira_centro(True, True) #Usando o centro
-#fecha_garra()
+sobe_empilhadeira_centro(True, False) #Usando o centro
+# fecha_garra(15)
 #abre_garra()
 #conecta_nos_dois()
 # conecta_alpha_beta()
@@ -40,8 +32,12 @@ while not fim_programa():
     gasoduto_apos_pegar_tubo()
     print('entrei pra entregar')
     while not tubo_foi_entregue():   # ele continuar entregando, caso ele tenha q devolver 
+        if luigi_entregou_tubo(): # Se o tubo não foi entregue, não entregar
+            break
         percorre_gasoduto_esquerda('entregar')
 # -----------------------------------Final Código Certo ------------------------------------------------
+
+ev3.speaker.set_volume(100)
 
 while True: #Fica apitando infinitamente quando acaba o programa
     ev3.speaker.beep(1100,500)

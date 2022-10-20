@@ -2,11 +2,13 @@ from declaracoes import *
 from cores import *
 from percorregasoduto import *
 from movimentacao import *
+from servidor import *
 
 def inicio():   #INÍCIO DO PROGRAMA -> Acaba quando o Mario chega no gasoduto pela primeira vez
     watch2.reset()
     while True:
         le_sensor_cor()
+        distancia = UltrassomFrente.distance()
         if viu_verde_branco():
             ev3.speaker.beep(900)
             robot.stop()
@@ -14,7 +16,7 @@ def inicio():   #INÍCIO DO PROGRAMA -> Acaba quando o Mario chega no gasoduto p
             desce_rampa_comeco_costas()
             chega_no_gasoduto()
             break
-        elif viu_preto() or viu_azul() or viu_amarelo() or viu_vermelho():
+        elif viu_azul() or viu_amarelo() or viu_vermelho(): # or viu_preto():
             watch2.reset()
             ev3.speaker.beep(200)
             robot.stop()
@@ -31,6 +33,13 @@ def inicio():   #INÍCIO DO PROGRAMA -> Acaba quando o Mario chega no gasoduto p
         elif watch2.time() > 5000:  #Se demorar mais que X segundos, virar, pois está indo em direção a uma beirada
             robot.stop()
             robot.turn(90)
+            watch2.reset()
+        elif distancia < 200:
+            robot.stop()
+            ev3.speaker.beep(900)
+            robot.straight(-100)
+            robot.turn(90)
+            robot.stop()
             watch2.reset()
         else:
             robot.drive(100,0)
@@ -55,6 +64,7 @@ def desce_rampa_comeco_costas(): #Descer rampa no começo do programa de costas,
     while not (viu_azul()):
         le_sensor_cor()
         robot.drive(-120,0)
+    MboxPodeDescer.send(True)
     while not (viu_verde_azul()):
         le_sensor_cor()
         robot.drive(80,0)

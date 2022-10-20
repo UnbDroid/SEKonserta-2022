@@ -122,13 +122,13 @@ def coloca_tubo(tamanho):
         watch.reset()
         if tamanho == 10:
             while watch.time()<1500:
-                robot.drive(-48, -60)     #-44, -64
+                robot.drive(-58, -60)     #-48, 60
         elif tamanho == 15:
             while watch.time()<1500:
-                robot.drive(-71, -60)      # -78, -62
+                robot.drive(-91, -60)      # -81, -60
         elif tamanho == 20:
             while watch.time()<1500:
-                robot.drive(-88, -60)    # -86.4, -62
+                robot.drive(-106, -60)    # -96, -60
         robot.stop()
         posiciona_gasoduto()
         devolve_tubo(tamanho)
@@ -333,7 +333,7 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
     #tamanho_do_tubo_espera = 0 ############################# teste ################################
     le_valores_max_min()
     valor_minimo = 13 #De manhã deu 58, 12h deu 75 --- 48
-    valor_maximo = 20  #De manhã deu 72, 12h deu 88 -- 58
+    valor_maximo = 17  #De manhã deu 72, 12h deu 88 -- 58
     MboxAlphaBetaLuz.wait()
     #watch_re.reset()
     watch_medida.reset()
@@ -364,7 +364,7 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
            # segue_reto_gasoduto()
         elif checa_distancia_ultrassom_frente():
             virada_ultrassom_frente()
-        elif checa_distancia_ultrassom_esquerda() and watch_medida.time() > 3000:
+        elif checa_distancia_ultrassom_esquerda() and watch_medida.time() > 1500:
             ev3.speaker.beep(50)
             # if watch_re.time() > 3000: # Ele só da ré se não tiver dado ré nos últimos x milisegundos
             #     anda_re_gasoduto()

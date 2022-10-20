@@ -7,7 +7,7 @@ MboxAlphaBetaUltrassom =  NumericMailbox('alphabetaultrassom', server)
 MboxAlphaLuigiConfirmacao = TextMailbox('alphaluigi', server)
 MboxAlphaLuigiCores = TextMailbox('alphaluigi2',server)
 MboxAlphaLuigiCoresDev = TextMailbox('alphaluigi3', server)
-
+MboxPodeDescer = LogicMailbox('alphaluigi4', server)
 def conecta_alpha_beta():
 
     # The server must be started before the client!

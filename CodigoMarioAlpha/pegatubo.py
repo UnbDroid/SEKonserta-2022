@@ -1,12 +1,21 @@
 from declaracoes import *
 from servidor import *
+from cores import *
 
 tempo_empilhadeira = 5400
-tempo_garra = 10000 #8100
+tempo_garra = 10800 #8100
 tamanho_do_tubo_na_garra = 0
 tamanho_lista_frente = 2
 lista_ultrassom_frente = tamanho_lista_frente * [100000]
 porcentagem_centro = 1 #qt por cento a empilhadeira tem q subir do seu máximo para estar no centro
+LUIGI_NAO_ENTREGOU = False
+
+def luigi_entregou_tubo(): # Se o Luigi não entregou o tubo, voltar pro gasoduto e medir
+    global LUIGI_NAO_ENTREGOU
+    a = LUIGI_NAO_ENTREGOU
+    LUIGI_NAO_ENTREGOU = False
+    return a
+
 
 def le_distancia_frente():
     global lista_ultrassom_frente
@@ -27,9 +36,9 @@ def checa_distancia_frente_devolucao():
 
 def sobe_empilhadeira(i = 1, continuar = False): #Função utilizada para subir a empilhadeira
     if not continuar:
-        MotorEmpilhadeira.run_time(-200, tempo_empilhadeira *i)
+        MotorEmpilhadeira.run_time(-200, tempo_empilhadeira *i*1.015)
     else:
-        MotorEmpilhadeira.run_time(-200, tempo_empilhadeira *i, then = Stop.HOLD, wait = False)
+        MotorEmpilhadeira.run_time(-200, tempo_empilhadeira *i*1.015, then = Stop.HOLD, wait = False)
     return
 
 def desce_empilhadeira(i =1, continuar = False): #Função utilizada para fescer a empilhadeira
@@ -159,7 +168,7 @@ def posiciona_gasoduto(): #Função que posiciona o robô de forma correta para 
         distancia = UltrassomFrente.distance()
         robot.drive(70,0)
     robot.stop()
-    robot.straight(15)
+    robot.straight(10)
 
 
 def pega(): # Função feita apenas para testar a captura de um tubo na frente do robô, e a sua devolução no gasoduto a sua frente também
@@ -195,25 +204,33 @@ def alinha_tubo(tamanho):
 
 def pega_tubo(tamanho): #Função que pega o tubo já alinhado com ele previamente, com o tubo na sua frente a uma distância indefinida
     global tamanho_do_tubo_na_garra
+    global LUIGI_NAO_ENTREGOU
     robot.straight(-25)
-    # while not posso_pegar_tubo():
-    #     pass
+    while not posso_pegar_tubo():
+        pass
     DistanciaUltrassomFrente = UltrassomFrente.distance()
-    while DistanciaUltrassomFrente > 170:
+    le_sensor_cor()
+    while (DistanciaUltrassomFrente > 170):
+        le_sensor_cor()
         robot.drive(70,0)
         DistanciaUltrassomFrente = UltrassomFrente.distance()
+        if (viu_preto() or viu_amarelo() or viu_azul() or viu_vermelho()):
+            LUIGI_NAO_ENTREGOU = True
+            break
     robot.stop()
-    ev3.speaker.beep()
-    desce_empilhadeira_centro()
-    if tamanho == 10:
-        alinha_tubo(tamanho)
-    robot.straight(90)
-    tamanho_do_tubo_na_garra = tamanho
-    print("o tamanho é esse", tamanho_do_tubo_na_garra)
-    if tamanho == 15:
-        ev3.speaker.beep(900,700)
-    abre_garra(tamanho)
-    sobe_empilhadeira()
-    manda_confirmacao_luigi()
+    if not LUIGI_NAO_ENTREGOU: #Se o Luigi entregou o tubo, pegar ele
+        robot.stop()
+        ev3.speaker.beep()
+        desce_empilhadeira_centro()
+        if tamanho == 10:
+            alinha_tubo(tamanho)
+        robot.straight(90)
+        tamanho_do_tubo_na_garra = tamanho
+        print("o tamanho é esse", tamanho_do_tubo_na_garra)
+        if tamanho == 15:
+            ev3.speaker.beep(900,700)
+        abre_garra(tamanho)
+        sobe_empilhadeira()
     manda_nada_cores_luigi()
+    manda_confirmacao_luigi()
 
