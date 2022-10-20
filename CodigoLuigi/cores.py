@@ -5,7 +5,7 @@ def le_sensor_cor(): #TODO como que esse valor é lido? ele é um inteiro normal
     setValorCorEsquerda(luzEsquerda.rgb()) # é uma lista de 3 valores RGB
     setValorCorDireita(luzDireita.rgb())
 
-    #print("[LE SENSOR] Valor na Esquerda é:", getValorCorEsquerda(), "E na direita é", getValorCorDireita())
+    # print("[LE SENSOR] Valor na Esquerda é:", getValorCorEsquerda(), "E na direita é", getValorCorDireita())
 
     return
 
@@ -255,19 +255,45 @@ def segue_linha_sensor_direito_re(DRIVE_SPEED):
     turn_rate = PROPORTIONAL_GAIN * deviation
     rodas.drive(DRIVE_SPEED, -turn_rate)
 
-def identifica_cor_da_area_dois_sensores():
+def identifica_cor_da_area():
     setCores("nada")
     
-    le_sensor_cor()
-    if ve_cor(AMARELO_ESQ_MIN, AMARELO_ESQ_MAX, AMARELO_DIR_MIN, AMARELO_DIR_MAX) and getDr() and getEq(): 
+    if ve_cor(AMARELO_ESQ_MIN, AMARELO_ESQ_MAX, AMARELO_DIR_MIN, AMARELO_DIR_MAX) and getDr(): 
         setCores("amarelo")
 
-    elif ve_cor(VERMELHO_ESQ_MIN, VERMELHO_ESQ_MAX, VERMELHO_DIR_MIN, VERMELHO_DIR_MAX) and getDr() and getEq():
+    elif ve_cor(VERMELHO_ESQ_MIN, VERMELHO_ESQ_MAX, VERMELHO_DIR_MIN, VERMELHO_DIR_MAX) and getDr():
         setCores("vermelho")
 
-    elif ve_cor(AZUL_ESQ_MIN, AZUL_ESQ_MAX, AZUL_DIR_MIN, AZUL_DIR_MAX) and getDr() and getEq():
+    elif ve_cor(AZUL_ESQ_MIN, AZUL_ESQ_MAX, AZUL_DIR_MIN, AZUL_DIR_MAX) and getDr():
         setCores("azul")
 
+    elif ve_cor(BRANCO_ESQ_MIN, BRANCO_ESQ_MAX, BRANCO_DIR_MIN, BRANCO_DIR_MAX ):
+        setCores("branco")
+    
     ev3.speaker.beep()
+
+     
     print('eu vi a cor',getCores())
     return getCores()
+
+def valida_identificacao_cor():
+    if getCores() == "nada":
+        rodas.straight(20)
+        le_sensor_cor()
+        setCores(identifica_cor_da_area())
+        rodas.straight(-20)
+
+
+def segue_linha_sensor_esquerdo_interno(DRIVE_SPEED):
+    PRETO = 5
+    
+    threshold = 40
+    PROPORTIONAL_GAIN = 1.2
+
+    leitura_sensor = luzEsquerda.rgb()
+    print(leitura_sensor)
+    
+    deviation =  threshold - leitura_sensor[0]
+    turn_rate = PROPORTIONAL_GAIN * deviation
+    rodas.drive(DRIVE_SPEED, -turn_rate)
+

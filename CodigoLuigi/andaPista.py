@@ -34,32 +34,11 @@ def atitude_preto():
     rodas.straight(-60)
     rodas.turn(90)
 
-def identifica_cor_da_area():
-    setCores("nada")
-    
-    if ve_cor(AMARELO_ESQ_MIN, AMARELO_ESQ_MAX, AMARELO_DIR_MIN, AMARELO_DIR_MAX) and getDr(): 
-        setCores("amarelo")
-
-    elif ve_cor(VERMELHO_ESQ_MIN, VERMELHO_ESQ_MAX, VERMELHO_DIR_MIN, VERMELHO_DIR_MAX) and getDr():
-        setCores("vermelho")
-
-    elif ve_cor(AZUL_ESQ_MIN, AZUL_ESQ_MAX, AZUL_DIR_MIN, AZUL_DIR_MAX) and getDr():
-        setCores("azul")
-
-    elif ve_cor(BRANCO_ESQ_MIN, BRANCO_ESQ_MAX, BRANCO_DIR_MIN, BRANCO_DIR_MAX ):
-        setCores("branco")
-    
-    ev3.speaker.beep()
-    print('eu vi a cor',getCores())
-    return getCores()
-
-
-
-
 def descobre_info_area():
     rodas.straight(60) #entra na área colorida    
     le_sensor_cor()
-    setCores(identifica_cor_da_area())
+    identifica_cor_da_area()
+    valida_identificacao_cor()
     rodas.straight(-60)
 
     return getCores()       
@@ -70,7 +49,7 @@ def vai_pro_ponto_inicial(comeco):
     global distancia_primeira_cor_do_ponto_inicial
     ordem_areas = getOrdemAreas()
 
-    ajustes_comeco()
+    # ajustes_comeco()
     viu_preto = False
     # leitura_ultrassom = valida_cores_com_ultrassom()
 
@@ -183,7 +162,7 @@ def acha_localizacao_das_cores():
     else:
         #print('ordem areas1 é ',ordem_areas)
         sobe_empilhadeira()
-        sai_da_area_cores()
+        sai_da_area_cores(False)
         distancia = 833
         muda_de_area(distancia)
         ordem_areas.append(descobre_info_area())
@@ -203,3 +182,8 @@ def calibra_settings():
     while True:
         rodas.turn(360)
         wait(3000)
+
+def entra_na_na_area():
+    rodas.turn(90)
+    rodas.straight(110)
+    rodas.turn(-90)

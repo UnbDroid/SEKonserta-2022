@@ -24,7 +24,7 @@ rodas = DriveBase(rodaEsquerda, rodaDireita, wheel_diameter= 41, axle_track=109)
 rodas.settings(100, 270, 150) #velocidade_reto / aceleração reto / velocidade de giro / aceleração de giro
 
 distancia_chao = 210
-caixa_de_correio = 'vermelho'
+caixa_de_correio = ''
 tubo_pra_devolver = ''
 pegou_tubo = False
 distancia_primeira_cor_do_ponto_inicial = 0
@@ -47,8 +47,10 @@ alinhado_ao_preto = False
 viu_borda = False
 
 ordem_areas = []#lista que contém distância ao ponto inicial e sua respectiva área (que ainda será identificada)
-#ordem_areas = ['amarelo','vermelho','azul']
+# ordem_areas = ['amarelo','vermelho','azul']
+# ordem_areas = ['azul','vermelho','amarelo']
 #ordem_areas = ['amarelo']
+# ordem_areas = ['vermelho','azul','amarelo']
 
 
 BORDA_ESQ_MIN = [0,0,0]
