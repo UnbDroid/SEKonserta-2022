@@ -4,11 +4,34 @@ from percorregasoduto import *
 from movimentacao import *
 from servidor import *
 
+def ve_ultrassom_frontal(num_leituras,quanto_quero_que_leia):
+    leituras_ultrassom = []
+    leu_certo = []
+    viu = False
+
+    for i in range(num_leituras):
+        leituras_ultrassom.append(UltrassomFrente.distance())
+    #print(leituras_ultrassom)
+
+    for i in leituras_ultrassom:
+        if(i <= quanto_quero_que_leia):
+            leu_certo.append(i)
+
+    porcentagem = len(leu_certo)/len(leituras_ultrassom)
+    #print('O ULTRASSOM LATERAL LEU')
+    #print(leituras_ultrassom)
+
+    if porcentagem > 0.7:
+        viu = True
+
+    return viu
+
 def inicio():   #INÍCIO DO PROGRAMA -> Acaba quando o Mario chega no gasoduto pela primeira vez
+    robot.straight(-100)
     watch2.reset()
     while True:
         le_sensor_cor()
-        distancia = UltrassomFrente.distance()
+        #distancia = UltrassomFrente.distance()
         if viu_verde_branco():
             ev3.speaker.beep(900)
             robot.stop()
@@ -30,17 +53,18 @@ def inicio():   #INÍCIO DO PROGRAMA -> Acaba quando o Mario chega no gasoduto p
             robot.straight(-150)
             robot.turn(90)
             watch2.reset()
-        elif watch2.time() > 5000:  #Se demorar mais que X segundos, virar, pois está indo em direção a uma beirada
-            robot.stop()
-            robot.turn(90)
-            watch2.reset()
-        elif distancia < 200:
-            robot.stop()
-            ev3.speaker.beep(900)
+        elif watch2.time() > 3800:  #Se demorar mais que X segundos, virar, pois está indo em direção a uma beirada
             robot.straight(-100)
-            robot.turn(90)
             robot.stop()
+            robot.turn(90)
             watch2.reset()
+        # elif ve_ultrassom_frontal(20,200):
+        #     robot.stop()
+        #     ev3.speaker.beep(900)
+        #     robot.straight(-100)
+        #     robot.turn(90)
+        #     robot.stop()
+        #     watch2.reset()
         else:
             robot.drive(100,0)
 
@@ -95,6 +119,6 @@ def chega_no_gasoduto(): # Função para chegar no gasoduto após descer a rampa
     robot.stop()
     watch.reset()
     while watch.time()<1400:
-        robot.drive(18.8, 61)
+        robot.drive(16.8, 61)
     robot.stop()
     return

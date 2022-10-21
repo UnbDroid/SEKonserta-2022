@@ -91,11 +91,11 @@ def define_tamanho_gap():
     global distancia_percorrida
     if distancia_percorrida <= 50: #Não é GAP, só um buraquinho do gasoduto msm
         return False
-    elif distancia_percorrida <= 106: # GAP - 10 cm 110
+    elif distancia_percorrida <= 101: # GAP - 10 cm 110
         print("É um buraco de 10 cm!, Foi Medido:", distancia_percorrida)
         ev3.speaker.beep(200, 700)
         return 10
-    elif distancia_percorrida <= 156: #GAP - 15 cm  160
+    elif distancia_percorrida <= 151: #GAP - 15 cm  160
         print("É um buraco de 15 cm!, Foi Medido:", distancia_percorrida)
         ev3.speaker.beep(500, 700)
         wait(300)
@@ -122,13 +122,13 @@ def coloca_tubo(tamanho):
         watch.reset()
         if tamanho == 10:
             while watch.time()<1500:
-                robot.drive(-58, -60)     #-48, 60
+                robot.drive(-55, -60)     #-48, 60
         elif tamanho == 15:
             while watch.time()<1500:
-                robot.drive(-91, -60)      # -81, -60
+                robot.drive(-81, -60)      # -81, -60
         elif tamanho == 20:
             while watch.time()<1500:
-                robot.drive(-106, -60)    # -96, -60
+                robot.drive(-104, -60)    # -96, -60
         robot.stop()
         posiciona_gasoduto()
         devolve_tubo(tamanho)
@@ -332,8 +332,8 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
     print('mandei')
     #tamanho_do_tubo_espera = 0 ############################# teste ################################
     le_valores_max_min()
-    valor_minimo = 13 #De manhã deu 58, 12h deu 75 --- 48
-    valor_maximo = 17  #De manhã deu 72, 12h deu 88 -- 58
+    valor_minimo = 14 #De manhã deu 58, 12h deu 75 --- 48
+    valor_maximo = 22  #De manhã deu 72, 12h deu 88 -- 58
     MboxAlphaBetaLuz.wait()
     #watch_re.reset()
     watch_medida.reset()
@@ -372,6 +372,7 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
             mede_tamanho_gap()
             tamanho_gap = define_tamanho_gap()
             if tamanho_gap: #Se foi realmente visto um gap, ou era só uma aberturazinha
+                robot.stop()
                 if modo == 'ignorar':
                     pass
                 elif modo == 'medir':

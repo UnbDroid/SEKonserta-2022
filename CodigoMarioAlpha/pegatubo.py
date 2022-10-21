@@ -3,7 +3,7 @@ from servidor import *
 from cores import *
 
 tempo_empilhadeira = 5400
-tempo_garra = 10800 #8100
+tempo_garra = 9700 #10800
 tamanho_do_tubo_na_garra = 0
 tamanho_lista_frente = 2
 lista_ultrassom_frente = tamanho_lista_frente * [100000]
@@ -114,9 +114,9 @@ def fecha_garra_alinhar(i = 10, condition = True): # i [e o tamanho]
     tempo10 = 0.7
     if i == 10:
         if condition:
-            MotorGarra.run_time(-1000, 5000 * tempo10)
+            MotorGarra.run_time(-1000, 6000 * tempo10)
         else:
-            MotorGarra.run_time(-1000, 5000 * tempo10)
+            MotorGarra.run_time(-1000, 6000 * tempo10)
 
 
 def fecha_garra_gasoduto():
@@ -163,12 +163,16 @@ def devolve_tubo(tam =20):  #Função utilizada apenas para colocar o tubo no ga
 
 
 def posiciona_gasoduto(): #Função que posiciona o robô de forma correta para colocar o tubo no gasoduto
-    distancia = UltrassomFrente.distance()
-    while distancia > 80:
-        distancia = UltrassomFrente.distance()
-        robot.drive(70,0)
+    # distancia = UltrassomFrente.distance()
+    # while distancia > 80:
+    #     distancia = UltrassomFrente.distance()
+    #     robot.drive(70,0)
+    # robot.stop()
+    # robot.straight(10)
     robot.stop()
-    robot.straight(10)
+    robot.straight(200)
+    robot.straight(-35)
+    robot.stop()
 
 
 def pega(): # Função feita apenas para testar a captura de um tubo na frente do robô, e a sua devolução no gasoduto a sua frente também
@@ -192,12 +196,12 @@ def pega2(tam):  #Outra função apenas de teste para pegar e devolver o tubo
     devolve_tubo(tam)
 
 def alinha_tubo(tamanho):
-    MotorGarra.run_time(1000, 5000) # abriu
+    MotorGarra.run_time(1000, 6000) # abriu
     robot.straight(105)
     fecha_garra_alinhar(tamanho)
-    MotorGarra.run_time(1000, 1500)
+    MotorGarra.run_time(1000, 1800)
     robot.straight(-65)
-    MotorGarra.run_time(-1000, 1500)
+    MotorGarra.run_time(-1000, 1800)
     fecha_garra_alinhar(tamanho, False)
 
 

@@ -12,6 +12,10 @@ FIM_DO_PROGRAMA = False
 TUBO_ENTREGUE = False
 
 
+# conecta_alpha_beta()
+# while True:
+#     percorre_gasoduto_esquerda()
+
 #-------------- Código Certo -> Voltando pegar o tubo após ler o primeiro GAP --------------------------------------------
 modo_do_programa = "SemVarreduraCompleta"
 conecta_nos_dois()

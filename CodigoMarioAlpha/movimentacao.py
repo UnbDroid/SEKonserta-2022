@@ -156,7 +156,7 @@ def sobe_rampa():   # Sobe rampa de frente já alinhado
             print('Entrei aqui na direita - rampa')
             robot.drive(80,-30)
         else:
-            robot.drive(120,0)
+            robot.drive(200,0)
     robot.stop()
     alinha_branco()
     robot.stop()
