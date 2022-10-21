@@ -168,6 +168,38 @@ def alinha_preto_re():
 
     return True
 
+
+
+def alinha_branco_re():
+    valorEsquerdo = getValorCorEsquerda()
+    valorDireito = getValorCorDireita()
+
+    eq_min =[65, 75, 78]
+    eq_max = [70,82,82]
+
+    dr_min = [87, 87, 99]
+    dr_max = [94,94,100]
+
+    if eq_min[0] < valorEsquerdo[0] > eq_max[0] and eq_min[1] < valorEsquerdo[1] > eq_max[1] and eq_min[2] < valorEsquerdo[2] > eq_max[2]: #esq não vendo preto
+        while eq_min[0] < valorEsquerdo[0] > eq_max[0] and eq_min[1] < valorEsquerdo[1] > eq_max[1] and eq_min[2] < valorEsquerdo[2] > eq_max[2]:
+            rodas.drive(-15,-30) #direita
+            le_sensor_cor()
+            valorEsquerdo = getValorCorEsquerda()
+            #print("Valor na Esquerda é:", valorEsquerdo, "E na direita é", valorDireito)
+
+    elif dr_min[0] < valorDireito[0] > dr_max[0] and dr_min[1] < valorDireito[1] > dr_max[1] and dr_min[2] < valorDireito[2] > dr_max[2]: #dir vendo_preto
+        while dr_min[0] < valorDireito[0] > dr_max[0] and dr_min[1] < valorDireito[1] > dr_max[1] and dr_min[2] < valorDireito[2] > dr_max[2]:
+            rodas.drive(-15,30) #esquerda
+            le_sensor_cor()
+            valorDireito = getValorCorDireita()
+            
+    rodas.stop()
+
+    return True
+
+
+
+
 def alinha_preto_frente():
     valorEsquerdo = getValorCorEsquerda()
     valorDireito = getValorCorDireita()
@@ -260,17 +292,20 @@ def identifica_cor_da_area():
     
     if ve_cor(AMARELO_ESQ_MIN, AMARELO_ESQ_MAX, AMARELO_DIR_MIN, AMARELO_DIR_MAX) and getDr(): 
         setCores("amarelo")
+        ev3.speaker.beep()
 
     elif ve_cor(VERMELHO_ESQ_MIN, VERMELHO_ESQ_MAX, VERMELHO_DIR_MIN, VERMELHO_DIR_MAX) and getDr():
         setCores("vermelho")
+        ev3.speaker.beep(200)
 
     elif ve_cor(AZUL_ESQ_MIN, AZUL_ESQ_MAX, AZUL_DIR_MIN, AZUL_DIR_MAX) and getDr():
         setCores("azul")
+        ev3.speaker.beep(900)
 
     elif ve_cor(BRANCO_ESQ_MIN, BRANCO_ESQ_MAX, BRANCO_DIR_MIN, BRANCO_DIR_MAX ):
         setCores("branco")
     
-    ev3.speaker.beep()
+    
 
      
     print('eu vi a cor',getCores())
@@ -278,12 +313,12 @@ def identifica_cor_da_area():
 
 def valida_identificacao_cor():
     if getCores() == "nada":
-        while getCores() ==  "nada":
-            rodas.straight(20)
-            rodas.turn(5)
-            le_sensor_cor()
-            setCores(identifica_cor_da_area())
-            rodas.straight(-20)
+        # while getCores() ==  "nada":
+        rodas.straight(20)
+        rodas.turn(5)
+        le_sensor_cor()
+        setCores(identifica_cor_da_area())
+        rodas.straight(-20)
 
 
 def segue_linha_sensor_esquerdo_interno(DRIVE_SPEED):

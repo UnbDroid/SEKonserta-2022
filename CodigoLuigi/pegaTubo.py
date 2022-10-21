@@ -70,6 +70,7 @@ def ve_ultrassom_lateral(num_leituras,quanto_quero_que_leia):
     return viu
 
 def sai_da_area_cores(segue_linha_interno):
+    le_sensor_cor()
     while not ve_cor(PRETO_ESQ_MIN, PRETO_ESQ_MAX, PRETO_DIR_MIN, PRETO_DIR_MAX):
         le_sensor_cor()
         rodas.drive(-80,0)
@@ -117,13 +118,13 @@ def posiciona_tubo_mario():
     # if getCaixaDeCorreio() == 'amarelo': #ir mais pra frente se for um de 10!
     #     rodas.straight(20)
     #     rodas.straight(-20)
-    while not ve_cor(PRETO_ESQ_MIN,PRETO_ESQ_MAX,PRETO_DIR_MIN,PRETO_DIR_MAX):
+    while  ve_cor(BRANCO_ESQ_MIN, BRANCO_ESQ_MAX, BRANCO_DIR_MIN, BRANCO_DIR_MAX):
         le_sensor_cor()
         rodas.drive(-80,0)
     rodas.stop()
-    alinha_preto_re()
+    alinha_branco_re()
     sobe_empilhadeira()
-    rodas.straight(125)
+    rodas.straight(120)#125
     rodas.turn(-90)
 
 
@@ -180,11 +181,14 @@ def pega_tubo(interno):
         estado_empilhadeira = "cima"
 
         nao_viu = ve_ultrassom(100,2000)#função devolve false se ler maior que 2000 // true = se ler menor que 2000
-        if not nao_viu: 
+        # print('naõ_viu é',nao_viu)
+        if nao_viu: 
+            rodas.straight(-10)
+            # print('não vi e andei p tras')
             nao_viu = ve_ultrassom(100,2000)
 
         if not nao_viu:
-            print('fez validação')
+            # print('fez validação')
             pegou_tubo = True
             rodas.stop()
         else:

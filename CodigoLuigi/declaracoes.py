@@ -10,7 +10,7 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 ev3 = EV3Brick()
 
 motorEmpilhadeira = Motor(Port.A)
-#motorUltrassom = Motor(Port.B)
+# motorUltrassom = Motor(Port.B)
 
 #ultrassom = UltrasonicSensor(Port.S1)
 ultrassom = UltrasonicSensor(Port.S2)
@@ -24,7 +24,7 @@ rodas = DriveBase(rodaEsquerda, rodaDireita, wheel_diameter= 41, axle_track=108)
 rodas.settings(100, 270, 150) #velocidade_reto / aceleração reto / velocidade de giro / aceleração de giro
 
 distancia_chao = 210
-caixa_de_correio = 'amarelo'
+caixa_de_correio = ''
 tubo_pra_devolver = ''
 pegou_tubo = False
 distancia_primeira_cor_do_ponto_inicial = 0
@@ -46,8 +46,8 @@ alinhado_ao_tubo = False #identifica seo robô esta alinhado
 alinhado_ao_preto = False
 viu_borda = False
 
-# ordem_areas = []#lista que contém distância ao ponto inicial e sua respectiva área (que ainda será identificada)
-ordem_areas = ['vermelho','amarelo','azul']
+ordem_areas = []#lista que contém distância ao ponto inicial e sua respectiva área (que ainda será identificada)
+# ordem_areas = ['vermelho','amarelo','azul']
 # ordem_areas = ['azul','vermelho','amarelo']
 #ordem_areas = ['amarelo']
 # ordem_areas = ['vermelho','azul','amarelo']
@@ -73,20 +73,20 @@ BRANCO_ESQ_MAX = [70,82,82]
 BRANCO_DIR_MIN = [87, 87, 99]
 BRANCO_DIR_MAX = [94,94,100]
 
-AMARELO_ESQ_MIN = [60, 40, 10]
-AMARELO_ESQ_MAX = [67,50,16]
-AMARELO_DIR_MIN = [81, 47, 35]
-AMARELO_DIR_MAX = [93,56,41]
+AMARELO_ESQ_MIN = [59, 39, 9]
+AMARELO_ESQ_MAX = [68,49,17]
+AMARELO_DIR_MIN = [80, 46, 34]
+AMARELO_DIR_MAX = [94,57,42]
 
-AZUL_ESQ_MIN = [46, 30, 6]
-AZUL_ESQ_MAX = [12,38,58]
-AZUL_DIR_MIN = [13, 36, 99]
-AZUL_DIR_MAX = [18,46,100]
+AZUL_ESQ_MIN = [6, 28, 46]
+AZUL_ESQ_MAX = [12,33,55]
+AZUL_DIR_MIN = [12, 36, 99]
+AZUL_DIR_MAX = [18,45,100]
 
 VERMELHO_ESQ_MIN = [40, 5, 2]
-VERMELHO_ESQ_MAX = [52,10,7]
-VERMELHO_DIR_MIN = [64, 9, 15]
-VERMELHO_DIR_MAX = [77,15,19] 
+VERMELHO_ESQ_MAX = [55,10,7]
+VERMELHO_DIR_MIN = [64, 9, 14]
+VERMELHO_DIR_MAX = [82,15,19] 
 
 PRETO_ESQ_MIN = [4, 7, 3]
 PRETO_ESQ_MAX = [8,11,6]

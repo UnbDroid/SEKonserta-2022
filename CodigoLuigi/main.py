@@ -38,6 +38,7 @@ def loop_tubo():
                 print('pegar tubo no main deu',getPegouTubo()) 
                 if not getPegouTubo():
                     setPegouTubo(True)
+                    rodas.turn(180)
 
     posiciona_tubo_mario()
     le_sensor_cor()
@@ -64,11 +65,18 @@ def inicio():
 
 inicio()
 
+# verifica_tubo_reto(50,80,760,False)
+
+# while True:
+#     motorUltassom.run(100)
+
 # while True:
 #     le_sensor_cor()
 #     rodas.drive(20,0)
 
-
+# while True:
+#     le_sensor_cor()
+#     rodas.drive(80,0)
 # verifica_tubo_reto(50,80,770,False)
 
 # verifica_tubo_90(50,80,770)
@@ -77,8 +85,10 @@ inicio()
 # cores_teste = ['vermelho','amarelo','azul']
 # devolve_teste = ['vermelho','azul','amarelo']
 
+
 # comeco = True
 # for i in range(3):
+        # pegou_mesmo = True
 #     setCaixaDeCorreio(cores_teste[i])
 #     setTuboPraDevolver(devolve_teste[i])
 #     if comeco:
@@ -95,22 +105,27 @@ inicio()
 #         vai_pro_ponto_inicial(False)
 
 #     sai_do_ponto_inicial_e_vai_pra_area()
-#     verifica_tubo_reto(35,80,770,False)
-#     if not getPegouTubo():
-#         volta_pro_comeco_area(770)
-#         verifica_tubo_reto(50,80,760,False)
-#         print('pegar tubo no main deu',getPegouTubo())
-#         if not getPegouTubo():
-#             volta_pro_comeco_area(760)
-#             entra_na_na_area()
-#             verifica_tubo_reto(50,80,760,True)
-#             print('pegar tubo no main deu',getPegouTubo())   
-#             if not getPegouTubo():
-#                 sai_da_area()
-#                 volta_pro_comeco_area(760)
-#                 verifica_tubo_90(50,80,770)
-#                 print('pegar tubo no main deu',getPegouTubo())   
+    # verifica_tubo_reto(50,80,770,False)
+    # if not getPegouTubo():
+    #     volta_pro_comeco_area(770)
+    #     verifica_tubo_reto(50,80,760,False)
+    #     print('pegar tubo no main deu',getPegouTubo())
+    #     if not getPegouTubo():#passada interna
+    #         volta_pro_comeco_area(760)
+    #         entra_na_na_area()
+    #         verifica_tubo_reto(50,80,760,True)
+    #         print('pegar tubo no main deu',getPegouTubo())   
+    #         if not getPegouTubo():
+    #             sai_da_area()
+    #             volta_pro_comeco_area(760)
+    #             verifica_tubo_90(50,80,770)
+    #             print('pegar tubo no main deu',getPegouTubo()) 
+    #             if not getPegouTubo():
+    #                 setPegouTubo(True)
+    #                 pegou_mesmo = False
+    #                 rodas.turn(180)
 
+# if pegou_mesmo:
 #     posiciona_tubo_mario()
 #     le_sensor_cor()
 #     while not ve_cor(BORDA_ESQ_MIN, BORDA_ESQ_MAX, BORDA_DIR_MIN, BORDA_DIR_MAX): 
