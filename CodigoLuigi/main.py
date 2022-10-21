@@ -6,7 +6,6 @@ from servidor import *
 from andaPista import *
 from cores import *
 
-
 def loop_tubo():
     MboxConfirmacao.send('Nada')
     print('mailbox cores recebe antes deu: ',MboxCores.read())
@@ -22,12 +21,12 @@ def loop_tubo():
     print('mailbox cores devolve depois deu: ',getTuboPraDevolver()) 
     sai_do_ponto_inicial_e_vai_pra_area()
 
-    verifica_tubo_reto(35,80,770,False)
+    verifica_tubo_reto(50,80,770,False)
     if not getPegouTubo():
         volta_pro_comeco_area(770)
         verifica_tubo_reto(50,80,760,False)
         print('pegar tubo no main deu',getPegouTubo())
-        if not getPegouTubo():
+        if not getPegouTubo():#passada interna
             volta_pro_comeco_area(760)
             entra_na_na_area()
             verifica_tubo_reto(50,80,760,True)
@@ -37,6 +36,8 @@ def loop_tubo():
                 volta_pro_comeco_area(760)
                 verifica_tubo_90(50,80,770)
                 print('pegar tubo no main deu',getPegouTubo()) 
+                if not getPegouTubo():
+                    setPegouTubo(True)
 
     posiciona_tubo_mario()
     le_sensor_cor()
@@ -49,10 +50,9 @@ def loop_tubo():
     while MboxConfirmacao.read() !='Tubo pego':
         pass
 
-
-
 def inicio():
     conecta_alpha_luigi()
+    rodas.straight(-100)
     ajustes_comeco()
     while not MboxPodeComecar.read():
         pass
@@ -64,7 +64,14 @@ def inicio():
 
 inicio()
 
-# descobre_info_area()
+# while True:
+#     le_sensor_cor()
+#     rodas.drive(20,0)
+
+
+# verifica_tubo_reto(50,80,770,False)
+
+# verifica_tubo_90(50,80,770)
 
 # ----------------------------------------------------------------------------------
 # cores_teste = ['vermelho','amarelo','azul']

@@ -278,11 +278,12 @@ def identifica_cor_da_area():
 
 def valida_identificacao_cor():
     if getCores() == "nada":
-        rodas.straight(20)
-        rodas.turn(5)
-        le_sensor_cor()
-        setCores(identifica_cor_da_area())
-        rodas.straight(-20)
+        while getCores() ==  "nada":
+            rodas.straight(20)
+            rodas.turn(5)
+            le_sensor_cor()
+            setCores(identifica_cor_da_area())
+            rodas.straight(-20)
 
 
 def segue_linha_sensor_esquerdo_interno(DRIVE_SPEED):

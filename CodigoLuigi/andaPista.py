@@ -81,7 +81,8 @@ def vai_pro_ponto_inicial(comeco):
             setCores(descobre_info_area())
             print(getCores())
             if getCores() == 'branco':
-                rodas.straight(30)
+                watch.reset()
+                rodas.straight(100)
             # if getCores() == 'nada' and comeco == True:
             #     while getCores() == 'nada':
             #         setCores(descobre_info_area())
@@ -195,5 +196,5 @@ def entra_na_na_area():
 
 def sai_da_area():
     rodas.turn(-90)
-    rodas.straight(110)
-    rodas.turn(-90)
+    rodas.straight(130)
+    rodas.turn(90)

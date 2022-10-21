@@ -20,11 +20,11 @@ luzDireita = ColorSensor(Port.S4)
 
 rodaDireita = Motor(Port.D)
 rodaEsquerda = Motor(Port.C)
-rodas = DriveBase(rodaEsquerda, rodaDireita, wheel_diameter= 41, axle_track=110) #axel track >= 109.5 < 109.8 foi demais. 108 foi demais
+rodas = DriveBase(rodaEsquerda, rodaDireita, wheel_diameter= 41, axle_track=108) #axel track >= 109.5 < 109.8 foi demais. 108 foi demais
 rodas.settings(100, 270, 150) #velocidade_reto / aceleração reto / velocidade de giro / aceleração de giro
 
 distancia_chao = 210
-caixa_de_correio = ''
+caixa_de_correio = 'amarelo'
 tubo_pra_devolver = ''
 pegou_tubo = False
 distancia_primeira_cor_do_ponto_inicial = 0
@@ -46,8 +46,8 @@ alinhado_ao_tubo = False #identifica seo robô esta alinhado
 alinhado_ao_preto = False
 viu_borda = False
 
-ordem_areas = []#lista que contém distância ao ponto inicial e sua respectiva área (que ainda será identificada)
-# ordem_areas = ['amarelo','vermelho','azul']
+# ordem_areas = []#lista que contém distância ao ponto inicial e sua respectiva área (que ainda será identificada)
+ordem_areas = ['vermelho','amarelo','azul']
 # ordem_areas = ['azul','vermelho','amarelo']
 #ordem_areas = ['amarelo']
 # ordem_areas = ['vermelho','azul','amarelo']
@@ -78,7 +78,7 @@ AMARELO_ESQ_MAX = [67,50,16]
 AMARELO_DIR_MIN = [81, 47, 35]
 AMARELO_DIR_MAX = [93,56,41]
 
-AZUL_ESQ_MIN = [9, 30, 6]
+AZUL_ESQ_MIN = [46, 30, 6]
 AZUL_ESQ_MAX = [12,38,58]
 AZUL_DIR_MIN = [13, 36, 99]
 AZUL_DIR_MAX = [18,46,100]
@@ -88,9 +88,9 @@ VERMELHO_ESQ_MAX = [52,10,7]
 VERMELHO_DIR_MIN = [64, 9, 15]
 VERMELHO_DIR_MAX = [77,15,19] 
 
-PRETO_ESQ_MIN = [5, 8, 3]
+PRETO_ESQ_MIN = [4, 7, 3]
 PRETO_ESQ_MAX = [8,11,6]
-PRETO_DIR_MIN = [9, 11, 11]
+PRETO_DIR_MIN = [7, 10, 11]
 PRETO_DIR_MAX = [10,13,15] 
 
 
