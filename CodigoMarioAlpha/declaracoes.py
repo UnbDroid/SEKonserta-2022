@@ -21,7 +21,7 @@ RodaEsquerda = Motor(Port.D)
 RodaDireita = Motor(Port.A)
 MotorEmpilhadeira = Motor(Port.C)
 MotorGarra = Motor(Port.B)
-robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=41, axle_track=111.2) #axle_track antigo -> 118 , 109.4
+robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=41, axle_track=113.5) #axle_track antigo -> 118 , 109.4
 watch = StopWatch()
 watch2 = StopWatch()
 watch_virada = StopWatch()
@@ -34,11 +34,12 @@ TUBO_ENTREGUE = False
 
 
 
+
 robot.settings(130,372,150,361)        #Usei 50 vel ang   # O padrão é (93,372,90,361) - (VELOCIDADE RETO, ACELERAÇÃO RETO, VELOCIDADE GIRANDO, ACELERAÇÃO GIRANDO)
 ev3.speaker.set_volume(100)
 #ev3.speaker.say('Poggers poggers poggers poggers')
 ev3.speaker.set_speech_options('pt-br', 'f4')
-# ev3.speaker.set_volume(15)
+ev3.speaker.set_volume(15)
 robot.stop()
 RodaEsquerda.stop()
 RodaDireita.stop()

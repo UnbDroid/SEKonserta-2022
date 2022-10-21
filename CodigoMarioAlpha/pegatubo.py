@@ -77,7 +77,7 @@ def fecha_garra(i = 1, continuar = False):  #Função utilizada para fechar a ga
         tempo = 3200
     elif i == 15:
         i = 1
-        tempo = 5900 #4700
+        tempo = 5500 #4700
     elif i == 20:
         i = 1
         tempo = tempo_garra
@@ -95,7 +95,7 @@ def abre_garra(i =1, continuar = False): #Função utilizada para abrir a garra 
         tempo = 3200
     elif i == 15:
         i = 1
-        tempo = 5600 #4700
+        tempo = 5500 #4700
     elif i == 20:
         i = 1
         tempo = tempo_garra
@@ -170,8 +170,8 @@ def posiciona_gasoduto(): #Função que posiciona o robô de forma correta para 
     # robot.stop()
     # robot.straight(10)
     robot.stop()
-    robot.straight(200)
-    robot.straight(-35)
+    robot.straight(250)
+    robot.straight(-34)
     robot.stop()
 
 
@@ -199,9 +199,9 @@ def alinha_tubo(tamanho):
     MotorGarra.run_time(1000, 6000) # abriu
     robot.straight(105)
     fecha_garra_alinhar(tamanho)
-    MotorGarra.run_time(1000, 1800)
+    MotorGarra.run_time(1000, 2100)
     robot.straight(-65)
-    MotorGarra.run_time(-1000, 1800)
+    MotorGarra.run_time(-1000, 2100)
     fecha_garra_alinhar(tamanho, False)
 
 
@@ -228,7 +228,7 @@ def pega_tubo(tamanho): #Função que pega o tubo já alinhado com ele previamen
         desce_empilhadeira_centro()
         if tamanho == 10:
             alinha_tubo(tamanho)
-        robot.straight(90)
+        robot.straight(91)
         tamanho_do_tubo_na_garra = tamanho
         print("o tamanho é esse", tamanho_do_tubo_na_garra)
         if tamanho == 15:

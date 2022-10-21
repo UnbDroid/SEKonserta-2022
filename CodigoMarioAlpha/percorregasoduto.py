@@ -89,19 +89,19 @@ def le_valores_max_min():
 
 def define_tamanho_gap():
     global distancia_percorrida
-    if distancia_percorrida <= 50: #Não é GAP, só um buraquinho do gasoduto msm
+    if distancia_percorrida <= 40: #Não é GAP, só um buraquinho do gasoduto msm
         return False
-    elif distancia_percorrida <= 101: # GAP - 10 cm 110
+    elif distancia_percorrida <= 100: # GAP - 10 cm 110
         print("É um buraco de 10 cm!, Foi Medido:", distancia_percorrida)
         ev3.speaker.beep(200, 700)
         return 10
-    elif distancia_percorrida <= 151: #GAP - 15 cm  160
+    elif distancia_percorrida <= 150: #GAP - 15 cm  160
         print("É um buraco de 15 cm!, Foi Medido:", distancia_percorrida)
         ev3.speaker.beep(500, 700)
         wait(300)
         ev3.speaker.beep(500, 700)
         return 15
-    elif distancia_percorrida <= 240:# GAP - 20 cm 225
+    elif distancia_percorrida <= 250:# GAP - 20 cm 225
         print("É um buraco de 20 cm!, Foi Medido:", distancia_percorrida)
         ev3.speaker.beep(800, 700)
         wait(300)
@@ -122,10 +122,10 @@ def coloca_tubo(tamanho):
         watch.reset()
         if tamanho == 10:
             while watch.time()<1500:
-                robot.drive(-55, -60)     #-48, 60
+                robot.drive(-50, -60)     #-48, 60
         elif tamanho == 15:
             while watch.time()<1500:
-                robot.drive(-81, -60)      # -81, -60
+                robot.drive(-75, -60)      # -81, -60
         elif tamanho == 20:
             while watch.time()<1500:
                 robot.drive(-104, -60)    # -96, -60
@@ -155,7 +155,7 @@ def anda_re_gasoduto():
 def virada_gasoduto_esquerda():
     global MEDINDO
     if MEDINDO:
-        robot.drive(40, -14)
+        robot.drive(37, -13)
     else:
         robot.drive(50, -16)         #50,-16
         # robot.drive(100, -34)
@@ -164,7 +164,7 @@ def virada_gasoduto_esquerda():
 def virada_gasoduto_direita():
     global MEDINDO
     if MEDINDO:
-        robot.drive(40,16)
+        robot.drive(37,15)
     else:
         robot.drive(50, 20)       #50,20
         # robot.drive(100,40)
@@ -173,7 +173,7 @@ def virada_gasoduto_direita():
 def segue_reto_gasoduto():
     global MEDINDO
     if MEDINDO:
-        robot.drive(40,0)
+        robot.drive(37,0)
     else:
         robot.drive(50,0)    #50,0
         # robot.drive(75,0)
@@ -189,6 +189,8 @@ def virada_ultrassom_frente():
     #     robot.drive(8, 59)        
     while watch.time() < 1500:
         robot.drive(4,59)
+    robot.stop()
+    robot.straight(-50)
 
 
 def virada_ultrassom_frente_medindo_gap(): #Faz a virada mas continua medindo o tamanho do GAP 
@@ -401,6 +403,8 @@ def percorre_gasoduto_esquerda(modo = 'ignorar'):  #Percorre o gasoduto do modo 
                         if primeira_vez:
                             tamanho_do_tubo_espera = tamanho_gap # Esse vai ser o tamanho do próximo tubo a ser pego pelo Mario
                             primeira_vez = False
+                        elif tamanho_gap > tamanho_do_tubo_espera:
+                            tamanho_do_tubo_espera = tamanho_gap
                         pass # Se o tamanho do GAP encontrada for diferente ao do tubo que está na garra
             
             if condition: #girar os 90° caso ele termine de ver o gap na curva/dar a ré depois

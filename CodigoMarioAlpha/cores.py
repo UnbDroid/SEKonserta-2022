@@ -41,7 +41,7 @@ def valor_eq(i = 0):
 def segue_verde_branco_dr():
     threshold = 30
     PROPORTIONAL_GAIN = 1
-    DRIVE_SPEED = 115
+    DRIVE_SPEED = 111
 
     leitura_sensor = valor_dr(2)
     #print(leitura_sensor)
@@ -54,7 +54,7 @@ def segue_verde_branco_eq():
     global ValorCorDireita
     threshold = 32
     PROPORTIONAL_GAIN = 1
-    DRIVE_SPEED = 120
+    DRIVE_SPEED = 111
 
     leitura_sensor = valor_eq(2)
     #print(leitura_sensor)
