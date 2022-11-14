@@ -1,56 +1,60 @@
 #!/usr/bin/env pybricks-micropython
 
-from pybricks.hubs import EV3Brick
-from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
-                                 InfraredSensor, UltrasonicSensor, GyroSensor)
-from pybricks.parameters import Port, Stop, Direction, Button, Color
-from pybricks.tools import wait, StopWatch, DataLog
-from pybricks.robotics import DriveBase
-from pybricks.media.ev3dev import SoundFile, ImageFile
-from pybricks.messaging import *
-import time
-from pybricks.nxtdevices import *
+from declaracoes import *
+from pegatubo import *
+from servidor import*
+from percorregasoduto import *
+from cores import *
+from comeco import *
+from movimentacao import *
 
-# This program requires LEGO EV3 MicroPython v2.0 or higher.
-# Click "Open user guide" on the EV3 extension tab for more information.
+FIM_DO_PROGRAMA = False
+TUBO_ENTREGUE = False
 
-#Infos: Conectar o cérebro alpha por cabo no pc e o beta por bluetooth
-# Conectar eles por bluetooth pelo Alpha
+#-------------- Código Certo -> Voltando pegar o tubo após ler o primeiro GAP --------------------------------------------
+modo_do_programa = "SemVarreduraCompleta"
+conecta_nos_dois()
+sobe_empilhadeira_centro(True, True) #Usando o centro
+# fecha_garra(10)
+#abre_garra()
+#conecta_nos_dois()
+# conecta_alpha_beta()
+manda_nada_luigi()
+inicio()
+print('oi')
+manda_nada_luigi()
+while not fim_programa():
+    if precisa_medir(): #Só não precisa medir se já souber um tamanho que está faltando, que é quando ele passou por gap de tamanho diferente já com um tubo na garra
+        percorre_gasoduto_esquerda('medir')
+    if fim_programa():
+        break
+    gasoduto_apos_pegar_tubo()
+    print('entrei pra entregar')
+    while not tubo_foi_entregue():   # ele continuar entregando, caso ele tenha q devolver 
+        if luigi_entregou_tubo(): # Se o tubo não foi entregue, não entregar
+            break
+        percorre_gasoduto_esquerda('entregar')
+# -----------------------------------Final Código Certo ------------------------------------------------
+
+ev3.speaker.set_volume(100)
+
+while True: #Fica apitando infinitamente quando acaba o programa
+    ev3.speaker.beep(1100,500)
+    wait(400)
 
 
 
+# #----------------------------------- Código fazendo varredura inicial no começo -------------------------- #
 
-# Create your objects here.
-ev3 = EV3Brick()
+# modo_do_programa = 'ComVarreduraCompleta'
+# sobe_empilhadeira_centro()
+# conecta_alpha_beta()
+# inicio()
+# while not FIM_DO_PROGRAMA:
+#     percorre_gasoduto_esquerda('ignorar')
+#     if FIM_DO_PROGRAMA:
+#         break
+#     gasoduto_apos_pegar_tubo()
+#     percorre_gasoduto_esquerda('entregar')
 
-SensorCorDireita = ColorSensor(Port.S1)
-SensorCorEsquerda = ColorSensor(Port.S2)
-Giroscopio = GyroSensor(Port.S3)
-UltrassomFrente = UltrasonicSensor(Port.S4)
-RodaEsquerda = Motor(Port.D)
-RodaDireita = Motor(Port.A)
-robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=55.5, axle_track=104)
-
-# Write your program here.
-ev3.speaker.beep()
-
-server = BluetoothMailboxServer()
-mbox = TextMailbox('greeting', server)
-
-# The server must be started before the client!
-print('waiting for connection...')
-server.wait_for_connection()
-print('connected!')
-
-# In this program, the server waits for the client to send the first message
-# and then sends a reply.
-mbox.wait()
-print(mbox.read())
-mbox.send('hello to you!')
-
-while True:
-    print(mbox.read())
-    time.sleep(2.1)
-    if (mbox.read() == 'Oi sdds'):
-        ev3.speaker.beep()
-        #robot.turn(360)
+# #-------------------------------------- Final Código ----------------------------------------------------- #
