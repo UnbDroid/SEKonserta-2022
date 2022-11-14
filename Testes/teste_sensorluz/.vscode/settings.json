@@ -2,9 +2,6 @@
 {
 	"files.eol": "\n",
 	"debug.openDebug": "neverOpen",
-	"python.linting.enabled": true,
-	"python.languageServer": "None",
-	"python.autoComplete.extraPaths": [
-		"${workspaceFolder}/"
-	  ]
+	"python.linting.enabled": false,
+	"python.languageServer": "None"
 }
