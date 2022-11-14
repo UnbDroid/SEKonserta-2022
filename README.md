@@ -1,5 +1,6 @@
 # SEKonserta-2022
-
+    CodigoLuigi, CodigoMarioAlpha e o CodigoMarioBeta foram os 3 utilizados na competição, um em cada respectivo brick
+    
 # LUIGI
 - Quais valores são retornados ao ver:
     Branco: 
